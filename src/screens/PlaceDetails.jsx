@@ -14,7 +14,9 @@ export default function PlaceDetails({ place: {
             <Pressable onPress={() => press(null)}>
                 <Text style={styles.backButton}>⬅️</Text>
             </Pressable>
-            <Image source={{ uri: poster }} style={styles.poster} resizeMode="cover" />
+            <View>
+                <Image source={{ uri: poster }} style={styles.poster} resizeMode="cover" />
+            </View>
 
 
             <View style={styles.titleRow}>
@@ -37,12 +39,12 @@ export default function PlaceDetails({ place: {
 
 const styles = StyleSheet.create({
     content: {
-        paddingBottom: 24,
-        width: 300
+        paddingBottom: 24
     },
     poster: {
         width: '100%',
-        height: 280,
+        height: 340,
+        borderRadius: 15
     },
     titleRow: {
         flexDirection: 'row',
@@ -63,8 +65,8 @@ const styles = StyleSheet.create({
         borderRadius: 16
     },
     backButton: {
-        fontSize: 34,
-        marginBottom: 12
+        fontSize: 24,
+        marginBottom: 5
     },
     ratingText: {
         color: colors.textOnPrimary,

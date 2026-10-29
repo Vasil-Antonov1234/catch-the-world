@@ -8,6 +8,8 @@ import { useState } from 'react';
 
 export default function App() {
   const [activePlace, setActivePlace] = useState(null)
+
+  console.log(activePlace)
   
   function pressHandler(place) {
     setActivePlace(place);

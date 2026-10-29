@@ -4,48 +4,55 @@
         "name": "Seville",
         "poster": "https://images.trvl-media.com/place/6127318/d5051001-fbd0-4870-b77f-66a5ee001638.jpg",
         "location": "Spain",
-        "rating": "4.5"
+        "rating": "4.5",
+        "description": "Seville is the capital and largest city of the autonomous community of Andalusia and the province of Seville in Spain. It is situated on the lower reaches of the River Guadalquivir, in the southwest of the Iberian Peninsula."
     },
     {
         "id": 2,
         "name": "Cappadocia",
         "poster": "https://thetravelexpert.ie/wp-content/uploads/2022/07/cappadocia-g762baa2d6_1280-1.jpg",
         "location": "Turkey",
-        "rating": "4.5"
+        "rating": "4.5",
+        "description": "Cappadocia is a semi-arid historical region in Central Anatolia, Turkey, famous for its surreal 'fairy chimney' rock formations, deep underground cities, and morning hot-air balloon flights."
     },
     {
         "id": 3,
         "name": "Lisbon",
         "poster": "https://cdn.sanity.io/images/nxpteyfv/goguides/61c249bed8c0ede73dd451acb4d8d3c424f12177-1600x1066.jpg",
         "location": "Portugal",
-        "rating": "4.5"
+        "rating": "4.5",
+        "description": "Lisbon is the capital and largest city of Portugal, located on the western Iberian Peninsula along the estuary of the Tagus River."
     },
     {
         "id": 4,
         "name": "luxor",
         "poster": "https://destinationlesstravel.com/wp-content/uploads/2025/11/view-of-the-Bile-River-in-Luxor-Egypt.jpg",
         "location": "Egypt",
-        "rating": "4.5"
+        "rating": "4.5",
+        "description": "Luxor is a major city in Upper Egypt, situated on the east bank of the Nile River, built on the site of the ancient Egyptian capital of Thebes. Often called the 'world's greatest open-air museum', it is renowned for its extraordinary density of ancient monuments."
     },
     {
         "id": 5,
         "name": "Tokyo",
         "poster": "https://manhattanite.co/wp-content/uploads/2025/01/3-days-in-Tokyo-63.jpg",
         "location": "Japan",
-        "rating": "4.5"
+        "rating": "4.5",
+        "description": "Tokyo is the capital and most populous metropolis of Japan, located on the Pacific coast of central Honshu along Tokyo Bay."
     },
     {
         "id": 6,
         "name": "Los Angeles",
         "poster": "https://afar.brightspotcdn.com/dims4/default/cf41ca9/2147483647/strip/true/crop/1885x1000+58+0/resize/1440x764!/quality/90/?url=https%3A%2F%2Fk3-prod-afar-media.s3.us-west-2.amazonaws.com%2Fbrightspot%2Fda%2Fc8%2Fac1eeac9843240c1ecdad15db703%2Foriginal-michelin-20california-20los-20angeles.jpg",
         "location": "USA",
-        "rating": "4.5"
+        "rating": "4.5",
+        "description": "Los Angeles (often called L.A. or the City of Angels) is the most populous city in California and the second-most populous city in the United States."
     },
     {
         "id": 7,
         "name": "Rio De Janeiro",
         "poster": "https://afar.brightspotcdn.com/dims4/default/018a322/2147483647/strip/true/crop/1920x1019+0+131/resize/1440x764!/quality/90/?url=https%3A%2F%2Fk3-prod-afar-media.s3.us-west-2.amazonaws.com%2Fbrightspot%2F48%2Fc8%2F4e2619004b52bdb6d84fa64a9747%2Fagustin-diaz-gargiulo-7f65hdp0-e0-unsplash.jpg",
         "location": "Brasil",
-        "rating": "4.5"
+        "rating": "4.5",
+        "description": "Rio de Janeiro—often called the Marvelous City (Cidade Maravilhosa)—is the second-largest city in Brazil and the capital of the state of the same name, with a population of roughly 6.7 million people in the city proper and over 13 million in its metropolitan area."
     }
 ]

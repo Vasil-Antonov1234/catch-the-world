@@ -6,7 +6,8 @@ export default function JourneyCard({ place: {
     name,
     poster,
     location,
-    rating
+    rating,
+    description
 }, press }) {
 
     return (
@@ -33,7 +34,8 @@ export default function JourneyCard({ place: {
                             name,
                             poster,
                             location,
-                            rating
+                            rating,
+                            description
                         })}>
                         <Text style={styles.textWhite}>Details</Text>
                     </Pressable>
