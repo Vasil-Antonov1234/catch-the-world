@@ -1,24 +1,36 @@
-import { View, Text, StyleSheet, Image } from "react-native";
+import { View, Text, StyleSheet, Image, Pressable } from "react-native";
 import colors from "../theme/colors.js";
 
-export default function JourneyCard(place) {
+export default function JourneyCard({ place: {
+    id,
+    name,
+    poster,
+    location,
+    rating
+}, press }) {
 
     return (
-        <View style={styles.container}>
+        <Pressable style={styles.container} onPress={() => press({
+            id,
+            name,
+            poster,
+            location,
+            rating
+        })}>
             <View>
-                <Text style={styles.title}>{place.place.name}</Text>
+                <Text style={styles.title}>{name}</Text>
             </View>
             <View style={styles.containerFit}>
                 <Image
-                    source={{ uri: place.place.poster }}
+                    source={{ uri: poster }}
                     style={styles.poster}
                 />
             </View>
             <View style={styles.containerSecondary}>
-                <Text style={styles.text}>Location: <Text style={styles.textBold}>{place.place.Location}</Text></Text>
-                <Text style={styles.text}>Rating: <Text style={styles.textBold}>⭐ {place.place.Rating}/5</Text></Text>
+                <Text style={styles.text}>Location: <Text style={styles.textBold}>{location}</Text></Text>
+                <Text style={styles.text}>Rating: <Text style={styles.textBold}>⭐ {rating}/5</Text></Text>
             </View>
-        </View>
+        </Pressable>
     );
 }
 

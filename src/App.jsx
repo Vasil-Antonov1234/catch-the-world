@@ -3,8 +3,16 @@ import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import colors from './theme/colors';
 import JourneyCard from './screens/JourneyCard.jsx';
 import places from "../data.json";
+import PlaceDetails from './screens/PlaceDetails.jsx';
+import { useState } from 'react';
 
 export default function App() {
+  const [activePlace, setActivePlace] = useState(null)
+  
+  function pressHandler(place) {
+    setActivePlace(place);
+  };
+
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
@@ -12,8 +20,9 @@ export default function App() {
         <View style={styles.logoCtr}>
           <Text style={styles.logoL}>Catch <Text style={styles.logoM}>the</Text><Text style={styles.loroR}>World</Text></Text>
         </View>
-        <Text style={styles.title}>Journal</Text>
-        {places.map((place) => <JourneyCard key={place.id} place={place}/>)}
+        {activePlace ? "" : <Text style={styles.title}>Journal</Text>}
+        {!activePlace ? 
+            places.map((place) => <JourneyCard key={place.id} place={place} press={pressHandler} />) : <PlaceDetails place={places[0]} press={pressHandler} />}
       </ScrollView>
     </View>
   );
