@@ -32,12 +32,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.background,
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-    width: '100%'
+    justifyContent: 'center',
+    width: "100%"
   },
   containerSecondary: {
-    paddingHorizontal: 20
+    paddingHorizontal: 20,
+    alignSelf: "stretch"
   },
   title: {
     fontSize: 24,
