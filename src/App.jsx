@@ -22,7 +22,7 @@ export default function App() {
         </View>
         {activePlace ? "" : <Text style={styles.title}>Journal</Text>}
         {!activePlace ? 
-            places.map((place) => <JourneyCard key={place.id} place={place} press={pressHandler} />) : <PlaceDetails place={places[0]} press={pressHandler} />}
+            places.map((place) => <JourneyCard key={place.id} place={place} press={pressHandler} />) : <PlaceDetails place={activePlace} press={pressHandler} />}
       </ScrollView>
     </View>
   );
