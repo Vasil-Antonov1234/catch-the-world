@@ -14,7 +14,10 @@ const colors = {
 
     // Feedback
     success: '#3E8E6B',
-    error: '#D64545'
+    error: '#D64545',
+
+    // Transperant
+    transperant: "rgba(255,255,255,0.70)"
 }
 
 export default colors;
