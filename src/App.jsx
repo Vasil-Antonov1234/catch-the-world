@@ -9,22 +9,20 @@ import { useState } from 'react';
 export default function App() {
   const [activePlace, setActivePlace] = useState(null)
 
-  console.log(activePlace)
-  
   function pressHandler(place) {
     setActivePlace(place);
   };
 
   return (
     <View style={styles.container}>
-      <StatusBar style="auto" />
+      <StatusBar style="light" />
+      <View style={styles.logoCtr}>
+        <Text style={styles.logoL}>Catch <Text style={styles.logoM}>the</Text><Text style={styles.loroR}>World</Text></Text>
+      </View>
       <ScrollView contentContainerStyle={styles.containerSecondary}>
-        <View style={styles.logoCtr}>
-          <Text style={styles.logoL}>Catch <Text style={styles.logoM}>the</Text><Text style={styles.loroR}>World</Text></Text>
-        </View>
         {activePlace ? "" : <Text style={styles.title}>Journal</Text>}
-        {!activePlace ? 
-            places.map((place) => <JourneyCard key={place.id} place={place} press={pressHandler} />) : <PlaceDetails place={activePlace} press={pressHandler} />}
+        {!activePlace ?
+          places.map((place) => <JourneyCard key={place.id} place={place} press={pressHandler} />) : <PlaceDetails place={activePlace} press={pressHandler} />}
       </ScrollView>
     </View>
   );
@@ -46,16 +44,20 @@ const styles = StyleSheet.create({
     fontWeight: 'bold'
   },
   logoCtr: {
-    marginTop: 49,
     marginBottom: 20,
-    // paddingHorizontal: 20,
     alignItems: "center",
-    width: "100%"
+    justifyContent: "flex-end",
+    width: "100%",
+    height: 74,
+    backgroundColor: colors.primary,
+    borderEndEndRadius: 70,
+    borderEndStartRadius: 70,
+    alignSelf: "center"
   },
   logoL: {
     fontSize: 28,
     fontWeight: '900',
-    color: colors.primary,
+    color: colors.textOnPrimary,
   },
   loroR: {
     fontSize: 28,
@@ -64,7 +66,7 @@ const styles = StyleSheet.create({
   },
   logoM: {
     fontSize: 16,
-    color: colors.primary,
+    color: colors.textOnPrimary,
     fontWeight: "300"
   }
 });
