@@ -1,21 +1,21 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, ScrollView, TextInput, Pressable, Keyboard } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import colors from './theme/colors';
-import JourneyCard from './screens/JourneyCard.jsx';
-import PlaceDetails from './screens/PlaceDetails.jsx';
-import { useState } from 'react';
 import Home from './screens/Home.jsx';
+import AppContextProvider from './contexts/AppContextProvider.jsx';
 
 export default function App() {
 
     return (
-        <View style={styles.container}>
-            <StatusBar style="light" />
-            <View style={styles.logoCtr}>
-                <Text style={styles.logoL}>Catch <Text style={styles.logoM}>the</Text><Text style={styles.loroR}>World</Text></Text>
+        <AppContextProvider>
+            <View style={styles.container}>
+                <StatusBar style="light" />
+                <View style={styles.logoCtr}>
+                    <Text style={styles.logoL}>Catch <Text style={styles.logoM}>the</Text><Text style={styles.loroR}>World</Text></Text>
+                </View>
+                <Home />
             </View>
-            <Home />
-        </View>
+        </AppContextProvider>
     );
 }
 

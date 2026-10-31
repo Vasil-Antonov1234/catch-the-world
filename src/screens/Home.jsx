@@ -1,13 +1,12 @@
-import { useState } from "react";
+import { useContext } from "react";
 import colors from "../theme/colors";
 import { StyleSheet, View, TextInput, Pressable, ScrollView, Text, Keyboard } from "react-native";
 import JourneyCard from "./JourneyCard.jsx";
 import PlaceDetails from "./PlaceDetails.jsx";
-import places from "../../data.json";
+import AppContext from "../contexts/AppContext.js";
 
 export default function Home() {
-    const [searchQuery, setSearchQuery] = useState("");
-    const [activePlace, setActivePlace] = useState(null);
+    const { places, searchQuery, setSearchQuery, activePlace, setActivePlace, searchPlacesHandler } = useContext(AppContext);
 
     function pressHandler(place) {
         setActivePlace(place);
@@ -18,8 +17,7 @@ export default function Home() {
     };
 
     function searchHandler() {
-        console.log(searchQuery);
-
+        searchPlacesHandler();
         Keyboard.dismiss();
     };
 
