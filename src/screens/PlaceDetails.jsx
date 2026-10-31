@@ -1,5 +1,6 @@
-import { View, Text, Image, ScrollView, StyleSheet, Pressable } from 'react-native';
+import { View, Text, Image, ScrollView, StyleSheet, Pressable, Modal } from 'react-native';
 import colors from "../theme/colors.js";
+import { useState } from 'react';
 
 export default function PlaceDetails({ place: {
     poster,
@@ -8,14 +9,15 @@ export default function PlaceDetails({ place: {
     rating,
     description
 }, press }) {
+    const [showImageModal, setShowImageModal] = useState("");
 
     return (
         <ScrollView contentContainerStyle={styles.content}>
             <View>
                 <Image source={{ uri: poster }} style={styles.poster} resizeMode="cover" />
-            <Pressable onPress={() => press(null)} style={({pressed}) => [styles.backButtonCtr, pressed ? styles.pressed : ""]}>
-                <Text style={styles.backButton}>❮</Text>
-            </Pressable>
+                <Pressable onPress={() => press(null)} style={({ pressed }) => [styles.backButtonCtr, pressed ? styles.pressed : ""]}>
+                    <Text style={styles.backButton}>❮</Text>
+                </Pressable>
             </View>
 
 
@@ -34,12 +36,34 @@ export default function PlaceDetails({ place: {
             </Text>
 
             <ScrollView contentContainerStyle={styles.gallery} horizontal>
-                <Image style={styles.image} source={{ uri: "https://cdn.getyourguide.com/image/format=avif%2Cfit=cover%2Cgravity=auto%2Cquality=60/dam/iStock-1855850613-2-Header%20Mobile.jpg"}}/>
-                <Image style={styles.image} source={{ uri: "https://visitasevilla.es/en/wp-content/uploads/sites/2/2026/03/royal-alcazar-of-seville.jpg"}}/>
-                <Image style={styles.image} source={{ uri: "https://cdn.getyourguide.com/image/format=auto%2Cfit=crop%2Cgravity=auto%2Cquality=60%2Cwidth=375%2Cheight=375%2Cdpr=2/tour_img/2aa009310af5c647b65b19c4359626cdeea853694cf3f10a8b9139522264d33c.jpg"}}/>
-                <Image style={styles.image} source={{ uri: "https://www.r1hotels.com/data/fotos/1459356203_1127092828.jpg"}}/>
-                <Image style={styles.image} source={{ uri: "https://media.istockphoto.com/id/537383379/photo/plaza-del-triunfo-in-seville-spain.jpg?s=612x612&w=0&k=20&c=caBGrjo_4uBveh-3-dvNqXWWjsTbqXB-JLJdUiTC1Kw="}}/>
+                <Pressable onPress={() => setShowImageModal("https://cdn.getyourguide.com/image/format=avif%2Cfit=cover%2Cgravity=auto%2Cquality=60/dam/iStock-1855850613-2-Header%20Mobile.jpg")}>
+                    <Image style={styles.image} source={{ uri: "https://cdn.getyourguide.com/image/format=avif%2Cfit=cover%2Cgravity=auto%2Cquality=60/dam/iStock-1855850613-2-Header%20Mobile.jpg" }} />
+                </Pressable>
+                <Pressable onPress={() => setShowImageModal("https://visitasevilla.es/en/wp-content/uploads/sites/2/2026/03/royal-alcazar-of-seville.jpg")}>
+                    <Image style={styles.image} source={{ uri: "https://visitasevilla.es/en/wp-content/uploads/sites/2/2026/03/royal-alcazar-of-seville.jpg" }} />
+                </Pressable>
+                <Pressable onPress={() => setShowImageModal("https://cdn.getyourguide.com/image/format=auto%2Cfit=crop%2Cgravity=auto%2Cquality=60%2Cwidth=375%2Cheight=375%2Cdpr=2/tour_img/2aa009310af5c647b65b19c4359626cdeea853694cf3f10a8b9139522264d33c.jpg")}>
+                    <Image style={styles.image} source={{ uri: "https://cdn.getyourguide.com/image/format=auto%2Cfit=crop%2Cgravity=auto%2Cquality=60%2Cwidth=375%2Cheight=375%2Cdpr=2/tour_img/2aa009310af5c647b65b19c4359626cdeea853694cf3f10a8b9139522264d33c.jpg" }} />
+                </Pressable>
+                <Pressable onPress={() => setShowImageModal("https://www.r1hotels.com/data/fotos/1459356203_1127092828.jpg")}>
+                    <Image style={styles.image} source={{ uri: "https://www.r1hotels.com/data/fotos/1459356203_1127092828.jpg" }} />
+                </Pressable>
+                <Pressable onPress={() => setShowImageModal("https://media.istockphoto.com/id/537383379/photo/plaza-del-triunfo-in-seville-spain.jpg?s=612x612&w=0&k=20&c=caBGrjo_4uBveh-3-dvNqXWWjsTbqXB-JLJdUiTC1Kw=")}>
+                    <Image style={styles.image} source={{ uri: "https://media.istockphoto.com/id/537383379/photo/plaza-del-triunfo-in-seville-spain.jpg?s=612x612&w=0&k=20&c=caBGrjo_4uBveh-3-dvNqXWWjsTbqXB-JLJdUiTC1Kw=" }} />
+                </Pressable>
             </ScrollView>
+            <Modal
+                visible={showImageModal !== ""}
+                onRequestClose={() => setShowImageModal("")}
+                style={styles.modal}
+                animationType='slide'
+                backdropColor={colors.transperant}
+            >
+                {showImageModal && <Image style={styles.modalImage} source={{ uri: showImageModal }} />}
+                <Pressable onPress={() => setShowImageModal("")} style={styles.closeBtn}>
+                    <Text style={styles.close}>CLOSE</Text>
+                </Pressable>
+            </Modal>
         </ScrollView>
     );
 }
@@ -128,5 +152,26 @@ const styles = StyleSheet.create({
         borderColor: colors.textOnPrimary,
         borderWidth: 1,
         boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.29)"
+    },
+    closeBtn: {
+        backgroundColor: colors.accent,
+        padding: 20,
+        borderRadius: 10,
+        marginTop: 10,
+        width: "27%"
+    },
+    close: {
+        color: colors.textOnPrimary,
+        fontWeight: 900,
+    },
+    modal: {
+        justifyContent: 'center',
+        alignItems: "center"
+    },
+    modalImage: {
+        width: 340,
+        height: 540,
+        marginTop: 100,
+        borderRadius: 15
     }
 });
