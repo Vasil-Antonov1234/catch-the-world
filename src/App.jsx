@@ -2,27 +2,11 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, ScrollView, TextInput, Pressable, Keyboard } from 'react-native';
 import colors from './theme/colors';
 import JourneyCard from './screens/JourneyCard.jsx';
-import places from "../data.json";
 import PlaceDetails from './screens/PlaceDetails.jsx';
 import { useState } from 'react';
+import Home from './screens/Home.jsx';
 
 export default function App() {
-    const [activePlace, setActivePlace] = useState(null);
-    const [searchQuery, setSearchQuery] = useState("");
-
-    function pressHandler(place) {
-        setActivePlace(place);
-    };
-
-    function changeSearchQueryHandler(value) {
-        setSearchQuery(value);
-    };
-
-    function searchHandler() {
-        console.log(searchQuery);
-
-        Keyboard.dismiss();
-    };
 
     return (
         <View style={styles.container}>
@@ -30,26 +14,7 @@ export default function App() {
             <View style={styles.logoCtr}>
                 <Text style={styles.logoL}>Catch <Text style={styles.logoM}>the</Text><Text style={styles.loroR}>World</Text></Text>
             </View>
-            <View style={styles.searchCtr}>
-                <TextInput
-                    style={styles.search}
-                    placeholder='Search'
-                    value={searchQuery}
-                    onChangeText={changeSearchQueryHandler}
-                    onSubmitEditing={searchHandler}
-                />
-                <Pressable
-                    style={styles.searchBtn}
-                    onPress={searchHandler}
-                >
-                    <Text style={styles.searchBtnText}>🔍</Text>
-                </Pressable>
-            </View>
-            <ScrollView contentContainerStyle={styles.containerSecondary}>
-                {activePlace ? "" : <Text style={styles.title}>Journal</Text>}
-                {!activePlace ?
-                    places.map((place) => <JourneyCard key={place.id} place={place} press={pressHandler} />) : <PlaceDetails place={activePlace} press={pressHandler} />}
-            </ScrollView>
+            <Home />
         </View>
     );
 }
@@ -58,16 +23,8 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: colors.background,
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
         width: "100%"
-    },
-    containerSecondary: {
-        paddingHorizontal: 20,
-        alignSelf: "stretch"
-    },
-    title: {
-        fontSize: 24,
-        fontWeight: 'bold'
     },
     logoCtr: {
         marginBottom: 20,
@@ -94,37 +51,5 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: colors.textOnPrimary,
         fontWeight: "300"
-    },
-    searchCtr: {
-        width: "90%",
-        alignSelf: "center",
-        flexDirection: "row",
-        alignItems: "center",
-        gap: 10,
-        marginBottom: 10,
-    },
-    search: {
-        flex: 8,
-        backgroundColor: colors.surface,
-        padding: 10,
-        borderRadius: 10,
-        borderStyle: "solid",
-        borderWidth: 0.5,
-        borderColor: colors.textSecondary,
-        fontSize: 20
-    },
-    searchBtn: {
-        flex: 1,
-        backgroundColor: colors.backgroundDarck,
-        justifyContent: "center",
-        alignItems: "center",
-        borderRadius: 10,
-        borderStyle: "solid",
-        borderWidth: 0.5,
-        borderColor: colors.surface,
-        padding: 7
-    },
-    searchBtnText: {
-        fontSize: 25
     }
 });
