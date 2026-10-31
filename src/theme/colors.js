@@ -18,7 +18,8 @@ const colors = {
     error: '#D64545',
 
     // Transperant
-    transperant: "rgba(255,255,255,0.70)"
+    transperant: "rgba(255,255,255,0.70)",
+    accentTransperant: '#e85e3f80'
 }
 
 export default colors;

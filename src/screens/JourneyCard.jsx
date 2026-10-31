@@ -28,7 +28,7 @@ export default function JourneyCard({ place: {
                 </View>
                 <View style={styles.right}>
                     <Pressable
-                        style={styles.btn}
+                        style={({pressed}) => [styles.btn, pressed ? styles.pressed : ""]}
                         onPress={() => press({
                             id,
                             name,
@@ -97,6 +97,10 @@ const styles = StyleSheet.create({
         paddingHorizontal: 12,
         paddingVertical: 6,
         borderRadius: 16
+    },
+    pressed: {
+        backgroundColor: colors.accentTransperant,
+        transform: [{ scale: 0.95 }]
     },
     textWhite: {
         color: colors.textOnPrimary,

@@ -32,7 +32,7 @@ export default function Home() {
                     onSubmitEditing={searchHandler}
                 />
                 <Pressable
-                    style={styles.searchBtn}
+                    style={({pressed}) => [styles.searchBtn, pressed ? styles.pressed : ""]}
                     onPress={searchHandler}
                 >
                     <Text style={styles.searchBtnText}>🔍</Text>
@@ -84,6 +84,10 @@ const styles = StyleSheet.create({
         borderWidth: 0.5,
         borderColor: colors.surface,
         padding: 7
+    },
+    pressed: {
+        backgroundColor: colors.transperant,
+        transform: [{ scale: 0.80 }]
     },
     searchBtnText: {
         fontSize: 25

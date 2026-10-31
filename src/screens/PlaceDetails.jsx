@@ -13,7 +13,7 @@ export default function PlaceDetails({ place: {
         <ScrollView contentContainerStyle={styles.content}>
             <View>
                 <Image source={{ uri: poster }} style={styles.poster} resizeMode="cover" />
-            <Pressable onPress={() => press(null)} style={styles.backButtonCtr}>
+            <Pressable onPress={() => press(null)} style={({pressed}) => [styles.backButtonCtr, pressed ? styles.pressed : ""]}>
                 <Text style={styles.backButton}>❮</Text>
             </Pressable>
             </View>
@@ -86,6 +86,10 @@ const styles = StyleSheet.create({
     backButton: {
         fontSize: 34,
         color: colors.accent
+    },
+    pressed: {
+        backgroundColor: colors.transperant,
+        transform: [{ scale: 0.80 }]
     },
     ratingText: {
         color: colors.textOnPrimary,
