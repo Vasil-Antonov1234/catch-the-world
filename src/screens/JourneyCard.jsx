@@ -1,5 +1,6 @@
 import { View, Text, StyleSheet, Image, Pressable } from "react-native";
 import colors from "../theme/colors.js";
+import ButtonSecondaty from "../buttons/ButtonSecondary.jsx";
 
 export default function JourneyCard({ place: {
     id,
@@ -8,7 +9,7 @@ export default function JourneyCard({ place: {
     location,
     rating,
     description
-}, press }) {
+}, press: pressHandler }) {
 
     return (
         <View style={styles.container}>
@@ -24,21 +25,22 @@ export default function JourneyCard({ place: {
                     <Text style={styles.textBold}>⭐ {rating}/5</Text>
                 </View>
                 <View>
-                    <Text style={styles.text}>🧭<Text style={styles.textBold}>{location}</Text></Text>
+                    <Text style={styles.text}>🧭 <Text style={styles.textBold}>{location}</Text></Text>
                 </View>
                 <View style={styles.right}>
-                    <Pressable
-                        style={({pressed}) => [styles.btn, pressed ? styles.pressed : ""]}
-                        onPress={() => press({
+                    <ButtonSecondaty
+                        text="Details"
+                        pressHandler={() => pressHandler({
                             id,
                             name,
                             poster,
                             location,
                             rating,
                             description
-                        })}>
-                        <Text style={styles.textWhite}>Details</Text>
-                    </Pressable>
+                        })}
+                        background={{ backgroundColor: colors.backgroundDarck }}
+                        btnPressed={{ backgroundColor: colors.textSecondary, transform: [{ scale: 1.10 }] }}
+                    />
                 </View>
             </View>
         </View>
@@ -91,19 +93,5 @@ const styles = StyleSheet.create({
     textBold: {
         fontWeight: 700,
         color: colors.textSecondary
-    },
-    btn: {
-        backgroundColor: colors.accent,
-        paddingHorizontal: 12,
-        paddingVertical: 6,
-        borderRadius: 16
-    },
-    pressed: {
-        backgroundColor: colors.accentTransperant,
-        transform: [{ scale: 0.95 }]
-    },
-    textWhite: {
-        color: colors.textOnPrimary,
-        fontWeight: 900
     }
 })

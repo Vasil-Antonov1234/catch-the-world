@@ -1,0 +1,25 @@
+import colors from "../theme/colors.js";
+import { StyleSheet, Text, Pressable } from "react-native";
+
+export default function ButtonSecondaty({ text, pressHandler, background, btnPressed }) {
+
+    return (
+        <Pressable
+            style={({ pressed }) => [styles.btn, background, pressed ? btnPressed : ""]}
+            onPress={pressHandler}>
+            <Text style={styles.textWhite}>{text}</Text>
+        </Pressable>
+    );
+}
+
+const styles = StyleSheet.create({
+    btn: {
+        paddingHorizontal: 12,
+        paddingVertical: 6,
+        borderRadius: 16
+    },
+    textWhite: {
+        color: colors.textOnPrimary,
+        fontWeight: 900
+    }
+})

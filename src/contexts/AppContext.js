@@ -7,7 +7,8 @@ const AppContext = createContext({
     activePlace: null,
     searchPlacesHandler() {},
     setSearchQuery() {},
-    setActivePlace() {}
+    setActivePlace() {},
+    pressHandler() {}
 });
 
 export default AppContext;

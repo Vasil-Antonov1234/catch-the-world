@@ -14,14 +14,18 @@ export default function AppContextProvider({ children }) {
         setPlaces(filteredPlaces);
     };
 
+    function pressHandler(place) {
+        setActivePlace(place);
+    };
+
     const AppContextValues = {
         places,
         searchPlacesHandler,
         searchQuery,
         setSearchQuery,
         activePlace,
-        setActivePlace
-    }
+        pressHandler
+    };
 
     return (
         <AppContext.Provider value={AppContextValues}>

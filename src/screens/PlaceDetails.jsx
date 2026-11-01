@@ -1,6 +1,7 @@
 import { View, Text, Image, ScrollView, StyleSheet, Pressable, Modal } from 'react-native';
 import colors from "../theme/colors.js";
 import { useState } from 'react';
+import ButtonMain from '../buttons/ButtonMain.jsx';
 
 export default function PlaceDetails({ place: {
     poster,
@@ -8,16 +9,14 @@ export default function PlaceDetails({ place: {
     location,
     rating,
     description
-}, press }) {
+}}) {
     const [showImageModal, setShowImageModal] = useState("");
 
     return (
         <ScrollView contentContainerStyle={styles.content}>
             <View>
                 <Image source={{ uri: poster }} style={styles.poster} resizeMode="cover" />
-                <Pressable onPress={() => press(null)} style={({ pressed }) => [styles.backButtonCtr, pressed ? styles.pressed : ""]}>
-                    <Text style={styles.backButton}>❮</Text>
-                </Pressable>
+                <ButtonMain text="❮"/>
             </View>
 
 
@@ -95,25 +94,6 @@ const styles = StyleSheet.create({
         paddingHorizontal: 12,
         paddingVertical: 6,
         borderRadius: 16
-    },
-    backButtonCtr: {
-        position: "absolute",
-        top: 10,
-        left: 10,
-        backgroundColor: colors.transperant,
-        width: 40,
-        height: 45,
-        justifyContent: "center",
-        alignItems: "center",
-        borderRadius: 10,
-    },
-    backButton: {
-        fontSize: 34,
-        color: colors.accent
-    },
-    pressed: {
-        backgroundColor: colors.transperant,
-        transform: [{ scale: 0.80 }]
     },
     ratingText: {
         color: colors.textOnPrimary,

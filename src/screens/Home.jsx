@@ -6,11 +6,7 @@ import PlaceDetails from "./PlaceDetails.jsx";
 import AppContext from "../contexts/AppContext.js";
 
 export default function Home() {
-    const { places, searchQuery, setSearchQuery, activePlace, setActivePlace, searchPlacesHandler } = useContext(AppContext);
-
-    function pressHandler(place) {
-        setActivePlace(place);
-    };
+    const { places, searchQuery, setSearchQuery, activePlace, searchPlacesHandler, pressHandler } = useContext(AppContext);
 
     function changeSearchQueryHandler(value) {
         setSearchQuery(value);
@@ -41,7 +37,7 @@ export default function Home() {
             <ScrollView contentContainerStyle={styles.containerSecondary}>
                 {activePlace ? "" : <Text style={styles.title}>Journal</Text>}
                 {!activePlace ?
-                    places.map((place) => <JourneyCard key={place.id} place={place} press={pressHandler} />) : <PlaceDetails place={activePlace} press={pressHandler} />}
+                    places.map((place) => <JourneyCard key={place.id} place={place} press={() => pressHandler(place)} />) : <PlaceDetails place={activePlace} />}
             </ScrollView>
         </>
     );
@@ -76,7 +72,7 @@ const styles = StyleSheet.create({
     },
     searchBtn: {
         flex: 1,
-        backgroundColor: colors.backgroundDarck,
+        backgroundColor: colors.transperant,
         justifyContent: "center",
         alignItems: "center",
         borderRadius: 10,
@@ -86,8 +82,8 @@ const styles = StyleSheet.create({
         padding: 7
     },
     pressed: {
-        backgroundColor: colors.transperant,
-        transform: [{ scale: 0.80 }]
+        backgroundColor: colors.backgroundDarck,
+        transform: [{ scale: 1.10 }]
     },
     searchBtnText: {
         fontSize: 25
