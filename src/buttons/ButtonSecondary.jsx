@@ -16,7 +16,9 @@ const styles = StyleSheet.create({
     btn: {
         paddingHorizontal: 12,
         paddingVertical: 6,
-        borderRadius: 16
+        borderRadius: 16,
+        width: 80,
+        alignItems: "center"
     },
     textWhite: {
         color: colors.textOnPrimary,

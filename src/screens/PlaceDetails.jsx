@@ -2,6 +2,7 @@ import { View, Text, Image, ScrollView, StyleSheet, Pressable, Modal } from 'rea
 import colors from "../theme/colors.js";
 import { useState } from 'react';
 import ButtonMain from '../buttons/ButtonMain.jsx';
+import ButtonSecondaty from '../buttons/ButtonSecondary.jsx';
 
 export default function PlaceDetails({ place: {
     poster,
@@ -9,14 +10,22 @@ export default function PlaceDetails({ place: {
     location,
     rating,
     description
-}}) {
+} }) {
     const [showImageModal, setShowImageModal] = useState("");
+
+    function editHandler() {
+        console.log("edit");
+    };
+
+    function deleteHandler() {
+        console.log("Dell");
+    };
 
     return (
         <ScrollView contentContainerStyle={styles.content}>
             <View>
                 <Image source={{ uri: poster }} style={styles.poster} resizeMode="cover" />
-                <ButtonMain text="❮"/>
+                <ButtonMain text="❮" />
             </View>
 
 
@@ -51,6 +60,20 @@ export default function PlaceDetails({ place: {
                     <Image style={styles.image} source={{ uri: "https://media.istockphoto.com/id/537383379/photo/plaza-del-triunfo-in-seville-spain.jpg?s=612x612&w=0&k=20&c=caBGrjo_4uBveh-3-dvNqXWWjsTbqXB-JLJdUiTC1Kw=" }} />
                 </Pressable>
             </ScrollView>
+            <View style={styles.buttonsCtr}>
+                <ButtonSecondaty
+                    text="Edit"
+                    background={{ backgroundColor: colors.backgroundDarck }}
+                    btnPressed={{ backgroundColor: colors.textSecondary, transform: [{ scale: 1.10 }] }}
+                    pressHandler={editHandler}
+                />
+                <ButtonSecondaty
+                    text="Delete"
+                    background={{ backgroundColor: colors.accentTransperant }}
+                    btnPressed={{ backgroundColor: colors.error, transform: [{ scale: 1.10 }] }}
+                    pressHandler={deleteHandler}
+                />
+            </View>
             <Modal
                 visible={showImageModal !== ""}
                 onRequestClose={() => setShowImageModal("")}
@@ -153,5 +176,10 @@ const styles = StyleSheet.create({
         height: 540,
         marginTop: 100,
         borderRadius: 15
+    },
+    buttonsCtr: {
+        flexDirection: "row",
+        justifyContent: "flex-end",
+        gap: 10
     }
 });
