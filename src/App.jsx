@@ -1,20 +1,27 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
-import colors from './theme/colors';
-import Home from './screens/Home.jsx';
 import AppContextProvider from './contexts/AppContextProvider.jsx';
+import { SafeAreaView, SafeAreaProvider } from "react-native-safe-area-context"
+import TopBar from './components/top-bar/TopBar.jsx';
+import Home from './components/screens/Home.jsx';
+import colors from './theme/colors.js';
+import BottomBar from './components/bottom-bar/BottomBar.jsx';
 
 export default function App() {
 
     return (
         <AppContextProvider>
-            <View style={styles.container}>
-                <StatusBar style="light" />
-                <View style={styles.logoCtr}>
-                    <Text style={styles.logoL}>Catch <Text style={styles.logoM}>the</Text><Text style={styles.loroR}>World</Text></Text>
-                </View>
-                <Home />
-            </View>
+            <SafeAreaProvider>
+                <SafeAreaView style={styles.container}>
+                    <StatusBar style="light" animated />
+                    <View style={styles.logoCtr}>
+                        <Text style={styles.logoL}>Catch <Text style={styles.logoM}>the</Text><Text style={styles.loroR}>World</Text></Text>
+                    </View>
+                    <TopBar />
+                    <Home />
+                    <BottomBar />
+                </SafeAreaView>
+            </SafeAreaProvider>
         </AppContextProvider>
     );
 }

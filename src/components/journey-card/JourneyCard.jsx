@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, Image, Pressable } from "react-native";
-import colors from "../theme/colors.js";
+import colors from "../../theme/colors.js";
 import ButtonSecondaty from "../buttons/ButtonSecondary.jsx";
 
 export default function JourneyCard({ place: {

@@ -1,9 +1,9 @@
 import { useContext } from "react";
-import colors from "../theme/colors";
+import colors from "../../theme/colors.js";
 import { StyleSheet, View, TextInput, Pressable, ScrollView, Text, Keyboard } from "react-native";
-import JourneyCard from "./JourneyCard.jsx";
+import JourneyCard from "../journey-card/JourneyCard.jsx";
 import PlaceDetails from "./PlaceDetails.jsx";
-import AppContext from "../contexts/AppContext.js";
+import AppContext from "../../contexts/AppContext.js";
 
 export default function Home() {
     const { places, searchQuery, setSearchQuery, activePlace, searchPlacesHandler, pressHandler } = useContext(AppContext);

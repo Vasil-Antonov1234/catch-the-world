@@ -1,5 +1,5 @@
-import { View, Text, Image, ScrollView, StyleSheet, Pressable, Modal } from 'react-native';
-import colors from "../theme/colors.js";
+import { View, Text, Image, ScrollView, StyleSheet, Pressable, Modal, StatusBar } from 'react-native';
+import colors from "../../theme/colors.js";
 import { useState } from 'react';
 import ButtonMain from '../buttons/ButtonMain.jsx';
 import ButtonSecondaty from '../buttons/ButtonSecondary.jsx';
@@ -82,9 +82,15 @@ export default function PlaceDetails({ place: {
                 backdropColor={colors.transperant}
             >
                 {showImageModal && <Image style={styles.modalImage} source={{ uri: showImageModal }} />}
-                <Pressable onPress={() => setShowImageModal("")} style={styles.closeBtn}>
-                    <Text style={styles.close}>CLOSE</Text>
-                </Pressable>
+                <View style={styles.buttonsCtr}>
+                    <ButtonSecondaty
+                        text="CLOSE"
+                        background={{ backgroundColor: colors.backgroundDarck }}
+                        pressHandler={() => setShowImageModal("")}
+                        btnPressed={{ backgroundColor: colors.textSecondary, transform: [{ scale: 1.10 }] }}
+                    />
+                </View>
+                <StatusBar barStyle='auto' animated />
             </Modal>
         </ScrollView>
     );
@@ -175,11 +181,14 @@ const styles = StyleSheet.create({
         width: 340,
         height: 540,
         marginTop: 100,
-        borderRadius: 15
+        borderRadius: 15,
+        borderWidth: 3,
+        borderColor: colors.textOnPrimary
     },
     buttonsCtr: {
         flexDirection: "row",
         justifyContent: "flex-end",
-        gap: 10
+        gap: 10,
+        marginTop: 10
     }
 });

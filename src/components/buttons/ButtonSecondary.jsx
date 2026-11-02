@@ -1,4 +1,4 @@
-import colors from "../theme/colors.js";
+import colors from "../../theme/colors.js";
 import { StyleSheet, Text, Pressable } from "react-native";
 
 export default function ButtonSecondaty({ text, pressHandler, background, btnPressed }) {

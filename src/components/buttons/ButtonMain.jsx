@@ -1,7 +1,7 @@
 import { useContext } from "react";
-import colors from "../theme/colors.js";
+import colors from "../../theme/colors.js";
 import { StyleSheet, Pressable, Text } from "react-native";
-import AppContext from "../contexts/AppContext.js";
+import AppContext from "../../contexts/AppContext.js";
 
 export default function ButtonMain({text}) {
     const { pressHandler } = useContext(AppContext);
