@@ -6,6 +6,7 @@ export default function AppContextProvider({ children }) {
     const [searchQuery, setSearchQuery] = useState("");
     const [activePlace, setActivePlace] = useState(null);
     const [places, setPlaces] = useState(data);
+    const [placeId, setPlaceId] = useState(data.length);
 
     function searchPlacesHandler() {
 
@@ -20,8 +21,9 @@ export default function AppContextProvider({ children }) {
 
     function addPlaceHandler(place) {
         // places.push({...place, id: places.length + 1});
-        place.id = places.length + 1;
-        places.push(place);
+        place.id = placeId + 1;
+        setPlaceId(state => state + 1);
+        setPlaces(state => [...state, place]);
     };
 
     const AppContextValues = {

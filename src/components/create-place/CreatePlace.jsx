@@ -2,7 +2,7 @@ import { Modal } from 'react-native-paper';
 import Input from '../text-input/Input';
 import ButtonIcon from '../buttons/ButtonIcon';
 import { useContext, useState } from 'react';
-import { View } from 'react-native';
+import { Keyboard, View } from 'react-native';
 import AppContext from '../../contexts/AppContext';
 
 const initialValues = {
@@ -31,6 +31,7 @@ export default function CreatePlace({
     function addPlace() {
         addPlaceHandler(newPlace);
         setNewPlace(initialValues);
+        Keyboard.dismiss();
         hideModal();
     }
 
@@ -39,11 +40,11 @@ export default function CreatePlace({
     return (
         <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={containerStyle}>
             <View style={{ justifyContent: "center", gap: 10 }}>
-                <Input text={newPlace["name"]} textHandler={textHandler} textLabel="Citi Name" fieldName="name" />
-                <Input text={newPlace["location"]} textHandler={textHandler} textLabel="Location" fieldName="location" />
-                <Input text={newPlace["poster"]} textHandler={textHandler} textLabel="Poster" fieldName="poster" />
-                <Input text={newPlace["rating"]} textHandler={textHandler} textLabel="rating" fieldName="rating" />
-                <Input text={newPlace["description"]} textHandler={textHandler} textLabel="description" fieldName="description" />
+                <Input text={newPlace["name"]} textHandler={textHandler} textLabel="Citi Name" fieldName="name" onAddPlace={addPlace}/>
+                <Input text={newPlace["location"]} textHandler={textHandler} textLabel="Location" fieldName="location" onAddPlace={addPlace}/>
+                <Input text={newPlace["poster"]} textHandler={textHandler} textLabel="Poster" fieldName="poster" onAddPlace={addPlace}/>
+                <Input text={newPlace["rating"]} textHandler={textHandler} textLabel="rating" fieldName="rating" onAddPlace={addPlace}/>
+                <Input text={newPlace["description"]} textHandler={textHandler} textLabel="description" fieldName="description" onAddPlace={addPlace}/>
                 <ButtonIcon onAddPlace={addPlace} />
             </View>
         </Modal>
