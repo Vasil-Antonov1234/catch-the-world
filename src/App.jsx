@@ -5,7 +5,6 @@ import { SafeAreaView, SafeAreaProvider } from "react-native-safe-area-context"
 import TopBar from './components/top-bar/TopBar.jsx';
 import Home from './components/screens/Home.jsx';
 import colors from './theme/colors.js';
-import BottomBar from './components/bottom-bar/BottomBar.jsx';
 
 export default function App() {
 
@@ -19,7 +18,6 @@ export default function App() {
                     </View>
                     <TopBar />
                     <Home />
-                    <BottomBar />
                 </SafeAreaView>
             </SafeAreaProvider>
         </AppContextProvider>
