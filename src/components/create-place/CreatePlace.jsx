@@ -4,6 +4,7 @@ import ButtonIcon from '../buttons/ButtonIcon';
 import { useContext, useState } from 'react';
 import { Keyboard, View } from 'react-native';
 import AppContext from '../../contexts/AppContext';
+import ButtonPrimary from '../buttons/ButtonPrimary.jsx';
 
 const initialValues = {
     name: "",
@@ -45,7 +46,7 @@ export default function CreatePlace({
                 <Input text={newPlace["poster"]} textHandler={textHandler} textLabel="Poster" fieldName="poster" onAddPlace={addPlace}/>
                 <Input text={newPlace["rating"]} textHandler={textHandler} textLabel="rating" fieldName="rating" onAddPlace={addPlace}/>
                 <Input text={newPlace["description"]} textHandler={textHandler} textLabel="description" fieldName="description" onAddPlace={addPlace}/>
-                <ButtonIcon onAddPlace={addPlace} />
+                <ButtonPrimary icon="plus" text="Add Place" mode="contained" onPress={addPlace}/>
             </View>
         </Modal>
     );

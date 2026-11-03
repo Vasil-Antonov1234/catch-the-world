@@ -12,7 +12,7 @@ export default function App() {
         <AppContextProvider>
             <SafeAreaProvider>
                 <SafeAreaView style={styles.container}>
-                    <StatusBar style="light" animated />
+                    <StatusBar style="dark" animated />
                     <View style={styles.logoCtr}>
                         <Text style={styles.logoL}>Catch <Text style={styles.logoM}>the</Text><Text style={styles.loroR}>World</Text></Text>
                     </View>

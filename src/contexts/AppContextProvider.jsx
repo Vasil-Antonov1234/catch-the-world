@@ -26,6 +26,11 @@ export default function AppContextProvider({ children }) {
         setPlaces(state => [...state, place]);
     };
 
+    function wantToVisitHandler(placeId) {
+        setPlaces(state => state.map(place => place.id === placeId ? { ...place, wantToVisit: !place.wantToVisit } : place));
+        console.log(places)
+    };
+
     const AppContextValues = {
         places,
         searchPlacesHandler,
@@ -33,7 +38,8 @@ export default function AppContextProvider({ children }) {
         setSearchQuery,
         activePlace,
         pressHandler,
-        addPlaceHandler
+        addPlaceHandler,
+        wantToVisitHandler
     };
 
     return (

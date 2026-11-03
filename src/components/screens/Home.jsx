@@ -46,7 +46,6 @@ export default function Home() {
                 </Pressable>
             </View>
             <ScrollView contentContainerStyle={styles.containerSecondary}>
-                {activePlace ? "" : <Text style={styles.title}>Journal</Text>}
                 {!activePlace ?
                     places.map((place) => <JourneyCard key={place.id} place={place} press={() => pressHandler(place)} />) : <PlaceDetails place={activePlace} />}
             </ScrollView>

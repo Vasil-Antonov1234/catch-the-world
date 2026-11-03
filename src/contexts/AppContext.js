@@ -9,7 +9,8 @@ const AppContext = createContext({
     setSearchQuery() {},
     setActivePlace() {},
     pressHandler() {},
-    addPlaceHandler() {}
+    addPlaceHandler() {},
+    wantToVisitHandler() {}
 });
 
 export default AppContext;

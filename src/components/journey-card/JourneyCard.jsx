@@ -1,6 +1,9 @@
 import { View, Text, StyleSheet, Image, Pressable } from "react-native";
 import colors from "../../theme/colors.js";
 import ButtonSecondaty from "../buttons/ButtonSecondary.jsx";
+import ButtonIcon from "../buttons/ButtonIcon.jsx";
+import { useContext } from "react";
+import AppContext from "../../contexts/AppContext.js";
 
 export default function JourneyCard({ place: {
     id,
@@ -8,8 +11,10 @@ export default function JourneyCard({ place: {
     poster,
     location,
     rating,
-    description
+    description,
+    wantToVisit
 }, press: pressHandler }) {
+    const { wantToVisitHandler } = useContext(AppContext);
 
     return (
         <View style={styles.container}>
@@ -27,7 +32,14 @@ export default function JourneyCard({ place: {
                 <View>
                     <Text style={styles.text}>🧭 <Text style={styles.textBold}>{location}</Text></Text>
                 </View>
-                <View style={styles.right}>
+                <View style={styles.containerSecondaryHeader}>
+                    <ButtonIcon
+                        placeId={id}
+                        onPress={wantToVisitHandler}
+                        icon="camera"
+                        wantToVisit={wantToVisit}
+                        mode="default"
+                    />
                     <ButtonSecondaty
                         text="Details"
                         pressHandler={() => pressHandler({
