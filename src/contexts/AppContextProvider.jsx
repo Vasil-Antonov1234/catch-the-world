@@ -18,13 +18,20 @@ export default function AppContextProvider({ children }) {
         setActivePlace(place);
     };
 
+    function addPlaceHandler(place) {
+        // places.push({...place, id: places.length + 1});
+        place.id = places.length + 1;
+        places.push(place);
+    };
+
     const AppContextValues = {
         places,
         searchPlacesHandler,
         searchQuery,
         setSearchQuery,
         activePlace,
-        pressHandler
+        pressHandler,
+        addPlaceHandler
     };
 
     return (
