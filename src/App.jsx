@@ -5,22 +5,35 @@ import { SafeAreaView, SafeAreaProvider } from "react-native-safe-area-context"
 import TopBar from './components/top-bar/TopBar.jsx';
 import Home from './components/screens/Home.jsx';
 import colors from './theme/colors.js';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+const Stak = createNativeStackNavigator();
 
 export default function App() {
 
     return (
-        <AppContextProvider>
-            <SafeAreaProvider>
-                <SafeAreaView style={styles.container}>
-                    <StatusBar style="dark" animated />
-                    <View style={styles.logoCtr}>
-                        <Text style={styles.logoL}>Catch <Text style={styles.logoM}>the</Text><Text style={styles.loroR}>World</Text></Text>
-                    </View>
-                    <TopBar />
-                    <Home />
-                </SafeAreaView>
-            </SafeAreaProvider>
-        </AppContextProvider>
+        <>
+            <StatusBar style="dark" animated />
+            <NavigationContainer>
+                <AppContextProvider>
+                    <Stak.Navigator>
+                        <Stak.Screen />
+                    </Stak.Navigator>
+
+                    
+                    <SafeAreaProvider>
+                        <SafeAreaView style={styles.container}>
+                            <View style={styles.logoCtr}>
+                                <Text style={styles.logoL}>Catch <Text style={styles.logoM}>the</Text><Text style={styles.loroR}>World</Text></Text>
+                            </View>
+                            <TopBar />
+                            <Home />
+                        </SafeAreaView>
+                    </SafeAreaProvider>
+                </AppContextProvider>
+            </NavigationContainer>
+        </>
     );
 }
 

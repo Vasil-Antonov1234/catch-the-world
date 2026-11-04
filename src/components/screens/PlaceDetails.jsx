@@ -1,4 +1,4 @@
-import { View, Text, Image, ScrollView, StyleSheet, Pressable, Modal, StatusBar } from 'react-native';
+import { View, Text, Image, ScrollView, StyleSheet, Pressable, Modal } from 'react-native';
 import colors from "../../theme/colors.js";
 import { useContext, useState } from 'react';
 import ButtonMain from '../buttons/ButtonMain.jsx';
@@ -99,7 +99,6 @@ export default function PlaceDetails({ place: {
                         btnPressed={{ backgroundColor: colors.textSecondary, transform: [{ scale: 1.10 }] }}
                     />
                 </View>
-                <StatusBar barStyle='auto' animated />
             </Modal>
             <CreatePlace visible={showEditPlace} hideModal={closeEditPlaceHandler} place={{
                 id,
