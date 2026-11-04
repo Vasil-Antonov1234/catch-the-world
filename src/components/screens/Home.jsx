@@ -8,7 +8,7 @@ import CreatePlace from "../create-place/CreatePlace.jsx";
 import BottomBar from "../bottom-bar/BottomBar.jsx";
 
 export default function Home() {
-    const { places, searchQuery, setSearchQuery, activePlace, searchPlacesHandler, pressHandler } = useContext(AppContext);
+    const { places, searchQuery, setSearchQuery, activePlace, searchPlacesHandler, pressHandler, setIsEdit } = useContext(AppContext);
     const [showModal, setShowModal] = useState(false);
 
     function changeSearchQueryHandler(value) {
@@ -22,6 +22,7 @@ export default function Home() {
 
     function showModalHandler() {
         setShowModal(true);
+        setIsEdit(false);
     };
 
     function hideModalHandler() {
@@ -58,11 +59,8 @@ export default function Home() {
 const styles = StyleSheet.create({
     containerSecondary: {
         paddingHorizontal: 20,
-        alignSelf: "stretch"
-    },
-    title: {
-        fontSize: 24,
-        fontWeight: 'bold'
+        alignSelf: "stretch",
+        paddingBottom: 100
     },
     searchCtr: {
         width: "90%",
@@ -80,7 +78,7 @@ const styles = StyleSheet.create({
         borderStyle: "solid",
         borderWidth: 0.5,
         borderColor: colors.textSecondary,
-        fontSize: 20
+        fontSize: 10
     },
     searchBtn: {
         flex: 1,
@@ -98,6 +96,6 @@ const styles = StyleSheet.create({
         transform: [{ scale: 1.10 }]
     },
     searchBtnText: {
-        fontSize: 25
+        fontSize: 10
     }
 })

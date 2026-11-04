@@ -10,7 +10,9 @@ const AppContext = createContext({
     setActivePlace() {},
     pressHandler() {},
     addPlaceHandler() {},
-    wantToVisitHandler() {}
+    wantToVisitHandler() {},
+    deletePlaceHandler() {},
+    setIsEdit() {}
 });
 
 export default AppContext;

@@ -7,6 +7,7 @@ export default function AppContextProvider({ children }) {
     const [activePlace, setActivePlace] = useState(null);
     const [places, setPlaces] = useState(data);
     const [placeId, setPlaceId] = useState(data.length);
+    const [isEdit, setIsEdit] = useState(false);
 
     function searchPlacesHandler() {
 
@@ -20,15 +21,28 @@ export default function AppContextProvider({ children }) {
     };
 
     function addPlaceHandler(place) {
-        // places.push({...place, id: places.length + 1});
-        place.id = placeId + 1;
-        setPlaceId(state => state + 1);
+
+        if (isEdit) {
+            deletePlaceHandler(place.id);
+        };
+
+        if (!isEdit) {
+            place.id = placeId + 1;
+            setPlaceId(state => state + 1);
+        };
+
         setPlaces(state => [...state, place]);
+        setIsEdit(false);
+        setActivePlace(null);
     };
 
     function wantToVisitHandler(placeId) {
         setPlaces(state => state.map(place => place.id === placeId ? { ...place, wantToVisit: !place.wantToVisit } : place));
-        console.log(places)
+    };
+
+    function deletePlaceHandler(id) {
+        setPlaces(state => state.filter((place) => place.id !== id));
+        setActivePlace(null);
     };
 
     const AppContextValues = {
@@ -39,7 +53,9 @@ export default function AppContextProvider({ children }) {
         activePlace,
         pressHandler,
         addPlaceHandler,
-        wantToVisitHandler
+        setIsEdit,
+        wantToVisitHandler,
+        deletePlaceHandler
     };
 
     return (

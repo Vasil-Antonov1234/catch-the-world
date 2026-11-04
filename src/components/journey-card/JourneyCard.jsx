@@ -36,7 +36,7 @@ export default function JourneyCard({ place: {
                     <ButtonIcon
                         placeId={id}
                         onPress={wantToVisitHandler}
-                        icon="camera"
+                        icon="airplane"
                         wantToVisit={wantToVisit}
                         mode="default"
                     />
@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
         boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)"
     },
     title: {
-        fontSize: 18,
+        fontSize: 10,
         fontWeight: 'bold',
         color: colors.textPrimary,
         flexShrink: 1
@@ -104,6 +104,7 @@ const styles = StyleSheet.create({
     },
     textBold: {
         fontWeight: 700,
-        color: colors.textSecondary
+        color: colors.textSecondary,
+        fontSize: 10
     }
 })

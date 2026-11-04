@@ -14,14 +14,16 @@ export default function ButtonSecondaty({ text, pressHandler, background, btnPre
 
 const styles = StyleSheet.create({
     btn: {
-        paddingHorizontal: 12,
-        paddingVertical: 6,
+        paddingHorizontal: 10,
+        paddingVertical: 5,
         borderRadius: 16,
         width: 80,
-        alignItems: "center"
+        alignItems: "center",
+        justifyContent: "center"
     },
     textWhite: {
         color: colors.textOnPrimary,
-        fontWeight: 900
+        fontWeight: 900,
+        fontSize: 10
     }
 })

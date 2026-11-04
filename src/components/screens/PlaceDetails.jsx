@@ -1,10 +1,14 @@
 import { View, Text, Image, ScrollView, StyleSheet, Pressable, Modal, StatusBar } from 'react-native';
 import colors from "../../theme/colors.js";
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import ButtonMain from '../buttons/ButtonMain.jsx';
 import ButtonSecondaty from '../buttons/ButtonSecondary.jsx';
+import ButtonIcon from '../buttons/ButtonIcon.jsx';
+import AppContext from '../../contexts/AppContext.js';
+import CreatePlace from '../create-place/CreatePlace.jsx';
 
 export default function PlaceDetails({ place: {
+    id,
     poster,
     name,
     location,
@@ -12,13 +16,20 @@ export default function PlaceDetails({ place: {
     description
 } }) {
     const [showImageModal, setShowImageModal] = useState("");
+    const { deletePlaceHandler, setIsEdit } = useContext(AppContext);
+    const [showEditPlace, setShowEditPlace] = useState(false);
+
+    function closeEditPlaceHandler() {
+        setShowEditPlace(false);
+    };
 
     function editHandler() {
-        console.log("edit");
+        setShowEditPlace(true);
+        setIsEdit(true);
     };
 
     function deleteHandler() {
-        console.log("Dell");
+        deletePlaceHandler(id);
     };
 
     return (
@@ -61,17 +72,15 @@ export default function PlaceDetails({ place: {
                 </Pressable>
             </ScrollView>
             <View style={styles.buttonsCtr}>
-                <ButtonSecondaty
-                    text="Edit"
-                    background={{ backgroundColor: colors.backgroundDarck }}
-                    btnPressed={{ backgroundColor: colors.textSecondary, transform: [{ scale: 1.10 }] }}
-                    pressHandler={editHandler}
+                <ButtonIcon
+                    icon="pen"
+                    mode="contained"
+                    onPress={editHandler}
                 />
-                <ButtonSecondaty
-                    text="Delete"
-                    background={{ backgroundColor: colors.accentTransperant }}
-                    btnPressed={{ backgroundColor: colors.error, transform: [{ scale: 1.10 }] }}
-                    pressHandler={deleteHandler}
+                <ButtonIcon
+                    icon="delete"
+                    mode="contained"
+                    onPress={deleteHandler}
                 />
             </View>
             <Modal
@@ -92,6 +101,14 @@ export default function PlaceDetails({ place: {
                 </View>
                 <StatusBar barStyle='auto' animated />
             </Modal>
+            <CreatePlace visible={showEditPlace} hideModal={closeEditPlaceHandler} place={{
+                id,
+                poster,
+                name,
+                location,
+                rating,
+                description
+            }} />
         </ScrollView>
     );
 }
