@@ -1,16 +1,18 @@
 import { Link } from "@react-navigation/native";
 import colors from "../../theme/colors.js";
 import { StyleSheet, Text, Pressable } from "react-native";
+import { Button } from "@react-navigation/elements";
 
-export default function ButtonSecondaty({ text, pressHandler, background, btnPressed, to }) {
+export default function ButtonSecondaty({ text, background, to }) {
 
     return (
-        <Link screen={to}
-            style={styles.link}
-            // style={({ pressed }) => [styles.btn, background, pressed ? btnPressed : ""]}
-            onPress={pressHandler}>
-            <Text style={styles.textWhite}>{text}</Text>
-        </Link>
+        <Button screen={to}
+            style={styles.btn}
+            color={background}
+            pressColor={colors.accent}
+        >
+            <Text style={styles.twxt}>{text}</Text>
+        </Button>
     );
 }
 
@@ -18,13 +20,13 @@ const styles = StyleSheet.create({
     btn: {
         paddingHorizontal: 10,
         paddingVertical: 5,
-        borderRadius: 16,
-        width: 80,
+        borderRadius: 5,
+        height: 40,
         alignItems: "center",
         justifyContent: "center"
     },
-    textWhite: {
-        color: colors.textOnPrimary,
+    twxt: {
+        color: colors.textSecondary,
         fontWeight: 900,
         fontSize: 7
     },

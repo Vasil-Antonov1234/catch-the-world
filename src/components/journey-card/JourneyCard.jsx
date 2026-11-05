@@ -43,16 +43,7 @@ export default function JourneyCard({ place: {
                     <ButtonSecondaty
                         to="CityDetails"
                         text="Details"
-                        pressHandler={() => pressHandler({
-                            id,
-                            name,
-                            poster,
-                            location,
-                            rating,
-                            description
-                        })}
-                        background={{ backgroundColor: colors.backgroundDarck }}
-                        btnPressed={{ backgroundColor: colors.textSecondary, transform: [{ scale: 1.10 }] }}
+                        background={colors.primary}
                     />
                 </View>
             </View>
