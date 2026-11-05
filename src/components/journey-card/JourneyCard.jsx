@@ -41,6 +41,7 @@ export default function JourneyCard({ place: {
                         mode="default"
                     />
                     <ButtonSecondaty
+                        to="CityDetails"
                         text="Details"
                         pressHandler={() => pressHandler({
                             id,

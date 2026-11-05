@@ -1,13 +1,13 @@
 import { useContext, useState } from "react";
-import colors from "../../theme/colors.js";
+import colors from "../theme/colors.js";
 import { StyleSheet, View, TextInput, Pressable, ScrollView, Text, Keyboard } from "react-native";
-import JourneyCard from "../journey-card/JourneyCard.jsx";
-import PlaceDetails from "./PlaceDetails.jsx";
-import AppContext from "../../contexts/AppContext.js";
-import CreatePlace from "../create-place/CreatePlace.jsx";
-import BottomBar from "../bottom-bar/BottomBar.jsx";
+import JourneyCard from "../components/journey-card/JourneyCard.jsx";
+import CityDetails from "./CityDetails.jsx";
+import AppContext from "../contexts/AppContext.js";
+// import CreatePlace from "../components/create-place/CreatePlace.jsx";
+// import BottomBar from "../components/bottom-bar/BottomBar.jsx";
 
-export default function Home() {
+export default function HomeScreen() {
     const { places, searchQuery, setSearchQuery, activePlace, searchPlacesHandler, pressHandler, setIsEdit } = useContext(AppContext);
     const [showModal, setShowModal] = useState(false);
 
@@ -31,7 +31,7 @@ export default function Home() {
 
     return (
         <>
-            <View style={styles.searchCtr}>
+            {/* <View style={styles.searchCtr}>
                 <TextInput
                     style={styles.search}
                     placeholder='Search'
@@ -45,13 +45,14 @@ export default function Home() {
                 >
                     <Text style={styles.searchBtnText}>🔍</Text>
                 </Pressable>
-            </View>
+            </View> */}
             <ScrollView contentContainerStyle={styles.containerSecondary}>
-                {!activePlace ?
-                    places.map((place) => <JourneyCard key={place.id} place={place} press={() => pressHandler(place)} />) : <PlaceDetails place={activePlace} />}
+                {places.map((place) => <JourneyCard key={place.id} place={place} press={() => {}}/>)}
+                {/* {!activePlace ?
+                    places.map((place) => <JourneyCard key={place.id} place={place} press={() => pressHandler(place)} />) : <PlaceDetails place={activePlace} />} */}
             </ScrollView>
-            <CreatePlace visible={showModal} hideModal={hideModalHandler}/>
-            <BottomBar showModal={showModalHandler}/>
+            {/* <CreatePlace visible={showModal} hideModal={hideModalHandler}/> */}
+            {/* <BottomBar showModal={showModalHandler}/> */}
         </>
     );
 }
@@ -69,6 +70,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         gap: 10,
         marginBottom: 10,
+        marginTop: 10
     },
     search: {
         flex: 8,

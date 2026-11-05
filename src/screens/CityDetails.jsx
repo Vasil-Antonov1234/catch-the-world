@@ -1,22 +1,15 @@
 import { View, Text, Image, ScrollView, StyleSheet, Pressable, Modal } from 'react-native';
-import colors from "../../theme/colors.js";
+import colors from "../theme/colors.js";
 import { useContext, useState } from 'react';
-import ButtonMain from '../buttons/ButtonMain.jsx';
-import ButtonSecondaty from '../buttons/ButtonSecondary.jsx';
-import ButtonIcon from '../buttons/ButtonIcon.jsx';
-import AppContext from '../../contexts/AppContext.js';
-import CreatePlace from '../create-place/CreatePlace.jsx';
+import ButtonMain from '../components/buttons/ButtonMain.jsx';
+import ButtonSecondaty from '../components/buttons/ButtonSecondary.jsx';
+import ButtonIcon from '../components/buttons/ButtonIcon.jsx';
+import AppContext from '../contexts/AppContext.js';
+import CreatePlace from '../components/create-place/CreatePlace.jsx';
 
-export default function PlaceDetails({ place: {
-    id,
-    poster,
-    name,
-    location,
-    rating,
-    description
-} }) {
+export default function CityDetails() {
     const [showImageModal, setShowImageModal] = useState("");
-    const { deletePlaceHandler, setIsEdit } = useContext(AppContext);
+    const { deletePlaceHandler, setIsEdit, activePlace } = useContext(AppContext);
     const [showEditPlace, setShowEditPlace] = useState(false);
 
     function closeEditPlaceHandler() {
@@ -35,23 +28,23 @@ export default function PlaceDetails({ place: {
     return (
         <ScrollView contentContainerStyle={styles.content}>
             <View>
-                <Image source={{ uri: poster }} style={styles.poster} resizeMode="cover" />
-                <ButtonMain text="❮" />
+                <Image source={{ uri: activePlace.poster }} style={styles.poster} resizeMode="cover" />
+                {/* <ButtonMain text="❮" /> */}
             </View>
 
 
             <View style={styles.titleRow}>
-                <Text style={styles.name}>{name}</Text>
+                <Text style={styles.name}>{activePlace.name}</Text>
                 <View style={styles.ratingBadge}>
-                    <Text style={styles.ratingText}>★ {rating}</Text>
+                    <Text style={styles.ratingText}>★ {activePlace.rating}</Text>
                 </View>
             </View>
 
-            <Text style={styles.location}>{location}</Text>
+            <Text style={styles.location}>{activePlace.location}</Text>
 
             <Text style={styles.sectionTitle}>About this place</Text>
             <Text style={styles.description}>
-                {description || 'No description yet.'}
+                {activePlace.description || 'No description yet.'}
             </Text>
 
             <ScrollView contentContainerStyle={styles.gallery} horizontal>
@@ -100,21 +93,23 @@ export default function PlaceDetails({ place: {
                     />
                 </View>
             </Modal>
-            <CreatePlace visible={showEditPlace} hideModal={closeEditPlaceHandler} place={{
+            {/* <CreatePlace visible={showEditPlace} hideModal={closeEditPlaceHandler} place={{
                 id,
                 poster,
                 name,
                 location,
                 rating,
                 description
-            }} />
+            }} /> */}
         </ScrollView>
     );
 }
 
 const styles = StyleSheet.create({
     content: {
-        paddingBottom: 24
+        paddingBottom: 24,
+        paddingHorizontal: 10,
+        paddingTop: 10
     },
     poster: {
         width: '100%',

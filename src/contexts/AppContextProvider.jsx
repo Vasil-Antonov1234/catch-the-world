@@ -4,13 +4,12 @@ import { useState } from "react";
 
 export default function AppContextProvider({ children }) {
     const [searchQuery, setSearchQuery] = useState("");
-    const [activePlace, setActivePlace] = useState(null);
+    const [activePlace, setActivePlace] = useState(data[0]);
     const [places, setPlaces] = useState(data);
     const [placeId, setPlaceId] = useState(data.length);
     const [isEdit, setIsEdit] = useState(false);
 
     function searchPlacesHandler() {
-
         const filteredPlaces = data.filter((place) => place.name.toLowerCase().includes(searchQuery.toLowerCase()) || place.location.toLowerCase().includes(searchQuery.toLowerCase()));
 
         setPlaces(filteredPlaces);
