@@ -3,12 +3,11 @@ import { createContext } from "react";
 
 const AppContext = createContext({
     cities: [],
-    searchQuery: "",
-    activePlace: null,
+    masterCities: [],
+    isSearching: false,
+    setIsSearching() {},
     searchPlacesHandler() {},
-    setSearchQuery() {},
     setActivePlace() {},
-    pressHandler() {},
     addPlaceHandler() {},
     wantToVisitHandler() {},
     deletePlaceHandler() {},

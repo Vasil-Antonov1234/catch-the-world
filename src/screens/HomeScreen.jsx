@@ -8,18 +8,9 @@ import AppContext from "../contexts/AppContext.js";
 // import BottomBar from "../components/bottom-bar/BottomBar.jsx";
 
 export default function HomeScreen({route}) {
-    const { cities, searchQuery, setSearchQuery, searchPlacesHandler, pressHandler, setIsEdit } = useContext(AppContext);
+    const { cities, masterCities, setIsEdit, isSearching } = useContext(AppContext);
     const [showModal, setShowModal] = useState(false);
-
-    function changeSearchQueryHandler(value) {
-        setSearchQuery(value);
-    };
-
-    function searchHandler() {
-        searchPlacesHandler();
-        Keyboard.dismiss();
-    };
-
+    
     function showModalHandler() {
         setShowModal(true);
         setIsEdit(false);
@@ -47,7 +38,7 @@ export default function HomeScreen({route}) {
                 </Pressable>
             </View> */}
             <ScrollView contentContainerStyle={styles.containerSecondary}>
-                {cities.map((city) => <JourneyCard key={city.id} place={city} press={() => {}}/>)}
+                {isSearching ? cities.map((city) => <JourneyCard key={city.id} place={city} press={() => {}}/>) : masterCities.map((city) => <JourneyCard key={city.id} place={city} press={() => {}}/>)}
             </ScrollView>
             {/* <CreatePlace visible={showModal} hideModal={hideModalHandler}/> */}
             {/* <BottomBar showModal={showModalHandler}/> */}

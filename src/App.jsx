@@ -13,7 +13,7 @@ const Stak = createNativeStackNavigator();
 
 export default function App() {
 
-    const { searchPlacesHandler, resetSearchHandler } = useContext(AppContext);
+    const { searchPlacesHandler, resetSearchHandler, isSearching, setIsSearching } = useContext(AppContext);
 
     function searchHandler(query) {
         searchPlacesHandler(query);

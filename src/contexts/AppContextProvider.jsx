@@ -8,15 +8,17 @@ export default function AppContextProvider({ children }) {
     const [cities, setCities] = useState(data);
     const [placeId, setPlaceId] = useState(data.length);
     const [isEdit, setIsEdit] = useState(false);
+    const [isSearching, setIsSearching] = useState(false);
 
     function searchPlacesHandler(query) {
         const filteredPlaces = masterCities.filter((place) => place.name.toLowerCase().includes(query.toLowerCase()) || place.location.toLowerCase().includes(query.toLowerCase()));
-
         setCities(filteredPlaces);
+        setIsSearching(true);
     };
 
     function resetSearchHandler() {
-        setCities(masterCities)
+        setCities(masterCities);
+        setIsSearching(false);
     }
 
     function addPlaceHandler(place) {
@@ -42,13 +44,15 @@ export default function AppContextProvider({ children }) {
     function deletePlaceHandler(id) {
         setMasterCities(state => state.filter((place) => place.id !== id));
         setCities(masterCities);
+        setIsSearching(false);
     };
 
     const AppContextValues = {
         cities,
+        masterCities,
+        isSearching,
+        setIsSearching,
         searchPlacesHandler,
-        searchQuery,
-        setSearchQuery,
         addPlaceHandler,
         setIsEdit,
         wantToVisitHandler,

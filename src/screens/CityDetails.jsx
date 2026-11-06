@@ -8,12 +8,12 @@ import CreatePlace from '../components/create-place/CreatePlace.jsx';
 
 export default function CityDetails({ navigation, route }) {
     const [showImageModal, setShowImageModal] = useState("");
-    const { deletePlaceHandler, setIsEdit, places } = useContext(AppContext);
+    const { deletePlaceHandler, setIsEdit, cities } = useContext(AppContext);
     const [showEditPlace, setShowEditPlace] = useState(false);
 
     const placeId = route.params.placeId;
 
-    const currentPlace = places.find((x) => x.id === placeId);
+    const currentPlace = cities.find((x) => x.id === placeId);
 
     function closeEditPlaceHandler() {
         setShowEditPlace(false);
