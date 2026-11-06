@@ -1,16 +1,19 @@
 import { View, Text, Image, ScrollView, StyleSheet, Pressable, Modal } from 'react-native';
 import colors from "../theme/colors.js";
 import { useContext, useState } from 'react';
-import ButtonMain from '../components/buttons/ButtonMain.jsx';
 import ButtonSecondaty from '../components/buttons/ButtonSecondary.jsx';
 import ButtonIcon from '../components/buttons/ButtonIcon.jsx';
 import AppContext from '../contexts/AppContext.js';
 import CreatePlace from '../components/create-place/CreatePlace.jsx';
 
-export default function CityDetails() {
+export default function CityDetails({route}) {
     const [showImageModal, setShowImageModal] = useState("");
-    const { deletePlaceHandler, setIsEdit, activePlace } = useContext(AppContext);
+    const { deletePlaceHandler, setIsEdit, places } = useContext(AppContext);
     const [showEditPlace, setShowEditPlace] = useState(false);
+
+    const placeId = route.params.placeId;
+
+    const currentPlace = places.find((x) => x.id === placeId);
 
     function closeEditPlaceHandler() {
         setShowEditPlace(false);
@@ -28,23 +31,22 @@ export default function CityDetails() {
     return (
         <ScrollView contentContainerStyle={styles.content}>
             <View>
-                <Image source={{ uri: activePlace.poster }} style={styles.poster} resizeMode="cover" />
-                {/* <ButtonMain text="❮" /> */}
+                <Image source={{ uri: currentPlace.poster }} style={styles.poster} resizeMode="cover" />
             </View>
 
 
             <View style={styles.titleRow}>
-                <Text style={styles.name}>{activePlace.name}</Text>
+                <Text style={styles.name}>{currentPlace.name}</Text>
                 <View style={styles.ratingBadge}>
-                    <Text style={styles.ratingText}>★ {activePlace.rating}</Text>
+                    <Text style={styles.ratingText}>★ {currentPlace.rating}</Text>
                 </View>
             </View>
 
-            <Text style={styles.location}>{activePlace.location}</Text>
+            <Text style={styles.location}>{currentPlace.location}</Text>
 
             <Text style={styles.sectionTitle}>About this place</Text>
             <Text style={styles.description}>
-                {activePlace.description || 'No description yet.'}
+                {currentPlace.description || 'No description yet.'}
             </Text>
 
             <ScrollView contentContainerStyle={styles.gallery} horizontal>
@@ -173,17 +175,17 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.29)"
     },
-    closeBtn: {
-        backgroundColor: colors.accent,
-        padding: 20,
-        borderRadius: 10,
-        marginTop: 10,
-        width: "27%"
-    },
-    close: {
-        color: colors.textOnPrimary,
-        fontWeight: 900,
-    },
+    // closeBtn: {
+    //     backgroundColor: colors.accent,
+    //     padding: 20,
+    //     borderRadius: 10,
+    //     marginTop: 10,
+    //     width: "27%"
+    // },
+    // close: {
+    //     color: colors.textOnPrimary,
+    //     fontWeight: 900,
+    // },
     modal: {
         justifyContent: 'center',
         alignItems: "center"

@@ -3,13 +3,15 @@ import colors from "../../theme/colors.js";
 import { StyleSheet, Text, Pressable } from "react-native";
 import { Button } from "@react-navigation/elements";
 
-export default function ButtonSecondaty({ text, background, to }) {
+export default function ButtonSecondaty({ text, background, toScreen, params }) {
 
     return (
-        <Button screen={to}
+        <Button
+            screen={toScreen}
             style={styles.btn}
             color={background}
             pressColor={colors.accent}
+            params={params}
         >
             <Text style={styles.twxt}>{text}</Text>
         </Button>

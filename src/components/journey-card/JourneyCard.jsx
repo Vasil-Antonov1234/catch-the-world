@@ -41,9 +41,10 @@ export default function JourneyCard({ place: {
                         mode="default"
                     />
                     <ButtonSecondaty
-                        to="CityDetails"
+                        toScreen="CityDetails"
                         text="Details"
                         background={colors.primary}
+                        params={{ placeId: id }}
                     />
                 </View>
             </View>
