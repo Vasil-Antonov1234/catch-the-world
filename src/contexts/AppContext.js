@@ -2,7 +2,7 @@ import { createContext } from "react";
 // import places from "../../data.json";
 
 const AppContext = createContext({
-    places: [],
+    cities: [],
     searchQuery: "",
     activePlace: null,
     searchPlacesHandler() {},
@@ -12,7 +12,8 @@ const AppContext = createContext({
     addPlaceHandler() {},
     wantToVisitHandler() {},
     deletePlaceHandler() {},
-    setIsEdit() {}
+    setIsEdit() {},
+    resetSearchHandler() {}
 });
 
 export default AppContext;

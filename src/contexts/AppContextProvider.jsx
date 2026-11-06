@@ -4,20 +4,20 @@ import { useState } from "react";
 
 export default function AppContextProvider({ children }) {
     const [searchQuery, setSearchQuery] = useState("");
-    // const [activePlace, setActivePlace] = useState(data[0]);
-    const [places, setPlaces] = useState(data);
+    const [masterCities, setMasterCities] = useState(data);
+    const [cities, setCities] = useState(data);
     const [placeId, setPlaceId] = useState(data.length);
     const [isEdit, setIsEdit] = useState(false);
 
-    function searchPlacesHandler() {
-        const filteredPlaces = data.filter((place) => place.name.toLowerCase().includes(searchQuery.toLowerCase()) || place.location.toLowerCase().includes(searchQuery.toLowerCase()));
+    function searchPlacesHandler(query) {
+        const filteredPlaces = masterCities.filter((place) => place.name.toLowerCase().includes(query.toLowerCase()) || place.location.toLowerCase().includes(query.toLowerCase()));
 
-        setPlaces(filteredPlaces);
+        setCities(filteredPlaces);
     };
 
-    // function pressHandler(place) {
-    //     setActivePlace(place);
-    // };
+    function resetSearchHandler() {
+        setCities(masterCities)
+    }
 
     function addPlaceHandler(place) {
 
@@ -30,29 +30,30 @@ export default function AppContextProvider({ children }) {
             setPlaceId(state => state + 1);
         };
 
-        setPlaces(state => [...state, place]);
+        setMasterCities(state => [...state, place]);
+        setCities(masterCities);
         setIsEdit(false);
-        // setActivePlace(null);
     };
 
     function wantToVisitHandler(placeId) {
-        setPlaces(state => state.map(place => place.id === placeId ? { ...place, wantToVisit: !place.wantToVisit } : place));
+        setCities(state => state.map(place => place.id === placeId ? { ...place, wantToVisit: !place.wantToVisit } : place));
     };
 
     function deletePlaceHandler(id) {
-        setPlaces(state => state.filter((place) => place.id !== id));
-        // setActivePlace(null);
+        setMasterCities(state => state.filter((place) => place.id !== id));
+        setCities(masterCities);
     };
 
     const AppContextValues = {
-        places,
+        cities,
         searchPlacesHandler,
         searchQuery,
         setSearchQuery,
         addPlaceHandler,
         setIsEdit,
         wantToVisitHandler,
-        deletePlaceHandler
+        deletePlaceHandler,
+        resetSearchHandler
     };
 
     return (

@@ -7,8 +7,8 @@ import AppContext from "../contexts/AppContext.js";
 // import CreatePlace from "../components/create-place/CreatePlace.jsx";
 // import BottomBar from "../components/bottom-bar/BottomBar.jsx";
 
-export default function HomeScreen() {
-    const { places, searchQuery, setSearchQuery, searchPlacesHandler, pressHandler, setIsEdit } = useContext(AppContext);
+export default function HomeScreen({route}) {
+    const { cities, searchQuery, setSearchQuery, searchPlacesHandler, pressHandler, setIsEdit } = useContext(AppContext);
     const [showModal, setShowModal] = useState(false);
 
     function changeSearchQueryHandler(value) {
@@ -47,7 +47,7 @@ export default function HomeScreen() {
                 </Pressable>
             </View> */}
             <ScrollView contentContainerStyle={styles.containerSecondary}>
-                {places.map((place) => <JourneyCard key={place.id} place={place} press={() => {}}/>)}
+                {cities.map((city) => <JourneyCard key={city.id} place={city} press={() => {}}/>)}
             </ScrollView>
             {/* <CreatePlace visible={showModal} hideModal={hideModalHandler}/> */}
             {/* <BottomBar showModal={showModalHandler}/> */}
