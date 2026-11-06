@@ -6,7 +6,7 @@ import ButtonIcon from '../components/buttons/ButtonIcon.jsx';
 import AppContext from '../contexts/AppContext.js';
 import CreatePlace from '../components/create-place/CreatePlace.jsx';
 
-export default function CityDetails({route}) {
+export default function CityDetails({ navigation, route }) {
     const [showImageModal, setShowImageModal] = useState("");
     const { deletePlaceHandler, setIsEdit, places } = useContext(AppContext);
     const [showEditPlace, setShowEditPlace] = useState(false);
@@ -25,7 +25,8 @@ export default function CityDetails({route}) {
     };
 
     function deleteHandler() {
-        deletePlaceHandler(id);
+        deletePlaceHandler(placeId);
+        navigation.goBack();
     };
 
     return (
@@ -76,6 +77,7 @@ export default function CityDetails({route}) {
                     icon="delete"
                     mode="contained"
                     onPress={deleteHandler}
+                    color="red"
                 />
             </View>
             <Modal

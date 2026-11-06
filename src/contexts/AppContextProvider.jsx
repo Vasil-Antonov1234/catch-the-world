@@ -4,7 +4,7 @@ import { useState } from "react";
 
 export default function AppContextProvider({ children }) {
     const [searchQuery, setSearchQuery] = useState("");
-    const [activePlace, setActivePlace] = useState(data[0]);
+    // const [activePlace, setActivePlace] = useState(data[0]);
     const [places, setPlaces] = useState(data);
     const [placeId, setPlaceId] = useState(data.length);
     const [isEdit, setIsEdit] = useState(false);
@@ -15,9 +15,9 @@ export default function AppContextProvider({ children }) {
         setPlaces(filteredPlaces);
     };
 
-    function pressHandler(place) {
-        setActivePlace(place);
-    };
+    // function pressHandler(place) {
+    //     setActivePlace(place);
+    // };
 
     function addPlaceHandler(place) {
 
@@ -32,7 +32,7 @@ export default function AppContextProvider({ children }) {
 
         setPlaces(state => [...state, place]);
         setIsEdit(false);
-        setActivePlace(null);
+        // setActivePlace(null);
     };
 
     function wantToVisitHandler(placeId) {
@@ -41,7 +41,7 @@ export default function AppContextProvider({ children }) {
 
     function deletePlaceHandler(id) {
         setPlaces(state => state.filter((place) => place.id !== id));
-        setActivePlace(null);
+        // setActivePlace(null);
     };
 
     const AppContextValues = {
@@ -49,8 +49,6 @@ export default function AppContextProvider({ children }) {
         searchPlacesHandler,
         searchQuery,
         setSearchQuery,
-        activePlace,
-        pressHandler,
         addPlaceHandler,
         setIsEdit,
         wantToVisitHandler,
