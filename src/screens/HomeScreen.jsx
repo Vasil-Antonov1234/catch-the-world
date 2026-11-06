@@ -4,13 +4,14 @@ import { StyleSheet, View, TextInput, Pressable, ScrollView, Text, Keyboard } fr
 import JourneyCard from "../components/journey-card/JourneyCard.jsx";
 import CityDetails from "./CityDetails.jsx";
 import AppContext from "../contexts/AppContext.js";
-// import CreatePlace from "../components/create-place/CreatePlace.jsx";
+import ButtonIcon from "../components/buttons/ButtonIcon.jsx";
+import CreatePlace from "../components/create-place/CreatePlace.jsx";
 // import BottomBar from "../components/bottom-bar/BottomBar.jsx";
 
-export default function HomeScreen({route}) {
+export default function HomeScreen({ route }) {
     const { cities, masterCities, setIsEdit, isSearching } = useContext(AppContext);
     const [showModal, setShowModal] = useState(false);
-    
+
     function showModalHandler() {
         setShowModal(true);
         setIsEdit(false);
@@ -38,9 +39,21 @@ export default function HomeScreen({route}) {
                 </Pressable>
             </View> */}
             <ScrollView contentContainerStyle={styles.containerSecondary}>
-                {isSearching ? cities.map((city) => <JourneyCard key={city.id} place={city} press={() => {}}/>) : masterCities.map((city) => <JourneyCard key={city.id} place={city} press={() => {}}/>)}
+                {isSearching ? cities.map((city) => <JourneyCard key={city.id} place={city} press={() => { }} />) : masterCities.map((city) => <JourneyCard key={city.id} place={city} press={() => { }} />)}
+                {/* <Pressable style={styles.addCitie}>
+                        <Text>+</Text>
+                    </Pressable> */}
+                <View style={styles.addCitie}>
+                    <ButtonIcon
+                        icon="plus"
+                        color={colors.backgroundDarck}
+                        mode="contained"
+                        size={30}
+                        onPress={showModalHandler}
+                    />
+                </View>
             </ScrollView>
-            {/* <CreatePlace visible={showModal} hideModal={hideModalHandler}/> */}
+            <CreatePlace visible={showModal} hideModal={hideModalHandler}/>
             {/* <BottomBar showModal={showModalHandler}/> */}
         </>
     );
@@ -50,7 +63,7 @@ const styles = StyleSheet.create({
     containerSecondary: {
         paddingHorizontal: 20,
         alignSelf: "stretch",
-        paddingBottom: 100
+        paddingBottom: 10
     },
     searchCtr: {
         width: "90%",
@@ -88,5 +101,9 @@ const styles = StyleSheet.create({
     },
     searchBtnText: {
         fontSize: 10
+    },
+    addCitie: {
+        alignItems: "flex-end",
+        marginTop: 10
     }
 })

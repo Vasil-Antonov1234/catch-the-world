@@ -41,7 +41,7 @@ export default function App() {
                         options={{
                             headerTitle: () =>
                                 <View style={styles.logoCtr}>
-                                    <Text style={styles.logoL}>Catch <Text style={styles.logoM}>the</Text><Text style={styles.loroR}>World</Text></Text>
+                                    <Text style={styles.logoL}>Catch <Text style={styles.logoM}>the </Text><Text style={styles.loroR}>World</Text></Text>
                                 </View>,
                             headerSearchBarOptions: {
                                 headerIconColor: colors.backgroundDarck,
@@ -50,7 +50,7 @@ export default function App() {
                                 onChangeText: (event) => event.nativeEvent.text === "" ? cancelHandler() : "",
                                 onSearchButtonPress: (event) => searchHandler(event.nativeEvent.text),
                                 // onCancelButtonPress: () => cancelHandler()
-                            }
+                            },
                         }}
                     />
                     <Stak.Screen
@@ -90,21 +90,23 @@ const styles = StyleSheet.create({
     logoCtr: {
         marginBottom: 10,
         alignItems: "center",
-        justifyContent: "flex-end",
-        width: "100%",
+        justifyContent: "center",
+        width: "70%",
         height: 40,
         backgroundColor: colors.primary,
-        borderEndEndRadius: 70,
-        borderEndStartRadius: 70,
+        flexDirection: "row",
+        // borderEndEndRadius: 70,
+        // borderEndStartRadius: 70,
+        borderRadius: 40,
         alignSelf: "center"
     },
     logoL: {
-        fontSize: 28,
+        fontSize: 20,
         fontWeight: '900',
         color: colors.textOnPrimary,
     },
     loroR: {
-        fontSize: 28,
+        fontSize: 20,
         fontWeight: '900',
         color: colors.accent
     },

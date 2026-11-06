@@ -8,12 +8,12 @@ import CreatePlace from '../components/create-place/CreatePlace.jsx';
 
 export default function CityDetails({ navigation, route }) {
     const [showImageModal, setShowImageModal] = useState("");
-    const { deletePlaceHandler, setIsEdit, cities } = useContext(AppContext);
+    const { deletePlaceHandler, setIsEdit, cities, masterCities } = useContext(AppContext);
     const [showEditPlace, setShowEditPlace] = useState(false);
 
     const placeId = route.params.placeId;
 
-    const currentPlace = cities.find((x) => x.id === placeId);
+    const currentPlace = masterCities.find((x) => x.id === placeId);
 
     function closeEditPlaceHandler() {
         setShowEditPlace(false);
@@ -32,7 +32,7 @@ export default function CityDetails({ navigation, route }) {
     return (
         <ScrollView contentContainerStyle={styles.content}>
             <View>
-                <Image source={{ uri: currentPlace.poster }} style={styles.poster} resizeMode="cover" />
+                <Image source={{ uri: currentPlace.poster }} style={styles.poster} resizeMode="cover" alt='Image'/>
             </View>
 
 
@@ -72,12 +72,14 @@ export default function CityDetails({ navigation, route }) {
                     icon="pen"
                     mode="contained"
                     onPress={editHandler}
+                    size={30}
                 />
                 <ButtonIcon
                     icon="delete"
                     mode="contained"
                     onPress={deleteHandler}
                     color="red"
+                    size={30}
                 />
             </View>
             <Modal
