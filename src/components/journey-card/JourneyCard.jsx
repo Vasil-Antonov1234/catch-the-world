@@ -39,6 +39,7 @@ export default function JourneyCard({ place: {
                         icon="airplane"
                         wantToVisit={wantToVisit}
                         mode="default"
+                        size={20}
                     />
                     <ButtonSecondaty
                         toScreen="CityDetails"

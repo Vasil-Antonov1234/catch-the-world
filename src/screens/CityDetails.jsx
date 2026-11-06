@@ -90,23 +90,16 @@ export default function CityDetails({ navigation, route }) {
                 backdropColor={colors.transperant}
             >
                 {showImageModal && <Image style={styles.modalImage} source={{ uri: showImageModal }} />}
-                <View style={styles.buttonsCtr}>
+                {/* <View style={styles.buttonsCtr}>
                     <ButtonSecondaty
                         text="CLOSE"
                         background={{ backgroundColor: colors.backgroundDarck }}
                         pressHandler={() => setShowImageModal("")}
                         btnPressed={{ backgroundColor: colors.textSecondary, transform: [{ scale: 1.10 }] }}
                     />
-                </View>
+                </View> */}
             </Modal>
-            {/* <CreatePlace visible={showEditPlace} hideModal={closeEditPlaceHandler} place={{
-                id,
-                poster,
-                name,
-                location,
-                rating,
-                description
-            }} /> */}
+            <CreatePlace visible={showEditPlace} hideModal={closeEditPlaceHandler} place={currentPlace} />
         </ScrollView>
     );
 }
@@ -179,17 +172,6 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.29)"
     },
-    // closeBtn: {
-    //     backgroundColor: colors.accent,
-    //     padding: 20,
-    //     borderRadius: 10,
-    //     marginTop: 10,
-    //     width: "27%"
-    // },
-    // close: {
-    //     color: colors.textOnPrimary,
-    //     fontWeight: 900,
-    // },
     modal: {
         justifyContent: 'center',
         alignItems: "center"

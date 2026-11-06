@@ -49,7 +49,7 @@ export default function App() {
                                 placeholder: "Search...",
                                 onChangeText: (event) => event.nativeEvent.text === "" ? cancelHandler() : "",
                                 onSearchButtonPress: (event) => searchHandler(event.nativeEvent.text),
-                                // onCancelButtonPress: () => cancelHandler()
+                                // onCancelButtonPress/onCloseButtonPress: () => cancelHandler()
                             },
                         }}
                     />
@@ -64,29 +64,12 @@ export default function App() {
                         }}
                     />
                 </Stak.Navigator>
-
-
-                {/* <SafeAreaProvider>
-                        <SafeAreaView style={styles.container}>
-                            <View style={styles.logoCtr}>
-                                <Text style={styles.logoL}>Catch <Text style={styles.logoM}>the</Text><Text style={styles.loroR}>World</Text></Text>
-                            </View>
-                            <TopBar />
-                            <HomeScreen />
-                        </SafeAreaView>
-                    </SafeAreaProvider> */}
             </NavigationContainer>
         </>
     );
 }
 
 const styles = StyleSheet.create({
-    // container: {
-    //     flex: 1,
-    //     backgroundColor: colors.background,
-    //     justifyContent: 'flex-start',
-    //     width: "100%"
-    // },
     logoCtr: {
         marginBottom: 10,
         alignItems: "center",
