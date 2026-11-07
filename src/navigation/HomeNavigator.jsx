@@ -3,7 +3,7 @@ import { useContext } from "react";
 import { StyleSheet, Text, View } from 'react-native';
 import AppContext from "../contexts/AppContext.js";
 import colors from '../theme/colors.js';
-import HomeScreen from "../screens/HomeScreen.jsx";
+import CitiesCatalogScreen from "../screens/CitiesCatalogScreen.jsx";
 import CityDetails from "../screens/CityDetails.jsx";
 
 
@@ -22,7 +22,6 @@ export default function HomeNavigator() {
 
     return (
         <Stack.Navigator
-            initialRouteName='Home'
             screenOptions={{
                 headerStyle: {
                     backgroundColor: colors.LightBlue
@@ -30,15 +29,15 @@ export default function HomeNavigator() {
             }}
         >
             <Stack.Screen
-                name='Home'
-                component={HomeScreen}
+                name='CitiesCatalog'
+                component={CitiesCatalogScreen}
                 options={{
                     headerTitle: () =>
                         <View style={styles.logoCtr}>
                             <Text style={styles.logoL}>Catch <Text style={styles.logoM}>the </Text><Text style={styles.loroR}>World</Text></Text>
                         </View>,
                     headerSearchBarOptions: {
-                        headerIconColor: colors.backgroundDarck,
+                        headerIconColor: "black",
                         barTintColor: colors.surface,
                         placeholder: "Search...",
                         onChangeText: (event) => event.nativeEvent.text === "" ? cancelHandler() : "",
