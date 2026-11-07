@@ -1,14 +1,16 @@
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
+// import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useContext } from "react";
 import { StyleSheet, Text, View } from 'react-native';
 import AppContext from "../contexts/AppContext.js";
 import colors from '../theme/colors.js';
 import CitiesCatalogScreen from "../screens/CitiesCatalogScreen.jsx";
 import CityDetails from "../screens/CityDetails.jsx";
+import { createStackNavigator } from "@react-navigation/stack";
 
 
 export default function HomeNavigator() {
-    const Stack = createNativeStackNavigator();
+    // const Stack = createNativeStackNavigator();
+    const Stack = createStackNavigator();
 
     const { searchPlacesHandler, resetSearchHandler, isSearching, setIsSearching } = useContext(AppContext);
 
@@ -24,7 +26,9 @@ export default function HomeNavigator() {
         <Stack.Navigator
             screenOptions={{
                 headerStyle: {
-                    backgroundColor: colors.LightBlue
+                    backgroundColor: colors.LightBlue,
+                    borderBottomLeftRadius: 20,
+                    borderBottomRightRadius: 20
                 }
             }}
         >
@@ -32,18 +36,17 @@ export default function HomeNavigator() {
                 name='CitiesCatalog'
                 component={CitiesCatalogScreen}
                 options={{
-                    headerTitle: () =>
-                        <View style={styles.logoCtr}>
-                            <Text style={styles.logoL}>Catch <Text style={styles.logoM}>the </Text><Text style={styles.loroR}>World</Text></Text>
-                        </View>,
                     headerSearchBarOptions: {
                         headerIconColor: "black",
                         barTintColor: colors.surface,
                         placeholder: "Search...",
                         onChangeText: (event) => event.nativeEvent.text === "" ? cancelHandler() : "",
                         onSearchButtonPress: (event) => searchHandler(event.nativeEvent.text),
+                        borderBottomLeftRadius: 20,
+                        borderBottomRightRadius: 20
                         // onCancelButtonPress/onCloseButtonPress: () => cancelHandler()
                     },
+                    title: "Destinations"
                 }}
             />
 
