@@ -1,109 +1,79 @@
-import { useContext, useState } from "react";
+import { View, Text, ScrollView, Pressable, StyleSheet } from "react-native";
+import ContinentCard from "../components/continent-card/ContinentCard.jsx";
 import colors from "../theme/colors.js";
-import { StyleSheet, View, TextInput, Pressable, ScrollView, Text, Keyboard } from "react-native";
-import JourneyCard from "../components/journey-card/JourneyCard.jsx";
-import CityDetails from "./CityDetails.jsx";
-import AppContext from "../contexts/AppContext.js";
-import ButtonIcon from "../components/buttons/ButtonIcon.jsx";
-import CreatePlace from "../components/create-place/CreatePlace.jsx";
-// import BottomBar from "../components/bottom-bar/BottomBar.jsx";
+import TopDestinationCard from "../components/top-destination-card/TopDestinationCard.jsx";
+import places from "../../data.json";
 
-export default function HomeScreen({ route }) {
-    const { cities, masterCities, setIsEdit, isSearching } = useContext(AppContext);
-    const [showModal, setShowModal] = useState(false);
+export default function HomeScreen() {
+    const topDestinations = places.slice(0, 5);
 
-    function showModalHandler() {
-        setShowModal(true);
-        setIsEdit(false);
-    };
-
-    function hideModalHandler() {
-        setShowModal(false);
-    };
+    const continents = [
+        {
+            name: "Europe",
+            image: "https://img.magnific.com/premium-vector/high-quality-grey-map-europe-with-borders-regions_601298-14154.jpg",
+            id: 1
+        },
+        {
+            name: "Africa",
+            image: "https://img.magnific.com/premium-vector/graphic-vector-africa-countries-map_92497-369.jpg",
+            id: 2
+        },
+        {
+            name: "Asia",
+            image: "https://img.magnific.com/premium-vector/map-asia-with-countries_842931-1220.jpg",
+            id: 3
+        },
+        {
+            name: "North America",
+            image: "https://img.magnific.com/premium-vector/north-central-america-map-map-central-north-america-map-grey-color_1091279-3689.jpg",
+            id: 4
+        },
+        {
+            name: "South America",
+            image: "https://img.magnific.com/premium-vector/map-south-america-with-countries-borders_47243-1658.jpg",
+            id: 5
+        }
+    ]
 
     return (
-        <>
-            {/* <View style={styles.searchCtr}>
-                <TextInput
-                    style={styles.search}
-                    placeholder='Search'
-                    value={searchQuery}
-                    onChangeText={changeSearchQueryHandler}
-                    onSubmitEditing={searchHandler}
-                />
-                <Pressable
-                    style={({pressed}) => [styles.searchBtn, pressed ? styles.pressed : ""]}
-                    onPress={searchHandler}
-                >
-                    <Text style={styles.searchBtnText}>🔍</Text>
-                </Pressable>
-            </View> */}
-            <ScrollView contentContainerStyle={styles.containerSecondary}>
-                {isSearching ? cities.map((city) => <JourneyCard key={city.id} place={city} press={() => { }} />) : masterCities.map((city) => <JourneyCard key={city.id} place={city} press={() => { }} />)}
-                {/* <Pressable style={styles.addCitie}>
-                        <Text>+</Text>
-                    </Pressable> */}
-                <View style={styles.addCitie}>
-                    <ButtonIcon
-                        icon="plus"
-                        color={colors.backgroundDarck}
-                        mode="contained"
-                        size={30}
-                        onPress={showModalHandler}
+        <ScrollView style={styles.container}>
+            <Text style={styles.title}>Top Destinations</Text>
+            <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.topDestinationsContainer}>
+                {topDestinations.map((x) => (
+                    <TopDestinationCard
+                        key={x.id}
+                        destination={x}
                     />
-                </View>
+                ))}
             </ScrollView>
-            <CreatePlace visible={showModal} hideModal={hideModalHandler}/>
-            {/* <BottomBar showModal={showModalHandler}/> */}
-        </>
+            <Text style={styles.title}>Area</Text>
+            <View style={styles.continentContainer} >
+                {continents.map((c) => <ContinentCard key={c.id} name={c.name} image={c.image}/>)}
+            </View>
+        </ScrollView>
     );
 }
 
 const styles = StyleSheet.create({
-    containerSecondary: {
-        paddingHorizontal: 20,
-        alignSelf: "stretch",
-        paddingBottom: 10
-    },
-    searchCtr: {
-        width: "90%",
-        alignSelf: "center",
-        flexDirection: "row",
-        alignItems: "center",
-        gap: 10,
-        marginBottom: 10,
-        marginTop: 10
-    },
-    search: {
-        flex: 8,
-        backgroundColor: colors.surface,
+    container: {
+        backgroundColor: colors.background,
         padding: 10,
-        borderRadius: 10,
-        borderStyle: "solid",
-        borderWidth: 0.5,
-        borderColor: colors.textSecondary,
-        fontSize: 10
+        height: "100%"
     },
-    searchBtn: {
-        flex: 1,
-        backgroundColor: colors.transperant,
-        justifyContent: "center",
-        alignItems: "center",
-        borderRadius: 10,
-        borderStyle: "solid",
-        borderWidth: 0.5,
-        borderColor: colors.surface,
-        padding: 7
+    topDestinationsContainer: {
+        paddingRight: 4,
+        marginBottom: 20
     },
-    pressed: {
-        backgroundColor: colors.backgroundDarck,
-        transform: [{ scale: 1.10 }]
+    continentContainer: {
+        gap: 10,
+        paddingBottom: 40
     },
-    searchBtnText: {
-        fontSize: 10
-    },
-    addCitie: {
-        alignItems: "flex-end",
-        marginTop: 10
+    title: {
+        width: "100%",
+        textAlign: "center",
+        color: colors.primary,
+        fontSize: 12,
+        fontWeight: 900,
+        marginBottom: 10
     }
 })
