@@ -1,9 +1,10 @@
 import { View, Text, ScrollView, Pressable, StyleSheet, Image } from "react-native";
 import colors from "../../theme/colors.js"
 
-export default function ContinentCard({ name, image }) {
+export default function ContinentCard({ name, image, onPress }) {
+    
     return (
-        <Pressable style={styles.container}>
+        <Pressable style={styles.container} onPress={onPress}>
             <Text style={styles.title}>{name}</Text>
             <Image source={{ uri: `${image}` }} style={styles.image} resizeMode="cover" />
         </Pressable>

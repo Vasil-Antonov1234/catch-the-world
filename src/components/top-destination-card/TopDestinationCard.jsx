@@ -1,15 +1,23 @@
 import { View, Text, Image, StyleSheet, Pressable } from "react-native";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import colors from "../../theme/colors.js";
+import { useNavigation } from "@react-navigation/native";
 
 export default function TopDestinationCard({
     destination: {
         name,
-        poster
+        poster,
+        id
     },
 }) {
+    const navigation = useNavigation();
+
+    function pressHandler(id) {
+        navigation.navigate("TopDestinationDetails", { placeId: id })
+    }
+
     return (
-        <Pressable style={styles.container} onPress={() => {}}>
+        <Pressable style={styles.container} onPress={() => pressHandler(id)}>
             <Image source={{ uri: poster }} style={styles.image} resizeMode="cover" />
 
             <Pressable style={styles.favoriteButton} onPress={() => {}}>

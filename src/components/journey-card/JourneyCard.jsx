@@ -42,7 +42,7 @@ export default function JourneyCard({ place: {
                         size={20}
                     />
                     <ButtonSecondaty
-                        toScreen="CityDetails"
+                        toScreen="TopDestinationDetails"
                         text="Details"
                         background={colors.primary}
                         params={{ placeId: id }}

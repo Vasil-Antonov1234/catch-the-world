@@ -6,7 +6,7 @@ import ButtonIcon from '../components/buttons/ButtonIcon.jsx';
 import AppContext from '../contexts/AppContext.js';
 import CreatePlace from '../components/create-place/CreatePlace.jsx';
 
-export default function CityDetails({ navigation, route }) {
+export default function CityDetailsScreen({ navigation, route }) {
     const [showImageModal, setShowImageModal] = useState("");
     const { deletePlaceHandler, setIsEdit, cities, masterCities } = useContext(AppContext);
     const [showEditPlace, setShowEditPlace] = useState(false);

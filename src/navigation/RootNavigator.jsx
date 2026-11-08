@@ -1,10 +1,11 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import HomeNavigator from "./HomeNavigator.jsx";
 import { Ionicons } from "@expo/vector-icons";
 import colors from '../theme/colors.js';
 import HomeScreen from "../screens/HomeScreen.jsx";
 import TripsScheduleScreen from "../screens/TripsScheduleScreen.jsx";
 import { View, Text, StyleSheet } from "react-native";
+import HomeNavigator from "./HomeNavigator.jsx";
+import ProfileScreen from "../screens/ProfileScreen.jsx";
 
 export default function RootNavigator() {
     const Tabs = createBottomTabNavigator();
@@ -30,28 +31,29 @@ export default function RootNavigator() {
         }}>
             <Tabs.Screen
                 name="HomeTab"
-                component={HomeScreen}
-                options={{
-                    tabBarIcon: ({ color, size }) => <Ionicons name="home" color={color} size={size} />,
-                    title: "Home"
-                }}
-            />
-
-            <Tabs.Screen
-                name="CitiesCatalogTab"
                 component={HomeNavigator}
                 options={{
-                    tabBarIcon: ({ color, size }) => <Ionicons name="briefcase" color={color} size={size} />,
+                    tabBarIcon: ({ color, size }) => <Ionicons name="home" color={color} size={size} />,
+                    title: "Home",
                     headerShown: false
                 }}
             />
 
             <Tabs.Screen
-                name="TripsSchedule"
+                name="TripsScheduleTab"
                 component={TripsScheduleScreen}
                 options={{
                     tabBarIcon: ({ color, size }) => <Ionicons name="compass" color={color} size={size} />,
                     title: "Your trips schedule"
+                }}
+            />
+
+            <Tabs.Screen
+                name="ProfileTab"
+                component={ProfileScreen}
+                options={{
+                    tabBarIcon: ({ color, size }) => <Ionicons name="person" color={color} size={size} />,
+                    title: "Profile"
                 }}
             />
         </Tabs.Navigator>

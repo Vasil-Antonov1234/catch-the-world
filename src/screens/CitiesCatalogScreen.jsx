@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 import colors from "../theme/colors.js";
 import { StyleSheet, View, TextInput, Pressable, ScrollView, Text, Keyboard } from "react-native";
 import JourneyCard from "../components/journey-card/JourneyCard.jsx";
-import CityDetails from "./CityDetails.jsx";
+import CityDetailsScreen from "./CityDetailsScreen.jsx";
 import AppContext from "../contexts/AppContext.js";
 import ButtonIcon from "../components/buttons/ButtonIcon.jsx";
 import CreatePlace from "../components/create-place/CreatePlace.jsx";

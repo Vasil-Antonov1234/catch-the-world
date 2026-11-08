@@ -4,7 +4,7 @@ import colors from "../theme/colors.js";
 import TopDestinationCard from "../components/top-destination-card/TopDestinationCard.jsx";
 import places from "../../data.json";
 
-export default function HomeScreen() {
+export default function HomeScreen({ navigation }) {
     const topDestinations = places.slice(0, 5);
 
     const continents = [
@@ -48,7 +48,7 @@ export default function HomeScreen() {
             </ScrollView>
             <Text style={styles.title}>Area</Text>
             <View style={styles.continentContainer} >
-                {continents.map((c) => <ContinentCard key={c.id} name={c.name} image={c.image}/>)}
+                {continents.map((c) => <ContinentCard key={c.id} name={c.name} image={c.image} onPress={() => navigation.navigate("CitiesCatalog")}/>)}
             </View>
         </ScrollView>
     );
