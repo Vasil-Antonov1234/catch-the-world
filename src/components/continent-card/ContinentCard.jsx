@@ -4,7 +4,7 @@ import colors from "../../theme/colors.js"
 export default function ContinentCard({ name, image, onPress }) {
     
     return (
-        <Pressable style={styles.container} onPress={onPress}>
+        <Pressable style={({ pressed }) => [{ elevation: pressed ? 0 : 3, opacity: pressed ? 0.7 : 1 }, styles.container]} onPress={onPress}>
             <Text style={styles.title}>{name}</Text>
             <Image source={{ uri: `${image}` }} style={styles.image} resizeMode="cover" />
         </Pressable>
@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.1,
         shadowRadius: 4,
-        elevation: 3
+        // elevation: 3
     },
     title: {
         fontSize: 20,

@@ -17,7 +17,7 @@ export default function TopDestinationCard({
     }
 
     return (
-        <Pressable style={styles.container} onPress={() => pressHandler(id)}>
+        <Pressable style={({pressed}) => [{ elevation: pressed ? 0 : 5, opacity: pressed ? 0.7 : 1 }, styles.container]} onPress={() => pressHandler(id)}>
             <Image source={{ uri: poster }} style={styles.image} resizeMode="cover" />
 
             <Pressable style={styles.favoriteButton} onPress={() => {}}>
@@ -48,7 +48,9 @@ const styles = StyleSheet.create({
         elevation: 5,
         position: "relative",
         overflow: "hidden",
-        marginRight: 12
+        marginRight: 12,
+        borderBlockColor: "black",
+        borderWidth: 0.3
     },
     image: {
         ...StyleSheet.absoluteFillObject,
