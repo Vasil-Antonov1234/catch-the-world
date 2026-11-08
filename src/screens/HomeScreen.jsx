@@ -10,27 +10,27 @@ export default function HomeScreen({ navigation }) {
     const continents = [
         {
             name: "Europe",
-            image: "https://img.magnific.com/premium-vector/high-quality-grey-map-europe-with-borders-regions_601298-14154.jpg",
+            image: require("../../assets/europe.jpg"),
             id: 1
         },
         {
             name: "Africa",
-            image: "https://img.magnific.com/premium-vector/graphic-vector-africa-countries-map_92497-369.jpg",
+            image: require("../../assets/africa.jpg"),
             id: 2
         },
         {
             name: "Asia",
-            image: "https://img.magnific.com/premium-vector/map-asia-with-countries_842931-1220.jpg",
+            image: require("../../assets/asia.jpg"),
             id: 3
         },
         {
             name: "North America",
-            image: "https://img.magnific.com/premium-vector/north-central-america-map-map-central-north-america-map-grey-color_1091279-3689.jpg",
+            image: require("../../assets/northAmerica.jpg"),
             id: 4
         },
         {
             name: "South America",
-            image: "https://img.magnific.com/premium-vector/map-south-america-with-countries-borders_47243-1658.jpg",
+            image: require("../../assets/southAmerica.jpg"),
             id: 5
         }
     ]
@@ -48,7 +48,12 @@ export default function HomeScreen({ navigation }) {
             </ScrollView>
             <Text style={styles.title}>Area</Text>
             <View style={styles.continentContainer} >
-                {continents.map((c) => <ContinentCard key={c.id} name={c.name} image={c.image} onPress={() => navigation.navigate("CitiesCatalog")}/>)}
+                {continents.map((c) => <ContinentCard
+                    key={c.id}
+                    name={c.name}
+                    image={c.image}
+                    onPress={() => navigation.navigate("CitiesCatalog", { continentName: c.name })}
+                />)}
             </View>
         </ScrollView>
     );

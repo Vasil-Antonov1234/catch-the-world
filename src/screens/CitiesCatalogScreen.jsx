@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import colors from "../theme/colors.js";
 import { StyleSheet, View, TextInput, Pressable, ScrollView, Text, Keyboard } from "react-native";
 import JourneyCard from "../components/journey-card/JourneyCard.jsx";
@@ -7,9 +7,19 @@ import AppContext from "../contexts/AppContext.js";
 import ButtonIcon from "../components/buttons/ButtonIcon.jsx";
 import CreatePlace from "../components/create-place/CreatePlace.jsx";
 
-export default function CitiesCatalogScreen({ route }) {
+export default function CitiesCatalogScreen({ route, navigation }) {
     const { cities, masterCities, setIsEdit, isSearching } = useContext(AppContext);
     const [showModal, setShowModal] = useState(false);
+
+    useEffect(() => {
+        
+        navigation.setOptions({
+            title: route.params.continentName
+        });
+
+    }, [navigation, route.params.continentName]);
+
+
 
     function showModalHandler() {
         setShowModal(true);
@@ -23,7 +33,8 @@ export default function CitiesCatalogScreen({ route }) {
     return (
         <>
             <ScrollView contentContainerStyle={styles.containerSecondary}>
-                {isSearching ? cities.map((city) => <JourneyCard key={city.id} place={city} press={() => { }} />) : masterCities.map((city) => <JourneyCard key={city.id} place={city} press={() => { }} />)}
+                {isSearching ? cities.map((city) => <JourneyCard key={city.id} place={city} press={() => { }} />) :
+                    masterCities.map((city) => <JourneyCard key={city.id} place={city} press={() => { }} />)}
                 <View style={styles.addCitie}>
                     <ButtonIcon
                         icon="plus"
@@ -34,7 +45,7 @@ export default function CitiesCatalogScreen({ route }) {
                     />
                 </View>
             </ScrollView>
-            <CreatePlace visible={showModal} hideModal={hideModalHandler}/>
+            <CreatePlace visible={showModal} hideModal={hideModalHandler} />
         </>
     );
 }

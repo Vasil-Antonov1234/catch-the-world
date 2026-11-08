@@ -6,7 +6,7 @@ export default function ContinentCard({ name, image, onPress }) {
     return (
         <Pressable style={({ pressed }) => [{ elevation: pressed ? 0 : 3, opacity: pressed ? 0.7 : 1 }, styles.container]} onPress={onPress}>
             <Text style={styles.title}>{name}</Text>
-            <Image source={{ uri: `${image}` }} style={styles.image} resizeMode="cover" />
+            <Image source={image} style={styles.image} resizeMode="cover" />
         </Pressable>
     );
 }
