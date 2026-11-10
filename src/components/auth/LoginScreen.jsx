@@ -1,14 +1,33 @@
 import { Pressable, View, Text, StyleSheet, TextInput, Keyboard, KeyboardAvoidingView, Platform } from "react-native";
 import colors from "../../theme/colors.js";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import ButtonPrimary from "../buttons/ButtonPrimary.jsx";
+import AuthContext from "../../contexts/AuthContext.js";
 
 export default function LoginScreen({ navigation }) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const { onLogin } = useContext(AuthContext);
 
     function submitHandler() {
-        alert(`email: ${email}, password: ${password}`);
+       
+        if (!email) {
+            alert("Email is required");
+            return;
+        };
+
+        if (!email.includes("@")) {
+            alert("Invalid email");
+            return;
+        };
+
+        if (!password) {
+            alert("Password is required");
+            return;
+        }
+
+        onLogin(email);
+
         Keyboard.dismiss();
         setEmail("");
         setPassword("");
