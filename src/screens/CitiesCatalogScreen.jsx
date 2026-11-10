@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import colors from "../theme/colors.js";
-import { StyleSheet, View, TextInput, Pressable, ScrollView, Text, Keyboard } from "react-native";
+import { StyleSheet, View, TextInput, Pressable, ScrollView, Text, Keyboard, FlatList } from "react-native";
 import JourneyCard from "../components/journey-card/JourneyCard.jsx";
 import CityDetailsScreen from "./CityDetailsScreen.jsx";
 import AppContext from "../contexts/AppContext.js";
@@ -12,7 +12,7 @@ export default function CitiesCatalogScreen({ route, navigation }) {
     const [showModal, setShowModal] = useState(false);
 
     useEffect(() => {
-        
+
         navigation.setOptions({
             title: route.params.continentName
         });
@@ -32,19 +32,23 @@ export default function CitiesCatalogScreen({ route, navigation }) {
 
     return (
         <>
-            <ScrollView contentContainerStyle={styles.containerSecondary}>
-                {isSearching ? cities.map((city) => <JourneyCard key={city.id} place={city} press={() => { }} />) :
-                    masterCities.map((city) => <JourneyCard key={city.id} place={city} press={() => { }} />)}
-                <View style={styles.addCitie}>
-                    <ButtonIcon
-                        icon="plus"
-                        color={colors.backgroundDarck}
-                        mode="contained"
-                        size={30}
-                        onPress={showModalHandler}
-                    />
-                </View>
-            </ScrollView>
+            <FlatList
+                data={isSearching ? cities : masterCities}
+                renderItem={({ item }) => <JourneyCard place={item} press={() => { }} />}
+                keyExtractor={item => item.id}
+                contentContainerStyle={styles.containerSecondary}
+                ListHeaderComponent={
+                    <View style={styles.addCitie}>
+                        <ButtonIcon
+                            icon="plus"
+                            color={colors.backgroundDarck}
+                            mode="contained"
+                            size={30}
+                            onPress={showModalHandler}
+                        />
+                    </View>
+                }
+            />
             <CreatePlace visible={showModal} hideModal={hideModalHandler} />
         </>
     );
@@ -94,7 +98,7 @@ const styles = StyleSheet.create({
         fontSize: 10
     },
     addCitie: {
-        alignItems: "flex-end",
+        alignItems: "center",
         marginTop: 10
     }
 })

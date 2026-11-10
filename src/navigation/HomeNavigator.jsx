@@ -27,9 +27,10 @@ export default function HomeNavigator() {
                 name="Home"
                 component={HomeScreen}
                 options={{
-                    headerTitle: () => <View style={styles.logoCtr}>
-                        <Text style={styles.logoL}>Catch <Text style={styles.logoM}>the </Text><Text style={styles.loroR}>World</Text></Text>
-                    </View>,
+                    headerTitle: () =>
+                        <View style={styles.logoCtr}>
+                            <Text style={styles.logoL}>Catch <Text style={styles.logoM}>the </Text><Text style={styles.loroR}>World</Text></Text>
+                        </View>,
                     headerTitleAlign: "center",
                     headerStyle: {
                         backgroundColor: colors.LightBlue,
@@ -46,6 +47,11 @@ export default function HomeNavigator() {
                     title: "Details",
                     headerTitleStyle: {
                         fontSize: 15
+                    },
+                    headerStyle: {
+                        backgroundColor: colors.LightBlue,
+                        borderBottomLeftRadius: 20,
+                        borderBottomRightRadius: 20
                     }
                 }}
             />
@@ -60,11 +66,14 @@ export default function HomeNavigator() {
                         placeholder: "Search...",
                         onChangeText: (event) => event.nativeEvent.text === "" ? cancelHandler() : "",
                         onSubmitEditing: (event) => searchHandler(event.nativeEvent.text),
-                        borderBottomLeftRadius: 20,
-                        borderBottomRightRadius: 20
                         // onCancelButtonPress/onCloseButtonPress: () => cancelHandler()
                     },
-                    title: "Continent name"
+                    title: "Explore Cities",
+                    headerStyle: {
+                        backgroundColor: colors.LightBlue,
+                        borderBottomLeftRadius: 20,
+                        borderBottomRightRadius: 20
+                    }
                 }}
             />
         </Stack.Navigator>

@@ -90,14 +90,14 @@ export default function CityDetailsScreen({ navigation, route }) {
                 backdropColor={colors.transperant}
             >
                 {showImageModal && <Image style={styles.modalImage} source={{ uri: showImageModal }} />}
-                {/* <View style={styles.buttonsCtr}>
-                    <ButtonSecondaty
-                        text="CLOSE"
-                        background={{ backgroundColor: colors.backgroundDarck }}
-                        pressHandler={() => setShowImageModal("")}
-                        btnPressed={{ backgroundColor: colors.textSecondary, transform: [{ scale: 1.10 }] }}
+                <View style={styles.buttonsCtr}>
+                    <ButtonIcon
+                        icon="close"
+                        mode="contained"
+                        onPress={() => setShowImageModal("")}
+                        size={30}
                     />
-                </View> */}
+                </View>
             </Modal>
             <CreatePlace visible={showEditPlace} hideModal={closeEditPlaceHandler} place={currentPlace} />
         </ScrollView>
