@@ -18,7 +18,7 @@ export default function RegisterScreen({ navigation }) {
 
     return (
         <View>
-            <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.container}>
+            <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "position"} style={styles.container} contentContainerStyle={styles.container}>
                 <View style={styles.logoCtr}>
                     <Text style={styles.logoL}>Catch</Text>
                     <Text style={styles.LogoM}>the</Text>
@@ -40,7 +40,7 @@ export default function RegisterScreen({ navigation }) {
 
 const styles = StyleSheet.create({
     container: {
-        padding: 20,
+        paddingHorizontal: 20,
         height: "100%",
         backgroundColor: colors.background,
         gap: 20,

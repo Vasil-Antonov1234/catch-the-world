@@ -1,5 +1,4 @@
 import { createContext } from "react";
-// import places from "../../data.json";
 
 const AppContext = createContext({
     cities: [],

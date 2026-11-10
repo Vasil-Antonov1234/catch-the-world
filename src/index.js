@@ -2,12 +2,15 @@ import { registerRootComponent } from 'expo';
 
 import App from './App';
 import AppContextProvider from './contexts/AppContextProvider.jsx';
+import AuthContextProvider from './contexts/AuthContextProvider.jsx';
 
 function Root() {
     return (
-        <AppContextProvider>
-            <App />
-        </AppContextProvider>
+        <AuthContextProvider>
+            <AppContextProvider>
+                <App />
+            </AppContextProvider>
+        </AuthContextProvider>
     );
 };
 
