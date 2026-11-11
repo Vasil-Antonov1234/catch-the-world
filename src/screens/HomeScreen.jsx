@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, Pressable, StyleSheet, Alert } from "react-native";
+import { View, Text, ScrollView, Pressable, StyleSheet, Alert, RefreshControl } from "react-native";
 import ContinentCard from "../components/continent-card/ContinentCard.jsx";
 import colors from "../theme/colors.js";
 import TopDestinationCard from "../components/top-destination-card/TopDestinationCard.jsx";
@@ -8,6 +8,7 @@ import { continentApi } from "../api/index.js";
 
 export default function HomeScreen({ navigation }) {
     const [continents, setContinents] = useState([]);
+    const [refreshing, setRefreshing] = useState(false);
     const topDestinations = places.slice(0, 5);
 
     useEffect(() => {
@@ -23,10 +24,27 @@ export default function HomeScreen({ navigation }) {
 
         })()
 
-    }, [])
+    }, []);
+
+    async function refreshHandler() {
+        setRefreshing(true);
+
+        try {
+            const contonentData = await continentApi.getAll();
+
+            setContinents(contonentData);
+        } catch (error) {
+            Alert.alert(error.message)
+        } finally {
+            setRefreshing(false);
+        };
+    };
 
     return (
-        <ScrollView style={styles.container}>
+        <ScrollView
+            style={styles.container}
+            refreshControl={<RefreshControl refreshing={false} onRefresh={refreshHandler} />}
+        >
             <Text style={styles.title}>Top Destinations</Text>
             <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.topDestinationsContainer}>
                 {topDestinations.map((x) => (
