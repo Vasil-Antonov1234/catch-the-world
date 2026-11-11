@@ -60,7 +60,7 @@ export default function HomeScreen({ navigation }) {
                     key={c.id}
                     name={c.name}
                     image={c.image}
-                    onPress={() => navigation.navigate("CitiesCatalog", { continentName: c.name })}
+                    onPress={() => navigation.navigate("CitiesCatalog", { continentName: c.name, continentId: c.id })}
                 />)}
             </View>
         </ScrollView>

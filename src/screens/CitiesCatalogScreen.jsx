@@ -1,15 +1,19 @@
 import { useContext, useEffect, useState } from "react";
 import colors from "../theme/colors.js";
-import { StyleSheet, View, TextInput, Pressable, ScrollView, Text, Keyboard, FlatList } from "react-native";
+import { StyleSheet, View, TextInput, Pressable, ScrollView, Text, Keyboard, FlatList, Alert } from "react-native";
 import JourneyCard from "../components/journey-card/JourneyCard.jsx";
 import CityDetailsScreen from "./CityDetailsScreen.jsx";
 import AppContext from "../contexts/AppContext.js";
 import ButtonIcon from "../components/buttons/ButtonIcon.jsx";
 import CreatePlace from "../components/create-place/CreatePlace.jsx";
+import { destinationsApi } from "../api/index.js";
 
 export default function CitiesCatalogScreen({ route, navigation }) {
-    const { cities, masterCities, setIsEdit, isSearching } = useContext(AppContext);
+    const { masterCities, setIsEdit, isSearching } = useContext(AppContext);
     const [showModal, setShowModal] = useState(false);
+    const [cities, setCities] = useState([]);
+
+    const continentId = route.params.continentId;
 
     useEffect(() => {
 
@@ -17,7 +21,17 @@ export default function CitiesCatalogScreen({ route, navigation }) {
             title: route.params.continentName
         });
 
-    }, [navigation, route.params.continentName]);
+        (async () => {
+            try {
+                const citiesData = await destinationsApi.getByContinentId(continentId);
+        
+                setCities(citiesData);
+            } catch (error) {
+                Alert.alert(error.message);
+            };
+        })();
+
+    }, [navigation, route.params.continentName, continentId]);
 
 
 
@@ -33,7 +47,7 @@ export default function CitiesCatalogScreen({ route, navigation }) {
     return (
         <>
             <FlatList
-                data={isSearching ? cities : masterCities}
+                data={cities}
                 renderItem={({ item }) => <JourneyCard place={item} press={() => { }} />}
                 keyExtractor={item => item.id}
                 contentContainerStyle={styles.containerSecondary}
