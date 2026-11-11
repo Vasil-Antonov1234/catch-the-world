@@ -121,10 +121,7 @@ const styles = StyleSheet.create({
         gap: 12,
     },
     filledButton: {
-        backgroundColor: colors.accent,
-        paddingVertical: 14,
-        borderRadius: 12,
-        alignItems: 'center',
+        backgroundColor: colors.accent
     },
     filledButtonText: {
         color: colors.textOnPrimary,
@@ -133,10 +130,7 @@ const styles = StyleSheet.create({
     },
     outlineButton: {
         borderWidth: 2,
-        borderColor: colors.primary,
-        paddingVertical: 12,
-        borderRadius: 12,
-        alignItems: 'center',
+        borderColor: colors.primary
     },
     outlineButtonText: {
         color: colors.primary,

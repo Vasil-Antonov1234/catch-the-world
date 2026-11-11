@@ -2,8 +2,10 @@ import { Pressable, View, Text, StyleSheet, KeyboardAvoidingView, TextInput, Pla
 import ButtonPrimary from "../buttons/ButtonPrimary.jsx";
 import colors from "../../theme/colors.js";
 import { useState } from "react";
+import ButtonBig from "../buttons/ButtonBig.jsx";
 
 export default function RegisterScreen({ navigation }) {
+    const [fullName, setFullName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
@@ -26,10 +28,11 @@ export default function RegisterScreen({ navigation }) {
                 </View>
 
                 <Text style={styles.loginText}>Create an account</Text>
+                <TextInput placeholder="FullName" value={fullName} onChangeText={setFullName} style={styles.input} />
                 <TextInput placeholder="Email" value={email} onChangeText={setEmail} style={styles.input} />
                 <TextInput placeholder="Password" value={password} onChangeText={setPassword} secureTextEntry style={styles.input} />
                 <TextInput placeholder="Confirm Password" value={confirmPassword} onChangeText={setConfirmPassword} secureTextEntry style={styles.input} />
-                <ButtonPrimary text="Register" mode="contained" icon="key" onPress={submitHandler} />
+                <ButtonBig text="Register" background={styles.button} textColor={styles.buttonText} onPress={submitHandler} />
                 <Pressable onPress={() => navigation.goBack()}>
                     <Text style={styles.link}>Already have an account? Go to login</Text>
                 </Pressable>
@@ -83,5 +86,12 @@ const styles = StyleSheet.create({
         fontSize: 50,
         fontWeight: 900,
         color: colors.accent
+    },
+    button: {
+        backgroundColor: colors.accent
+    },
+    buttonText: {
+        color: colors.textOnPrimary,
+        fontWeight: 700
     }
 })

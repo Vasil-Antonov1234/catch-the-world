@@ -3,6 +3,7 @@ import colors from "../../theme/colors.js";
 import { useContext, useState } from "react";
 import ButtonPrimary from "../buttons/ButtonPrimary.jsx";
 import AuthContext from "../../contexts/AuthContext.js";
+import ButtonBig from "../buttons/ButtonBig.jsx";
 
 export default function LoginScreen({ navigation }) {
     const [email, setEmail] = useState("");
@@ -10,7 +11,7 @@ export default function LoginScreen({ navigation }) {
     const { onLogin } = useContext(AuthContext);
 
     function submitHandler() {
-       
+
         if (!email) {
             alert("Email is required");
             return;
@@ -40,11 +41,11 @@ export default function LoginScreen({ navigation }) {
                 <Text style={styles.LogoM}>the</Text>
                 <Text style={styles.logoR}>World</Text>
             </View>
-            
+
             <Text style={styles.loginText}>Login to continue</Text>
-            <TextInput placeholder="Email" value={email} onChangeText={setEmail} style={styles.input}/>
-            <TextInput placeholder="Password" value={password} onChangeText={setPassword} secureTextEntry style={styles.input}/>
-            <ButtonPrimary text="Login" mode="contained" icon="key" onPress={submitHandler}/>
+            <TextInput placeholder="Email" value={email} onChangeText={setEmail} style={styles.input} />
+            <TextInput placeholder="Password" value={password} onChangeText={setPassword} secureTextEntry style={styles.input} />
+            <ButtonBig text="Login" background={styles.button} textColor={styles.buttonText} onPress={submitHandler}/>
             <Pressable onPress={() => navigation.navigate("Register")}>
                 <Text style={styles.link}>Don't have an account? Go to register</Text>
             </Pressable>
@@ -97,5 +98,12 @@ const styles = StyleSheet.create({
         fontSize: 50,
         fontWeight: 900,
         color: colors.accent
+    },
+    button: {
+        backgroundColor: colors.accent
+    },
+    buttonText: {
+        color: colors.textOnPrimary,
+        fontWeight: 700
     }
 })
