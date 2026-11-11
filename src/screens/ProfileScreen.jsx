@@ -5,6 +5,7 @@ import { useContext } from "react";
 import AuthContext from "../contexts/AuthContext.js";
 import colors from "../theme/colors.js";
 import StatCard from "../components/stat-card/StatCard.jsx";
+import ButtonBig from "../components/buttons/ButtonBig.jsx";
 
 export default function ProfileScreen() {
     const { onLogout } = useContext(AuthContext);
@@ -33,27 +34,28 @@ export default function ProfileScreen() {
                     </View>
                 ) : (
                     <>
-                        <StatCard value={stats.trips} label="Trips" />
-                        <StatCard value={stats.visitedCountries} label="Visited Countries" />
-                        <StatCard value={stats.visitedContinents} label="Visited Continents" />
+                        <StatCard value={stats.trips} label1="Trips" label2="Counter" />
+                        <StatCard value={stats.visitedCountries} label1="Visited" label2="Countries" />
+                        <StatCard value={stats.visitedContinents} label1="Visited" label2=" Continents" />
                     </>
                 )}
             </View>
 
             <View style={styles.actions}>
-                <Pressable
-                    style={({ pressed }) => [styles.filledButton, pressed && styles.pressed]}
-                    onPress={onEditProfile}
-                >
-                    <Text style={styles.filledButtonText}>Edit profile</Text>
-                </Pressable>
 
-                <Pressable
-                    style={({ pressed }) => [styles.outlineButton, pressed && styles.pressed]}
+                <ButtonBig
+                    text="Edit profile"
+                    background={styles.filledButton}
+                    textColor={styles.filledButtonText}
+                    onPress={onEditProfile}
+                />
+
+                <ButtonBig
+                    text="Log out"
+                    background={styles.outlineButton}
+                    textColor={styles.outlineButtonText}
                     onPress={onLogout}
-                >
-                    <Text style={styles.outlineButtonText}>Log out</Text>
-                </Pressable>
+                />
             </View>
         </View>
     );
@@ -61,87 +63,84 @@ export default function ProfileScreen() {
 
 const styles = StyleSheet.create({
     container: {
-    flex: 1,
-    backgroundColor: colors.background,
-  },
-  header: {
-    backgroundColor: colors.primary,
-    alignItems: 'center',
-    paddingTop: 48,
-    paddingBottom: 48,
-  },
-  avatar: {
-    width: 96,
-    height: 96,
-    borderRadius: 48,
-    borderWidth: 3,
-    borderColor: colors.surface,
-  },
-  avatarPlaceholder: {
-    backgroundColor: colors.accent,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  avatarInitials: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    color: colors.textOnPrimary,
-  },
-  name: {
-    marginTop: 12,
-    fontSize: 22,
-    fontWeight: 'bold',
-    color: colors.textOnPrimary,
-  },
-  email: {
-    marginTop: 4,
-    fontSize: 14,
-    color: colors.textOnPrimary,
-    opacity: 0.8,
-  },
-  statsRow: {
-    flexDirection: 'row',
-    gap: 12,
-    marginTop: -28,
-    marginHorizontal: 16,
-    minHeight: 76,
-  },
-  statsLoading: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: colors.surface,
-    borderRadius: 12,
-  },
-  actions: {
-    marginTop: 32,
-    marginHorizontal: 16,
-    gap: 12,
-  },
-  filledButton: {
-    backgroundColor: colors.accent,
-    paddingVertical: 14,
-    borderRadius: 12,
-    alignItems: 'center',
-  },
-  filledButtonText: {
-    color: colors.textOnPrimary,
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  outlineButton: {
-    borderWidth: 2,
-    borderColor: colors.primary,
-    paddingVertical: 12,
-    borderRadius: 12,
-    alignItems: 'center',
-  },
-  outlineButtonText: {
-    color: colors.primary,
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  pressed: {
-    opacity: 0.7,
-  }
+        flex: 1,
+        backgroundColor: colors.background,
+    },
+    header: {
+        backgroundColor: colors.primary,
+        alignItems: 'center',
+        paddingTop: 48,
+        paddingBottom: 48,
+    },
+    avatar: {
+        width: 96,
+        height: 96,
+        borderRadius: 48,
+        borderWidth: 3,
+        borderColor: colors.surface,
+    },
+    avatarPlaceholder: {
+        backgroundColor: colors.accent,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    avatarInitials: {
+        fontSize: 32,
+        fontWeight: 'bold',
+        color: colors.textOnPrimary,
+    },
+    name: {
+        marginTop: 12,
+        fontSize: 22,
+        fontWeight: 'bold',
+        color: colors.textOnPrimary,
+    },
+    email: {
+        marginTop: 4,
+        fontSize: 14,
+        color: colors.textOnPrimary,
+        opacity: 0.8,
+    },
+    statsRow: {
+        flexDirection: 'row',
+        gap: 12,
+        marginTop: -28,
+        marginHorizontal: 16,
+        minHeight: 76,
+    },
+    statsLoading: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: colors.surface,
+        borderRadius: 12,
+    },
+    actions: {
+        marginTop: 32,
+        marginHorizontal: 16,
+        gap: 12,
+    },
+    filledButton: {
+        backgroundColor: colors.accent,
+        paddingVertical: 14,
+        borderRadius: 12,
+        alignItems: 'center',
+    },
+    filledButtonText: {
+        color: colors.textOnPrimary,
+        fontSize: 16,
+        fontWeight: 'bold',
+    },
+    outlineButton: {
+        borderWidth: 2,
+        borderColor: colors.primary,
+        paddingVertical: 12,
+        borderRadius: 12,
+        alignItems: 'center',
+    },
+    outlineButtonText: {
+        color: colors.primary,
+        fontSize: 16,
+        fontWeight: 'bold',
+    }
 })
