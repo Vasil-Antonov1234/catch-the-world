@@ -1,39 +1,29 @@
-import { View, Text, ScrollView, Pressable, StyleSheet } from "react-native";
+import { View, Text, ScrollView, Pressable, StyleSheet, Alert } from "react-native";
 import ContinentCard from "../components/continent-card/ContinentCard.jsx";
 import colors from "../theme/colors.js";
 import TopDestinationCard from "../components/top-destination-card/TopDestinationCard.jsx";
 import places from "../../data.json";
+import { useEffect, useState } from "react";
+import { continentApi } from "../api/index.js";
 
 export default function HomeScreen({ navigation }) {
+    const [continents, setContinents] = useState([]);
     const topDestinations = places.slice(0, 5);
 
-    const continents = [
-        {
-            name: "Europe",
-            image: require("../../assets/europe.jpg"),
-            id: 1
-        },
-        {
-            name: "Africa",
-            image: require("../../assets/africa.jpg"),
-            id: 2
-        },
-        {
-            name: "Asia",
-            image: require("../../assets/asia.jpg"),
-            id: 3
-        },
-        {
-            name: "North America",
-            image: require("../../assets/northAmerica.jpg"),
-            id: 4
-        },
-        {
-            name: "South America",
-            image: require("../../assets/southAmerica.jpg"),
-            id: 5
-        }
-    ]
+    useEffect(() => {
+
+        (async () => {
+            try {
+                const continentsData = await continentApi.getAll();
+
+                setContinents(continentsData);
+            } catch (error) {
+                Alert.alert(error.message);
+            };
+
+        })()
+
+    }, [])
 
     return (
         <ScrollView style={styles.container}>
