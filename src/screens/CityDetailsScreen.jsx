@@ -1,19 +1,34 @@
-import { View, Text, Image, ScrollView, StyleSheet, Pressable, Modal } from 'react-native';
+import { View, Text, Image, ScrollView, StyleSheet, Pressable, Modal, Alert } from 'react-native';
 import colors from "../theme/colors.js";
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import ButtonSecondaty from '../components/buttons/ButtonSecondary.jsx';
 import ButtonIcon from '../components/buttons/ButtonIcon.jsx';
 import AppContext from '../contexts/AppContext.js';
 import CreatePlace from '../components/create-place/CreatePlace.jsx';
+import { destinationsApi } from '../api/index.js';
 
 export default function CityDetailsScreen({ navigation, route }) {
     const [showImageModal, setShowImageModal] = useState("");
     const { deletePlaceHandler, setIsEdit, cities, masterCities } = useContext(AppContext);
     const [showEditPlace, setShowEditPlace] = useState(false);
-
+    const [currentPlace, setCurrentPlace] = useState({});
     const placeId = route.params.placeId;
 
-    const currentPlace = masterCities.find((x) => x.id === placeId);
+    useEffect(() => {
+
+        (async() => {
+            
+            try {
+                const currentPlaceData = await destinationsApi.getById(placeId);
+
+                setCurrentPlace(currentPlaceData);
+            } catch (error) {
+                Alert.alert(error.message);
+            };
+
+        })();
+
+    }, [placeId]);
 
     function closeEditPlaceHandler() {
         setShowEditPlace(false);
