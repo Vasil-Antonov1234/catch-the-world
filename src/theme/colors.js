@@ -8,6 +8,7 @@ const colors = {
     surface: '#FFFFFF',
     backgroundDarck: "#6b7a8681",
     LightBlue: "#d7e5eb",
+    shadowColor: '#000000',
 
     // Text
     textPrimary: '#1F2A33',
