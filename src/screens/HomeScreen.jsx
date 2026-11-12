@@ -21,7 +21,7 @@ export default function HomeScreen({ navigation }) {
                 const topDestinationsData = await destinationsApi.getTopDestinations();
                 setTopDestinations(topDestinationsData);
             } catch (error) {
-                Alert.alert(error.message);
+                Alert.alert("Error", error.message);
             };
 
         })()
@@ -32,11 +32,13 @@ export default function HomeScreen({ navigation }) {
         setRefreshing(true);
 
         try {
-            const contonentData = await continentApi.getAll();
+            const continentData = await continentApi.getAll();
+            const topDestinationsData = await destinationsApi.getTopDestinations();
 
-            setContinents(contonentData);
+            setContinents(continentData);
+            setTopDestinations(topDestinationsData);
         } catch (error) {
-            Alert.alert(error.message)
+            Alert.alert("Error", error.message)
         } finally {
             setRefreshing(false);
         };
@@ -45,7 +47,7 @@ export default function HomeScreen({ navigation }) {
     return (
         <ScrollView
             style={styles.container}
-            refreshControl={<RefreshControl refreshing={false} onRefresh={refreshHandler} />}
+            refreshControl={<RefreshControl refreshing={refreshing} onRefresh={refreshHandler} />}
         >
             {topDestinations.length ?
                 <>
