@@ -4,20 +4,22 @@ import colors from "../theme/colors.js";
 import TopDestinationCard from "../components/top-destination-card/TopDestinationCard.jsx";
 import places from "../../data.json";
 import { useEffect, useState } from "react";
-import { continentApi } from "../api/index.js";
+import { continentApi, destinationsApi } from "../api/index.js";
 
 export default function HomeScreen({ navigation }) {
     const [continents, setContinents] = useState([]);
     const [refreshing, setRefreshing] = useState(false);
-    const topDestinations = places.slice(0, 5);
+    const [topDestinations, setTopDestinations] = useState([]);
 
     useEffect(() => {
 
         (async () => {
             try {
                 const continentsData = await continentApi.getAll();
-
                 setContinents(continentsData);
+
+                const topDestinationsData = await destinationsApi.getTopDestinations();
+                setTopDestinations(topDestinationsData);
             } catch (error) {
                 Alert.alert(error.message);
             };
@@ -45,15 +47,19 @@ export default function HomeScreen({ navigation }) {
             style={styles.container}
             refreshControl={<RefreshControl refreshing={false} onRefresh={refreshHandler} />}
         >
-            <Text style={styles.title}>Top Destinations</Text>
-            <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.topDestinationsContainer}>
-                {topDestinations.map((x) => (
-                    <TopDestinationCard
-                        key={x.id}
-                        destination={x}
-                    />
-                ))}
-            </ScrollView>
+            {topDestinations.length ?
+                <>
+                    <Text style={styles.title}>Top Destinations</Text>
+                    <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.topDestinationsContainer}>
+                        {topDestinations.map((x) => (
+                            <TopDestinationCard
+                                key={x.id}
+                                destination={x}
+                            />
+                        ))}
+                    </ScrollView>
+                </> : ""
+            }
             <Text style={styles.title}>Area</Text>
             <View style={styles.continentContainer} >
                 {continents.map((c) => <ContinentCard
