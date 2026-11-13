@@ -31,6 +31,8 @@ export default function CityDetailsScreen({ navigation, route }) {
 
     }, [placeId]);
 
+    const isInWishList = !!(wishList.find((x) => placeId === x.id));
+
     function closeEditPlaceHandler() {
         setShowEditPlace(false);
     };
@@ -95,12 +97,18 @@ export default function CityDetailsScreen({ navigation, route }) {
                     color="red"
                     size={30}
                 /> */}
-                <ButtonBig
-                    text="Visit"
-                    background={styles.button}
-                    textColor={styles.buttonText}
-                    onPress={() => addToWishlist(currentPlace)}
-                />
+
+                {isInWishList ?
+                    <Text style={styles.addedText}>Added to the wishlist</Text> :
+                    <ButtonBig
+                        text="Visit"
+                        background={styles.button}
+                        textColor={styles.buttonText}
+                        onPress={() => addToWishlist(currentPlace)}
+                    />
+                
+                }
+
             </View>
             <Modal
                 visible={showImageModal !== ""}
@@ -214,6 +222,11 @@ const styles = StyleSheet.create({
     },
     buttonText: {
         color: colors.textOnPrimary,
-        fontWeight: 700 
+        fontWeight: 700
+    },
+    addedText: {
+        color: colors.primary,
+        textTransform: "uppercase",
+        fontSize: 10
     }
 });

@@ -1,13 +1,10 @@
-import { useContext } from "react";
 import colors from "../../theme/colors.js";
 import { StyleSheet, Pressable, Text } from "react-native";
-import AppContext from "../../contexts/AppContext.js";
 
 export default function ButtonMain({text}) {
-    const { pressHandler } = useContext(AppContext);
 
     return (
-        <Pressable onPress={() => pressHandler(null)} style={({ pressed }) => [styles.buttonCtr, pressed ? styles.pressed : ""]}>
+        <Pressable onPress={() => {}} style={({ pressed }) => [styles.buttonCtr, pressed ? styles.pressed : ""]}>
             <Text style={styles.buttonText}>{text}</Text>
         </Pressable>
     );
