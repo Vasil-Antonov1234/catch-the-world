@@ -1,16 +1,13 @@
 import { View, Text, Image, ScrollView, StyleSheet, Pressable, Modal, Alert } from 'react-native';
 import colors from "../theme/colors.js";
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import ButtonSecondaty from '../components/buttons/ButtonSecondary.jsx';
 import ButtonIcon from '../components/buttons/ButtonIcon.jsx';
-import AppContext from '../contexts/AppContext.js';
 import CreatePlace from '../components/create-place/CreatePlace.jsx';
 import { destinationsApi } from '../api/index.js';
 
 export default function CityDetailsScreen({ navigation, route }) {
     const [showImageModal, setShowImageModal] = useState("");
-    const { deletePlaceHandler, setIsEdit, cities, masterCities } = useContext(AppContext);
-    const [showEditPlace, setShowEditPlace] = useState(false);
     const [currentPlace, setCurrentPlace] = useState({});
     const placeId = route.params.placeId;
 
@@ -35,13 +32,11 @@ export default function CityDetailsScreen({ navigation, route }) {
     };
 
     function editHandler() {
-        setShowEditPlace(true);
-        setIsEdit(true);
+        Alert.alert("Edit");
     };
 
     function deleteHandler() {
-        deletePlaceHandler(placeId);
-        navigation.goBack();
+        Alert.alert("Delete");
     };
 
     return (
@@ -114,7 +109,6 @@ export default function CityDetailsScreen({ navigation, route }) {
                     />
                 </View>
             </Modal>
-            <CreatePlace visible={showEditPlace} hideModal={closeEditPlaceHandler} place={currentPlace} />
         </ScrollView>
     );
 }

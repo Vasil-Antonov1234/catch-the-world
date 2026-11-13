@@ -3,22 +3,22 @@ import HomeScreen from "../screens/HomeScreen.jsx";
 import CityDetailsScreen from "../screens/CityDetailsScreen.jsx";
 import CitiesCatalogScreen from "../screens/CitiesCatalogScreen.jsx";
 import colors from "../theme/colors.js";
-import { useContext } from "react";
-import AppContext from "../contexts/AppContext.js";
-import { View, Text, StyleSheet } from "react-native";
+// import { useContext } from "react";
+// import AppContext from "../contexts/AppContext.js";
+import { View, Text, StyleSheet, Keyboard } from "react-native";
 
 
 export default function HomeNavigator() {
     const Stack = createStackNavigator();
 
-    const { searchPlacesHandler, resetSearchHandler, isSearching, setIsSearching } = useContext(AppContext);
+    // const { searchPlacesHandler, resetSearchHandler, isSearching, setIsSearching } = useContext(AppContext);
 
     function searchHandler(query) {
-        searchPlacesHandler(query);
+        alert(query)
     };
 
     function cancelHandler() {
-        resetSearchHandler();
+        Keyboard.dismiss();
     };
 
     return (

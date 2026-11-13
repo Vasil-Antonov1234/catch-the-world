@@ -2,8 +2,6 @@ import { View, Text, StyleSheet, Image, Pressable } from "react-native";
 import colors from "../../theme/colors.js";
 import ButtonSecondaty from "../buttons/ButtonSecondary.jsx";
 import ButtonIcon from "../buttons/ButtonIcon.jsx";
-import { useContext } from "react";
-import AppContext from "../../contexts/AppContext.js";
 
 export default function JourneyCard({ place: {
     id,
@@ -14,7 +12,10 @@ export default function JourneyCard({ place: {
     description,
     wantToVisit
 }, press: pressHandler }) {
-    const { wantToVisitHandler } = useContext(AppContext);
+
+    function wantToVisitHandler() {
+        alert(`I want to visit ${name}`);
+    };
 
     return (
         <View style={styles.container}>

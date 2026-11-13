@@ -3,13 +3,11 @@ import colors from "../theme/colors.js";
 import { StyleSheet, View, TextInput, Pressable, ScrollView, Text, Keyboard, FlatList, Alert } from "react-native";
 import JourneyCard from "../components/journey-card/JourneyCard.jsx";
 import CityDetailsScreen from "./CityDetailsScreen.jsx";
-import AppContext from "../contexts/AppContext.js";
 import ButtonIcon from "../components/buttons/ButtonIcon.jsx";
 import CreatePlace from "../components/create-place/CreatePlace.jsx";
 import { destinationsApi } from "../api/index.js";
 
 export default function CitiesCatalogScreen({ route, navigation }) {
-    const { masterCities, setIsEdit, isSearching } = useContext(AppContext);
     const [showModal, setShowModal] = useState(false);
     const [cities, setCities] = useState([]);
 
@@ -34,16 +32,6 @@ export default function CitiesCatalogScreen({ route, navigation }) {
     }, [navigation, route.params.continentName, continentId]);
 
 
-
-    function showModalHandler() {
-        setShowModal(true);
-        setIsEdit(false);
-    };
-
-    function hideModalHandler() {
-        setShowModal(false);
-    };
-
     return (
         <>
             <FlatList
@@ -51,19 +39,7 @@ export default function CitiesCatalogScreen({ route, navigation }) {
                 renderItem={({ item }) => <JourneyCard place={item} press={() => { }} />}
                 keyExtractor={item => item.id}
                 contentContainerStyle={styles.containerSecondary}
-                ListHeaderComponent={
-                    <View style={styles.addCitie}>
-                        <ButtonIcon
-                            icon="plus"
-                            color={colors.backgroundDarck}
-                            mode="contained"
-                            size={30}
-                            onPress={showModalHandler}
-                        />
-                    </View>
-                }
             />
-            <CreatePlace visible={showModal} hideModal={hideModalHandler} />
         </>
     );
 }
