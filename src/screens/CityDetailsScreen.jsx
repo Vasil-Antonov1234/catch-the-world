@@ -1,20 +1,24 @@
 import { View, Text, Image, ScrollView, StyleSheet, Pressable, Modal, Alert } from 'react-native';
 import colors from "../theme/colors.js";
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import ButtonSecondaty from '../components/buttons/ButtonSecondary.jsx';
 import ButtonIcon from '../components/buttons/ButtonIcon.jsx';
 import CreatePlace from '../components/create-place/CreatePlace.jsx';
 import { destinationsApi } from '../api/index.js';
+import ButtonBig from '../components/buttons/ButtonBig.jsx';
+import AppContext from '../contexts/AppContext.js';
 
 export default function CityDetailsScreen({ navigation, route }) {
     const [showImageModal, setShowImageModal] = useState("");
     const [currentPlace, setCurrentPlace] = useState({});
     const placeId = route.params.placeId;
 
+    const { wishList, addToWishlist } = useContext(AppContext);
+
     useEffect(() => {
 
-        (async() => {
-            
+        (async () => {
+
             try {
                 const currentPlaceData = await destinationsApi.getById(placeId);
 
@@ -42,7 +46,7 @@ export default function CityDetailsScreen({ navigation, route }) {
     return (
         <ScrollView contentContainerStyle={styles.content}>
             <View>
-                <Image source={{ uri: currentPlace.poster }} style={styles.poster} resizeMode="cover" alt='Image'/>
+                <Image source={{ uri: currentPlace.poster }} style={styles.poster} resizeMode="cover" alt='Image' />
             </View>
 
 
@@ -78,7 +82,7 @@ export default function CityDetailsScreen({ navigation, route }) {
                 </Pressable>
             </ScrollView>
             <View style={styles.buttonsCtr}>
-                <ButtonIcon
+                {/* <ButtonIcon
                     icon="pen"
                     mode="contained"
                     onPress={editHandler}
@@ -90,6 +94,12 @@ export default function CityDetailsScreen({ navigation, route }) {
                     onPress={deleteHandler}
                     color="red"
                     size={30}
+                /> */}
+                <ButtonBig
+                    text="Visit"
+                    background={styles.button}
+                    textColor={styles.buttonText}
+                    onPress={() => addToWishlist(currentPlace)}
                 />
             </View>
             <Modal
@@ -196,7 +206,14 @@ const styles = StyleSheet.create({
     buttonsCtr: {
         flexDirection: "row",
         justifyContent: "flex-end",
-        gap: 10,
         marginTop: 10
+    },
+    button: {
+        backgroundColor: colors.primary,
+        paddingHorizontal: 20
+    },
+    buttonText: {
+        color: colors.textOnPrimary,
+        fontWeight: 700 
     }
 });
