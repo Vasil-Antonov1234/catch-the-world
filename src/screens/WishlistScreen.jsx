@@ -5,7 +5,7 @@ import { useContext } from "react";
 import AppContext from "../contexts/AppContext.js";
 import WishListCard from "../components/wishlist-card/WishListCard.jsx";
 
-export default function TripsScheduleScreen() {
+export default function WishlistScreen() {
     const { wishList } = useContext(AppContext);
 
     return (
