@@ -33,13 +33,13 @@ export default function CityDetailsScreen({ navigation, route }) {
 
     const isInWishList = !!(wishList.find((x) => placeId === x.id));
 
-    function closeEditPlaceHandler() {
-        setShowEditPlace(false);
-    };
+    // function closeEditPlaceHandler() {
+    //     setShowEditPlace(false);
+    // };
 
-    function editHandler() {
-        Alert.alert("Edit");
-    };
+    // async function editHandler() {
+    //     Alert.alert("Edit");
+    // };
 
     function deleteHandler() {
         Alert.alert("Delete");
@@ -101,12 +101,12 @@ export default function CityDetailsScreen({ navigation, route }) {
                 {isInWishList ?
                     <Text style={styles.addedText}>Added to the wishlist</Text> :
                     <ButtonBig
-                        text="Visit"
+                        text="Add to Wishlist"
                         background={styles.button}
                         textColor={styles.buttonText}
                         onPress={() => addToWishlist(currentPlace)}
                     />
-                
+
                 }
 
             </View>
