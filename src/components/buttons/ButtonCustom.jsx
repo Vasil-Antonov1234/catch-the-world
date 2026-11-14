@@ -1,6 +1,6 @@
 import { Pressable, Text, StyleSheet } from "react-native";
 
-export default function ButtonBig({ text, textColor, background, onPress }) {
+export default function ButtonCustom({ text, textColor, background, onPress }) {
     return (
         <Pressable
             style={({ pressed }) => [styles.container, background, pressed && styles.pressed]}
@@ -13,7 +13,6 @@ export default function ButtonBig({ text, textColor, background, onPress }) {
 
 const styles = StyleSheet.create({
     container: {
-        paddingVertical: 14,
         borderRadius: 12,
         alignItems: 'center',
     },

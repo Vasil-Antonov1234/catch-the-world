@@ -3,7 +3,7 @@ import colors from "../../theme/colors.js";
 import { useContext, useState } from "react";
 import ButtonPrimary from "../buttons/ButtonPrimary.jsx";
 import AuthContext from "../../contexts/AuthContext.js";
-import ButtonBig from "../buttons/ButtonBig.jsx";
+import ButtonCustom from "../buttons/ButtonCustom.jsx";
 
 export default function LoginScreen({ navigation }) {
     const [email, setEmail] = useState("");
@@ -45,7 +45,7 @@ export default function LoginScreen({ navigation }) {
             <Text style={styles.loginText}>Login to continue</Text>
             <TextInput placeholder="Email" value={email} onChangeText={setEmail} style={styles.input} />
             <TextInput placeholder="Password" value={password} onChangeText={setPassword} secureTextEntry style={styles.input} />
-            <ButtonBig text="Login" background={styles.button} textColor={styles.buttonText} onPress={submitHandler}/>
+            <ButtonCustom text="Login" background={styles.button} textColor={styles.buttonText} onPress={submitHandler}/>
             <Pressable onPress={() => navigation.navigate("Register")}>
                 <Text style={styles.link}>Don't have an account? Go to register</Text>
             </Pressable>
@@ -100,7 +100,8 @@ const styles = StyleSheet.create({
         color: colors.accent
     },
     button: {
-        backgroundColor: colors.accent
+        backgroundColor: colors.accent,
+        paddingVertical: 14
     },
     buttonText: {
         color: colors.textOnPrimary,

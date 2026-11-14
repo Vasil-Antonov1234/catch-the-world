@@ -1,5 +1,4 @@
 import AppContext from "./AppContext.js";
-import data from "../../data.json";
 import { useState } from "react";
 import usePersistedState from "../hooks/usePersistedState.js";
 

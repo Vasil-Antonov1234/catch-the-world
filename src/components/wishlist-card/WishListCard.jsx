@@ -2,9 +2,10 @@ import { View, Text, StyleSheet, Image, Pressable } from "react-native";
 import colors from "../../theme/colors.js";
 import ButtonSecondaty from "../buttons/ButtonSecondary.jsx";
 import ButtonIcon from "../buttons/ButtonIcon.jsx";
-import ButtonBig from "../buttons/ButtonBig.jsx";
-import { useContext } from "react";
+import ButtonCustom from "../buttons/ButtonCustom.jsx";
+import { useContext, useState } from "react";
 import AppContext from "../../contexts/AppContext.js";
+import TripDatePicker from "../trip-date-picker/TripDatePicker.jsx";
 
 export default function WishListCard({ place: {
     id,
@@ -18,9 +19,18 @@ export default function WishListCard({ place: {
     index,
     press: pressHandler }) {
     const { removeFromWishlist } = useContext(AppContext);
+    const [isShowModal, setIsShowModal] = useState(false);
+    const [selectedDate, setSelectedDate] = useState(null);
 
     function wantToVisitHandler() {
         alert(`I want to visit ${name}`);
+    };
+
+    function planDatesHandler(selectedDate) {
+        setIsShowModal(false);
+        setSelectedDate(selectedDate);
+
+        alert(selectedDate)
     };
 
     return (
@@ -40,28 +50,49 @@ export default function WishListCard({ place: {
                     <Text style={styles.text}>🧭 <Text style={styles.textBold}>{location}</Text></Text>
                 </View>
                 <View style={styles.buttonCtr}>
-                    <ButtonBig
+                    <ButtonCustom
+                        text="Plan"
+                        background={styles.buttonDate}
+                        textColor={styles.buttonDateText}
+                        onPress={() => setIsShowModal(true)}
+                    />
+                    <ButtonCustom
                         text="Remove"
                         background={styles.button}
                         textColor={styles.buttonText}
                         onPress={() => removeFromWishlist(index)}
                     />
-
                 </View>
             </View>
+            {/* <DateTimePickerModal
+                isVisible={showModal}
+                mode="date"
+                minimumDate={new Date()}
+                onConfirm={planDatesHandler}
+                onCancel={() => setShowModal(false)}
+            /> */}
+
+            { isShowModal ? <TripDatePicker onCancel={() => setIsShowModal(false)} onConfirm={planDatesHandler}/> : ""}
         </View>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
+        width: "99%",
         backgroundColor: colors.surface,
         flexDirection: "row",
         padding: 5,
         borderRadius: 15,
         marginTop: 20,
         height: 110,
-        gap: 10
+        gap: 10,
+        shadowColor: colors.shadowColor,
+        shadowOffset: { width: 0, height: 6 },
+        shadowOpacity: 0.12,
+        shadowRadius: 8,
+        elevation: 3,
+        alignSelf: "center"
     },
     posterCtr: {
         width: "40%",
@@ -111,6 +142,17 @@ const styles = StyleSheet.create({
     },
     buttonCtr: {
         flexDirection: "row",
-        justifyContent: "flex-end"
+        justifyContent: "space-between",
+        marginTop: 7
+    },
+    buttonDate: {
+        backgroundColor: colors.primary,
+        paddingHorizontal: 10,
+        paddingVertical: 5,
+        height: "80%"
+    },
+    buttonDateText: {
+        color: colors.textOnPrimary,
+        fontSize: 10
     }
 })

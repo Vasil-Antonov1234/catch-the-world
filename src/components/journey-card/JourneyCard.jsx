@@ -62,7 +62,13 @@ const styles = StyleSheet.create({
         borderRadius: 15,
         marginTop: 20,
         height: 110,
-        gap: 10
+        gap: 10,
+        shadowColor: colors.shadowColor,
+        shadowOffset: { width: 0, height: 6 },
+        shadowOpacity: 0.12,
+        shadowRadius: 8,
+        elevation: 3,
+        alignSelf: "center"
     },
     posterCtr: {
         width: "40%",

@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, FlatList } from "react-native";
-import ButtonBig from "../components/buttons/ButtonBig.jsx";
+import ButtonCustom from "../components/buttons/ButtonCustom.jsx";
 import colors from "../theme/colors.js";
 import { useContext } from "react";
 import AppContext from "../contexts/AppContext.js";
@@ -10,7 +10,7 @@ export default function WishlistScreen() {
 
     return (
 
-        <View>
+        <View style={styles.container}>
             <Text style={styles.title}>Wishlist</Text>
             {wishList.length === 0 ?
                 <Text style={styles.text}>Your wishlist is empty</Text> :
@@ -24,6 +24,10 @@ export default function WishlistScreen() {
 }
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        padding: 10
+    },
     title: {
         fontSize: 24,
         fontWeight: 'bold',

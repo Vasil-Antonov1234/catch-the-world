@@ -2,7 +2,7 @@ import { Pressable, View, Text, StyleSheet, KeyboardAvoidingView, TextInput, Pla
 import ButtonPrimary from "../buttons/ButtonPrimary.jsx";
 import colors from "../../theme/colors.js";
 import { useState } from "react";
-import ButtonBig from "../buttons/ButtonBig.jsx";
+import ButtonCustom from "../buttons/ButtonCustom.jsx";
 
 export default function RegisterScreen({ navigation }) {
     const [fullName, setFullName] = useState("");
@@ -32,7 +32,7 @@ export default function RegisterScreen({ navigation }) {
                 <TextInput placeholder="Email" value={email} onChangeText={setEmail} style={styles.input} />
                 <TextInput placeholder="Password" value={password} onChangeText={setPassword} secureTextEntry style={styles.input} />
                 <TextInput placeholder="Confirm Password" value={confirmPassword} onChangeText={setConfirmPassword} secureTextEntry style={styles.input} />
-                <ButtonBig text="Register" background={styles.button} textColor={styles.buttonText} onPress={submitHandler} />
+                <ButtonCustom text="Register" background={styles.button} textColor={styles.buttonText} onPress={submitHandler} />
                 <Pressable onPress={() => navigation.goBack()}>
                     <Text style={styles.link}>Already have an account? Go to login</Text>
                 </Pressable>
@@ -88,7 +88,8 @@ const styles = StyleSheet.create({
         color: colors.accent
     },
     button: {
-        backgroundColor: colors.accent
+        backgroundColor: colors.accent,
+        paddingVertical: 14
     },
     buttonText: {
         color: colors.textOnPrimary,

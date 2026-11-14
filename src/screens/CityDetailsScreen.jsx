@@ -5,7 +5,7 @@ import ButtonSecondaty from '../components/buttons/ButtonSecondary.jsx';
 import ButtonIcon from '../components/buttons/ButtonIcon.jsx';
 import CreatePlace from '../components/create-place/CreatePlace.jsx';
 import { destinationsApi } from '../api/index.js';
-import ButtonBig from '../components/buttons/ButtonBig.jsx';
+import ButtonCustom from '../components/buttons/ButtonCustom.jsx';
 import AppContext from '../contexts/AppContext.js';
 
 export default function CityDetailsScreen({ navigation, route }) {
@@ -100,7 +100,7 @@ export default function CityDetailsScreen({ navigation, route }) {
 
                 {isInWishList ?
                     <Text style={styles.addedText}>Added to the wishlist</Text> :
-                    <ButtonBig
+                    <ButtonCustom
                         text="Add to Wishlist"
                         background={styles.button}
                         textColor={styles.buttonText}
@@ -218,7 +218,8 @@ const styles = StyleSheet.create({
     },
     button: {
         backgroundColor: colors.primary,
-        paddingHorizontal: 20
+        paddingHorizontal: 20,
+        paddingVertical: 14
     },
     buttonText: {
         color: colors.textOnPrimary,

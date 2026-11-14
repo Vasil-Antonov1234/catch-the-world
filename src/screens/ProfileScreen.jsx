@@ -5,7 +5,7 @@ import { useContext } from "react";
 import AuthContext from "../contexts/AuthContext.js";
 import colors from "../theme/colors.js";
 import StatCard from "../components/stat-card/StatCard.jsx";
-import ButtonBig from "../components/buttons/ButtonBig.jsx";
+import ButtonCustom from "../components/buttons/ButtonCustom.jsx";
 
 export default function ProfileScreen() {
     const { onLogout } = useContext(AuthContext);
@@ -43,14 +43,14 @@ export default function ProfileScreen() {
 
             <View style={styles.actions}>
 
-                <ButtonBig
+                <ButtonCustom
                     text="Edit profile"
                     background={styles.filledButton}
                     textColor={styles.filledButtonText}
                     onPress={onEditProfile}
                 />
 
-                <ButtonBig
+                <ButtonCustom
                     text="Log out"
                     background={styles.outlineButton}
                     textColor={styles.outlineButtonText}
@@ -121,7 +121,8 @@ const styles = StyleSheet.create({
         gap: 12,
     },
     filledButton: {
-        backgroundColor: colors.accent
+        backgroundColor: colors.accent,
+        paddingVertical: 14
     },
     filledButtonText: {
         color: colors.textOnPrimary,
@@ -130,7 +131,8 @@ const styles = StyleSheet.create({
     },
     outlineButton: {
         borderWidth: 2,
-        borderColor: colors.primary
+        borderColor: colors.primary,
+        paddingVertical: 14
     },
     outlineButtonText: {
         color: colors.primary,

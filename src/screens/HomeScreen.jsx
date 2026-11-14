@@ -2,7 +2,6 @@ import { View, Text, ScrollView, Pressable, StyleSheet, Alert, RefreshControl } 
 import ContinentCard from "../components/continent-card/ContinentCard.jsx";
 import colors from "../theme/colors.js";
 import TopDestinationCard from "../components/top-destination-card/TopDestinationCard.jsx";
-import places from "../../data.json";
 import { useEffect, useState } from "react";
 import { continentApi, destinationsApi } from "../api/index.js";
 
