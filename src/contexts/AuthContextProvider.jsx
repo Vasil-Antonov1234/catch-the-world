@@ -37,7 +37,7 @@ export default function AuthContextProvider({ children }) {
                 accessToken: "dummy-access-token"
             }))
         } catch (error) {
-            alert(error);
+            alert(error.message);
         };
     };
 
@@ -46,9 +46,10 @@ export default function AuthContextProvider({ children }) {
 
         try {
             await AsyncStorage.removeItem("auth");
+            await AsyncStorage.removeItem("wishList");
         } catch (error) {
-            alert(error)
-        }
+            alert(error.message);
+        };
     };
 
     const isAuthenticated = !!user?.accessToken;
@@ -56,7 +57,8 @@ export default function AuthContextProvider({ children }) {
     const AuthContextValues = {
         onLogin,
         onLogout,
-        isAuthenticated
+        isAuthenticated,
+        user
     };
 
     return (

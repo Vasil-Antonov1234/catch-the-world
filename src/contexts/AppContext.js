@@ -3,7 +3,8 @@ import { createContext } from "react";
 const AppContext = createContext({
    wishList: [],
    addToWishlist() {},
-   removeFromWishlist() {}
+   removeFromWishlist() {},
+   clearWishlist() {}
 });
 
 export default AppContext;

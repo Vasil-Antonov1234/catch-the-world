@@ -14,10 +14,15 @@ export default function AppContextProvider({ children }) {
         setWishList((state) => state.filter((x, i) => i !== index));
     };
 
+    function clearWishlist() {
+        setWishList([]);
+    };
+
     const AppContextValues = {
         wishList,
         addToWishlist,
-        removeFromWishlist
+        removeFromWishlist,
+        clearWishlist
     };
 
     return (
