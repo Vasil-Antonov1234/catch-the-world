@@ -1,4 +1,5 @@
 import { View, Text, StyleSheet, Image, Pressable } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import colors from "../../theme/colors.js";
 import ButtonSecondaty from "../buttons/ButtonSecondary.jsx";
 import ButtonIcon from "../buttons/ButtonIcon.jsx";
@@ -21,6 +22,12 @@ export default function WishListCard({ place: {
     const { removeFromWishlist } = useContext(AppContext);
     const [isShowModal, setIsShowModal] = useState(false);
     const [selectedDate, setSelectedDate] = useState(null);
+
+    const navigation = useNavigation();
+
+    function navigateToDetails() {
+        navigation.navigate("TopDestinationDetails", { placeId: id });
+    }
 
     function wantToVisitHandler() {
         alert(`I want to visit ${name}`);

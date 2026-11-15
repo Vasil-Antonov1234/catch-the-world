@@ -3,15 +3,11 @@ import HomeScreen from "../screens/HomeScreen.jsx";
 import CityDetailsScreen from "../screens/CityDetailsScreen.jsx";
 import CitiesCatalogScreen from "../screens/CitiesCatalogScreen.jsx";
 import colors from "../theme/colors.js";
-// import { useContext } from "react";
-// import AppContext from "../contexts/AppContext.js";
 import { View, Text, StyleSheet, Keyboard } from "react-native";
 
 
 export default function HomeNavigator() {
     const Stack = createStackNavigator();
-
-    // const { searchPlacesHandler, resetSearchHandler, isSearching, setIsSearching } = useContext(AppContext);
 
     function searchHandler(query) {
         alert(query)
@@ -88,8 +84,6 @@ const styles = StyleSheet.create({
         height: 40,
         backgroundColor: colors.primary,
         paddingHorizontal: 14,
-        // borderEndEndRadius: 70,
-        // borderEndStartRadius: 70,
         borderRadius: 40,
         alignSelf: "center"
     },

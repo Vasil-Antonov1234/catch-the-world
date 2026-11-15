@@ -8,6 +8,7 @@ import HomeNavigator from "./HomeNavigator.jsx";
 import ProfileScreen from "../screens/ProfileScreen.jsx";
 import { useContext } from "react";
 import AppContext from "../contexts/AppContext.js";
+import WishListNavigator from "./WishListNavigator.jsx";
 
 export default function RootNavigator() {
     const Tabs = createBottomTabNavigator();
@@ -44,12 +45,12 @@ export default function RootNavigator() {
 
             <Tabs.Screen
                 name="WishlistTab"
-                component={WishlistScreen}
+                component={WishListNavigator}
                 options={{
                     tabBarIcon: ({ color, size }) => <Ionicons name="compass" color={color} size={size} />,
                     title: "Wishlist",
                     tabBarBadge: wishList.length > 0 ? wishList.length : undefined,
-                    tabBarBadgeStyle: { backgroundColor: colors.error, fontSize: 7, fontWeight: 700}
+                    tabBarBadgeStyle: { backgroundColor: colors.error, fontSize: 7, fontWeight: 700 }
                 }}
             />
 
@@ -58,7 +59,9 @@ export default function RootNavigator() {
                 component={ProfileScreen}
                 options={{
                     tabBarIcon: ({ color, size }) => <Ionicons name="person" color={color} size={size} />,
-                    title: "Profile"
+                    title: "Profile",
+                    borderBottomLeftRadius: 20,
+                    borderBottomRightRadius: 20
                 }}
             />
         </Tabs.Navigator>

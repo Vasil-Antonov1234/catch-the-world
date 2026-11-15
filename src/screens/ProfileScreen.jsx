@@ -69,8 +69,9 @@ const styles = StyleSheet.create({
     header: {
         backgroundColor: colors.primary,
         alignItems: 'center',
-        paddingTop: 48,
+        paddingTop: 96,
         paddingBottom: 48,
+        marginTop: -48
     },
     avatar: {
         width: 96,
