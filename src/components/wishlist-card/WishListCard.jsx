@@ -20,24 +20,15 @@ export default function WishListCard({ place: {
     index,
     press: pressHandler }) {
     const { removeFromWishlist } = useContext(AppContext);
-    const [isShowModal, setIsShowModal] = useState(false);
-    const [selectedDate, setSelectedDate] = useState(null);
 
     const navigation = useNavigation();
 
     function navigateToDetails() {
-        navigation.navigate("TopDestinationDetails", { placeId: id });
+        navigation.navigate("WishListDetails", { placeId: id });
     }
 
     function wantToVisitHandler() {
         alert(`I want to visit ${name}`);
-    };
-
-    function planDatesHandler(selectedDate) {
-        setIsShowModal(false);
-        setSelectedDate(selectedDate);
-
-        alert(selectedDate)
     };
 
     return (
@@ -61,7 +52,7 @@ export default function WishListCard({ place: {
                         text="Plan"
                         background={styles.buttonDate}
                         textColor={styles.buttonDateText}
-                        onPress={() => setIsShowModal(true)}
+                        onPress={navigateToDetails}
                     />
                     <ButtonCustom
                         text="Remove"
@@ -70,16 +61,7 @@ export default function WishListCard({ place: {
                         onPress={() => removeFromWishlist(index)}
                     />
                 </View>
-            </View>
-            {/* <DateTimePickerModal
-                isVisible={showModal}
-                mode="date"
-                minimumDate={new Date()}
-                onConfirm={planDatesHandler}
-                onCancel={() => setShowModal(false)}
-            /> */}
-
-            { isShowModal ? <TripDatePicker onCancel={() => setIsShowModal(false)} onConfirm={planDatesHandler}/> : ""}
+            </View>            
         </View>
     );
 }

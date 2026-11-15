@@ -50,7 +50,8 @@ export default function RootNavigator() {
                     tabBarIcon: ({ color, size }) => <Ionicons name="compass" color={color} size={size} />,
                     title: "Wishlist",
                     tabBarBadge: wishList.length > 0 ? wishList.length : undefined,
-                    tabBarBadgeStyle: { backgroundColor: colors.error, fontSize: 7, fontWeight: 700 }
+                    tabBarBadgeStyle: { backgroundColor: colors.error, fontSize: 7, fontWeight: 700 },
+                    headerShown: false
                 }}
             />
 

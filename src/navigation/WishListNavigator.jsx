@@ -2,7 +2,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import WishlistScreen from "../screens/WishlistScreen.jsx";
 import { View, Text, StyleSheet } from "react-native";
 import colors from "../theme/colors.js";
-import CityDetailsScreen from "../screens/CityDetailsScreen.jsx";
+import AddingDatesScreen from "../screens/AddingDatesScreen.jsx";
 
 export default function WishListNavigator() {
     const Stack = createStackNavigator();
@@ -12,26 +12,23 @@ export default function WishListNavigator() {
             <Stack.Screen
                 name="WishList"
                 component={WishlistScreen}
-                // options={{
-                //     headerTitle: () =>
-                //         <View style={styles.logoCtr}>
-                //             <Text style={styles.logoL}>Catch <Text style={styles.logoM}>the </Text><Text style={styles.loroR}>World</Text></Text>
-                //         </View>,
-                //     headerTitleAlign: "center",
-                //     headerStyle: {
-                //         backgroundColor: colors.LightBlue,
-                //         borderBottomLeftRadius: 20,
-                //         borderBottomRightRadius: 20
-                //     }
-                // }}
                 options={{
-                    headerShown: false
+                    headerTitle: () =>
+                        <View style={styles.logoCtr}>
+                            <Text style={styles.logoL}>Catch <Text style={styles.logoM}>the </Text><Text style={styles.loroR}>World</Text></Text>
+                        </View>,
+                    headerTitleAlign: "center",
+                    headerStyle: {
+                        backgroundColor: colors.LightBlue,
+                        borderBottomLeftRadius: 20,
+                        borderBottomRightRadius: 20
+                    }
                 }}
             />
 
             <Stack.Screen
                 name="WishListDetails"
-                component={CityDetailsScreen}
+                component={AddingDatesScreen}
                 options={{
                     title: "Details",
                     headerTitleStyle: {
@@ -41,7 +38,7 @@ export default function WishListNavigator() {
                         backgroundColor: colors.LightBlue,
                         borderBottomLeftRadius: 20,
                         borderBottomRightRadius: 20
-                    }
+                    },
                 }}
             />
         </Stack.Navigator>
