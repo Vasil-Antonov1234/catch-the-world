@@ -8,7 +8,8 @@ const AuthContext = createContext({
     },
     onLogin() {},
     onLogout() {},
-    isAuthenticated: false
+    isAuthenticated: false,
+    isPending: false
 });
 
 export default AuthContext;

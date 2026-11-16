@@ -6,11 +6,11 @@ import AuthContextProvider from './contexts/AuthContextProvider.jsx';
 
 function Root() {
     return (
-        <AuthContextProvider>
-            <AppContextProvider>
+        <AppContextProvider>
+            <AuthContextProvider>
                 <App />
-            </AppContextProvider>
-        </AuthContextProvider>
+            </AuthContextProvider>
+        </AppContextProvider>
     );
 };
 

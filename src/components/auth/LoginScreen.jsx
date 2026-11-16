@@ -1,4 +1,4 @@
-import { Pressable, View, Text, StyleSheet, TextInput, Keyboard, KeyboardAvoidingView, Platform } from "react-native";
+import { Pressable, View, Text, StyleSheet, TextInput, Keyboard, KeyboardAvoidingView, Platform, ActivityIndicator } from "react-native";
 import colors from "../../theme/colors.js";
 import { useContext, useState } from "react";
 import ButtonPrimary from "../buttons/ButtonPrimary.jsx";
@@ -8,7 +8,7 @@ import ButtonCustom from "../buttons/ButtonCustom.jsx";
 export default function LoginScreen({ navigation }) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const { onLogin } = useContext(AuthContext);
+    const { onLogin, isPending } = useContext(AuthContext);
 
     function submitHandler() {
 
@@ -49,6 +49,7 @@ export default function LoginScreen({ navigation }) {
             <Pressable onPress={() => navigation.navigate("Register")}>
                 <Text style={styles.link}>Don't have an account? Go to register</Text>
             </Pressable>
+            {isPending ? <ActivityIndicator size="large" /> : ""}
         </KeyboardAvoidingView>
     );
 };

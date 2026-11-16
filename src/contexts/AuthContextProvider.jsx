@@ -1,14 +1,18 @@
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import AuthContext from "./AuthContext.js";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import AppContext from "./AppContext.js";
 
 export default function AuthContextProvider({ children }) {
     const [user, setUser] = useState(null);
+    const [isPending, setIsPending] = useState(false);
+    const { clearWishlist } = useContext(AppContext);
 
     useEffect(() => {
 
         (async () => {
             try {
+                setIsPending(true);
                 const userData = await AsyncStorage.getItem("auth");
 
                 
@@ -18,12 +22,16 @@ export default function AuthContextProvider({ children }) {
 
             } catch (error) {
                 alert(error);
-            };
+            } finally {
+                setIsPending(false);
+            }
         })();
 
     }, []);
 
     async function onLogin(email) {
+        setIsPending(true);
+
         setUser({
             id: 1,
             email,
@@ -38,11 +46,14 @@ export default function AuthContextProvider({ children }) {
             }))
         } catch (error) {
             alert(error.message);
+        } finally {
+            setIsPending(false);
         };
     };
 
     async function onLogout() {
         setUser(null);
+        clearWishlist();
 
         try {
             await AsyncStorage.removeItem("auth");
@@ -58,7 +69,8 @@ export default function AuthContextProvider({ children }) {
         onLogin,
         onLogout,
         isAuthenticated,
-        user
+        user,
+        isPending
     };
 
     return (
