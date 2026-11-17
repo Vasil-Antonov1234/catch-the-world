@@ -3,8 +3,9 @@ import LoginScreen from "../components/auth/LoginScreen.jsx";
 import RegisterScreen from "../components/auth/RegisterScreen.jsx";
 import colors from "../theme/colors.js";
 
+const Stack = createStackNavigator();
+
 export default function AuthNavigator() {
-    const Stack = createStackNavigator();
 
     return (
         <Stack.Navigator

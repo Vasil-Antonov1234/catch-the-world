@@ -5,9 +5,10 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import AppContext from "./AppContext.js";
 import { authApi } from "../api/index.js";
 import { Alert } from "react-native";
+import useSecureState from "../hooks/useSecureState.js";
 
 export default function AuthContextProvider({ children }) {
-    const [auth, setAuth] = useState(null);
+    const [auth, setAuth] = useSecureState("auth", null);
     const [isPending, setIsPending] = useState(false);
     const { clearWishlist } = useContext(AppContext);
 

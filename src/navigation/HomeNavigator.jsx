@@ -5,9 +5,9 @@ import CitiesCatalogScreen from "../screens/CitiesCatalogScreen.jsx";
 import colors from "../theme/colors.js";
 import { View, Text, StyleSheet, Keyboard } from "react-native";
 
+const Stack = createStackNavigator();
 
 export default function HomeNavigator() {
-    const Stack = createStackNavigator();
 
     function searchHandler(query) {
         alert(query)

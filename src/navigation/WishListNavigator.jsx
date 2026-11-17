@@ -4,8 +4,9 @@ import { View, Text, StyleSheet } from "react-native";
 import colors from "../theme/colors.js";
 import AddingDatesScreen from "../screens/AddingDatesScreen.jsx";
 
+const Stack = createStackNavigator();
+
 export default function WishListNavigator() {
-    const Stack = createStackNavigator();
 
     return (
         <Stack.Navigator>

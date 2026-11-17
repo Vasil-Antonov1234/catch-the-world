@@ -10,10 +10,10 @@ import { useContext } from "react";
 import AppContext from "../contexts/AppContext.js";
 import WishListNavigator from "./WishListNavigator.jsx";
 
-export default function RootNavigator() {
-    const Tabs = createBottomTabNavigator();
-    const { wishList } = useContext(AppContext);
+const Tabs = createBottomTabNavigator();
 
+export default function RootNavigator() {
+    const { wishList } = useContext(AppContext);
 
     return (
         <Tabs.Navigator screenOptions={{
