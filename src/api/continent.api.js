@@ -1,13 +1,14 @@
 import { Alert } from "react-native";
 import { api } from "./api.js";
+import { getErrorMessage } from "../utils/error.util.js";
 
 export async function getAll() {
-    
+
     try {
-        const response = await api.get("/continents");
+        const result = await api.get("/continents");
+        return result.data;
     } catch (error) {
-        Alert.alert(error.response?.data.msg);
+        Alert.alert(getErrorMessage(error));
     };
 
-    return response.data;
 };

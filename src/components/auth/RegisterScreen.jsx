@@ -29,9 +29,6 @@ export default function RegisterScreen({ navigation }) {
         await onRegister(values.email, values.password, values.fullName);
 
         Keyboard.dismiss();
-        setEmail("");
-        setPassword("");
-        setConfirmPassword("");
         setValues(initialValues);
     }
 

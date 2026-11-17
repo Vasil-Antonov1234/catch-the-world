@@ -24,20 +24,21 @@ export default function LoginScreen({ navigation }) {
 
     async function submitHandler() {
 
-        if (!email) {
+        if (!values.email) {
             alert("Email is required");
             return;
         };
 
-        if (!email.includes("@")) {
+        if (!values.email.includes("@")) {
             alert("Invalid email");
             return;
         };
 
-        if (!password) {
+        if (!values.password) {
             alert("Password is required");
             return;
         }
+
 
         await onLogin(values.email, values.password);
 

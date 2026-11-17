@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from "react"
+import { getErrorMessage } from "../utils/error.util.js";
 import AuthContext from "./AuthContext.js";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import AppContext from "./AppContext.js";
@@ -39,9 +40,9 @@ export default function AuthContextProvider({ children }) {
 
             setAuth(result);
 
-            await AsyncStorage.setItem("auth", JSON.stringify({ result }));
+            await AsyncStorage.setItem("auth", JSON.stringify(result));
         } catch (error) {
-            Alert.alert(error.message);
+            Alert.alert(getErrorMessage(error));
         } finally {
             setIsPending(false);
         };
@@ -55,7 +56,7 @@ export default function AuthContextProvider({ children }) {
             await AsyncStorage.removeItem("auth");
             await AsyncStorage.removeItem("wishList");
         } catch (error) {
-            Alert.alert(error.message);
+            Alert.alert(getErrorMessage(error));
         };
     };
 
@@ -68,13 +69,13 @@ export default function AuthContextProvider({ children }) {
 
             setAuth(result);
         } catch (error) {
-            Alert.alert("Register fail", error.message);
+            Alert.alert("Register fail", getErrorMessage(error));
         } finally {
             setIsPending(false);
         };
     }
 
-    const isAuthenticated = !!auth?.accessToken;
+    const isAuthenticated = !!auth?.access_token;
 
     const AuthContextValues = {
         onLogin,

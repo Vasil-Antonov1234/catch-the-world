@@ -1,37 +1,42 @@
 import { Alert } from "react-native";
 import { api } from "./api.js";
+import { getErrorMessage } from "../utils/error.util.js";
 
 export async function getAll() {
-    const response = await api.get("/destinations")
+    try {
+        const result = await api.get("/destinations")
 
-    return response.data;
+        return result.data;
+    } catch (error) {
+        Alert.alert(getErrorMessage(error));
+    };
 };
 
 export async function getByContinentId(continentId) {
     try {
-        const response = await api.get(`/destinations?continent_id=eq.${continentId}`);
+        const result = await api.get(`/destinations?continent_id=eq.${continentId}`);
+        return result.data;
     } catch (error) {
-        Alert.alert(error.response?.data.msg);
+        Alert.alert(getErrorMessage(error));
     };
-    return response.data;
 };
 
 export async function getById(id) {
     try {
-        const response = await api.get(`/destinations?id=eq.${id}`);
+        const result = await api.get(`/destinations?id=eq.${id}`);
+        return result.data[0];
     } catch (error) {
-        Alert.alert(error.response?.data.msg);
+        Alert.alert(getErrorMessage(error));
     };
-    return response.data[0];
 };
 
 export async function getTopDestinations() {
-    
+
     try {
         const result = await api.get("/destinations?order=rating.desc.nullslast,name.asc&limit=5");
+        return result.data;
     } catch (error) {
-        Alert.alert(error.response?.data.msg);
+        Alert.alert(getErrorMessage(error));
     };
 
-    return result.data;
 };
