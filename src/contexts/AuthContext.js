@@ -1,13 +1,10 @@
 import { createContext } from "react";
 
 const AuthContext = createContext({
-    user: {
-        id: -1,
-        accessToken: "",
-        email: ""
-    },
-    onLogin() {},
+    auth: null,
+    onLogin(email, password) {},
     onLogout() {},
+    onRegister(email, password) {},
     isAuthenticated: false,
     isPending: false
 });

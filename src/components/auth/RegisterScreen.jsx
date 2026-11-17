@@ -1,25 +1,43 @@
-import { Pressable, View, Text, StyleSheet, KeyboardAvoidingView, TextInput, Platform, Keyboard } from "react-native";
+import { Pressable, View, Text, StyleSheet, KeyboardAvoidingView, TextInput, Platform, Keyboard, ActivityIndicator } from "react-native";
 import ButtonPrimary from "../buttons/ButtonPrimary.jsx";
 import colors from "../../theme/colors.js";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import ButtonCustom from "../buttons/ButtonCustom.jsx";
+import AuthContext from "../../contexts/AuthContext.js";
+
+const initialValues = {
+    fullName: "",
+    email: "",
+    password: "",
+    confirmPassword: ""
+}
 
 export default function RegisterScreen({ navigation }) {
-    const [fullName, setFullName] = useState("");
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
+    const { onRegister, isPending } = useContext(AuthContext);
 
-    function submitHandler() {
-        alert(`email: ${email}, password: ${password}`);
+    const [values, setValues] = useState(initialValues);
+
+    function changeHandler(name, value) {
+        setValues(state => ({
+            ...state,
+            [name]: value
+        }));
+    };
+
+    async function submitHandler() {
+
+        await onRegister(values.email, values.password, values.fullName);
+
         Keyboard.dismiss();
         setEmail("");
         setPassword("");
         setConfirmPassword("");
+        setValues(initialValues);
     }
 
     return (
         <View>
+            {isPending ? <ActivityIndicator size="large" /> : ""}
             <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "position"} style={styles.container} contentContainerStyle={styles.container}>
                 <View style={styles.logoCtr}>
                     <Text style={styles.logoL}>Catch</Text>
@@ -28,10 +46,10 @@ export default function RegisterScreen({ navigation }) {
                 </View>
 
                 <Text style={styles.loginText}>Create an account</Text>
-                <TextInput placeholder="FullName" value={fullName} onChangeText={setFullName} style={styles.input} />
-                <TextInput placeholder="Email" value={email} onChangeText={setEmail} style={styles.input} />
-                <TextInput placeholder="Password" value={password} onChangeText={setPassword} secureTextEntry style={styles.input} />
-                <TextInput placeholder="Confirm Password" value={confirmPassword} onChangeText={setConfirmPassword} secureTextEntry style={styles.input} />
+                <TextInput placeholder="FullName" value={values.fullName} onChangeText={(text) => changeHandler("fullName", text)} style={styles.input} />
+                <TextInput placeholder="Email" value={values.email} onChangeText={(text) => changeHandler("email", text)} style={styles.input} />
+                <TextInput placeholder="Password" value={values.password} onChangeText={(text) => changeHandler("password", text)} secureTextEntry style={styles.input} />
+                <TextInput placeholder="Confirm Password" value={values.confirmPassword} onChangeText={(text) => changeHandler("confirmPassword", text)} secureTextEntry style={styles.input} />
                 <ButtonCustom text="Register" background={styles.button} textColor={styles.buttonText} onPress={submitHandler} />
                 <Pressable onPress={() => navigation.goBack()}>
                     <Text style={styles.link}>Already have an account? Go to login</Text>

@@ -5,12 +5,24 @@ import ButtonPrimary from "../buttons/ButtonPrimary.jsx";
 import AuthContext from "../../contexts/AuthContext.js";
 import ButtonCustom from "../buttons/ButtonCustom.jsx";
 
-export default function LoginScreen({ navigation }) {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const { onLogin, isPending } = useContext(AuthContext);
+const initialValues = {
+    email: "",
+    password: "",
+}
 
-    function submitHandler() {
+export default function LoginScreen({ navigation }) {
+    const { onLogin, isPending } = useContext(AuthContext);
+   
+    const [values, setValues] = useState(initialValues);
+
+    function changeHandler(name, value) {
+        setValues(state => ({
+            ...state,
+            [name]: value
+        }));
+    };
+
+    async function submitHandler() {
 
         if (!email) {
             alert("Email is required");
@@ -27,15 +39,15 @@ export default function LoginScreen({ navigation }) {
             return;
         }
 
-        onLogin(email);
+        await onLogin(values.email, values.password);
 
         Keyboard.dismiss();
-        setEmail("");
-        setPassword("");
-    }
+        setValues(initialValues);
+    };
 
     return (
         <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "position"} style={styles.container} contentContainerStyle={styles.container}>
+            {isPending ? <ActivityIndicator size="large" /> : ""}
             <View style={styles.logoCtr}>
                 <Text style={styles.logoL}>Catch</Text>
                 <Text style={styles.LogoM}>the</Text>
@@ -43,13 +55,12 @@ export default function LoginScreen({ navigation }) {
             </View>
 
             <Text style={styles.loginText}>Login to continue</Text>
-            <TextInput placeholder="Email" value={email} onChangeText={setEmail} style={styles.input} />
-            <TextInput placeholder="Password" value={password} onChangeText={setPassword} secureTextEntry style={styles.input} />
-            <ButtonCustom text="Login" background={styles.button} textColor={styles.buttonText} onPress={submitHandler}/>
+            <TextInput placeholder="Email" value={values.email} onChangeText={(text) => changeHandler("email", text)} style={styles.input} />
+            <TextInput placeholder="Password" value={values.password} onChangeText={(text) => changeHandler("password", text)} secureTextEntry style={styles.input} />
+            <ButtonCustom text="Login" background={styles.button} textColor={styles.buttonText} onPress={submitHandler} />
             <Pressable onPress={() => navigation.navigate("Register")}>
                 <Text style={styles.link}>Don't have an account? Go to register</Text>
             </Pressable>
-            {isPending ? <ActivityIndicator size="large" /> : ""}
         </KeyboardAvoidingView>
     );
 };

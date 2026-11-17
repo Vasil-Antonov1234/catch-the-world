@@ -1,7 +1,13 @@
-import api from "./api.js";
+import { Alert } from "react-native";
+import { api } from "./api.js";
 
 export async function getAll() {
-    const response = await api.get("/continents");
+    
+    try {
+        const response = await api.get("/continents");
+    } catch (error) {
+        Alert.alert(error.response?.data.msg);
+    };
 
     return response.data;
 };
