@@ -10,6 +10,8 @@ import PickDurationModal from '../components/pick-duration-modal/PickDurationMod
 import * as ImagePicker from "expo-image-picker";
 import ImagePreview from '../components/image-preview/ImagePreview.jsx';
 import { File } from 'expo-file-system';
+import ButtonIcon from '../components/buttons/ButtonIcon.jsx';
+import * as Location from 'expo-location';
 
 const posterPlaceholder = 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?q=80&w=1200&auto=format&fit=crop';
 
@@ -106,7 +108,25 @@ export default function ManageTripScreen() {
     function cancelImageHandler() {
 
         changeHandler("poster", null);
-    }
+    };
+
+    async function useLocationHandler() {
+        const { status } = await Location.requestForegroundPermissionsAsync();
+
+        if (status !== 'granted') {
+            setErrorMsg('Permission to access location was denied');
+            return;
+        };
+
+        const location = await Location.getCurrentPositionAsync({});
+
+        const reversedLocation = await Location.reverseGeocodeAsync({
+            latitude: location.coords.latitude,
+            longitude: location.coords.longitude
+        });
+
+        changeHandler("location", `${reversedLocation[0].country}`);
+    };
 
     async function submitHandler() {
         setIsPending(true);
@@ -200,6 +220,16 @@ export default function ManageTripScreen() {
                         placeholder="Enter location"
                         placeholderTextColor="#9CA3AF"
                     />
+                    <View style={styles.setLocationCtr}>
+                        <Text style={styles.text}>or use my current location</Text>
+                        <ButtonIcon
+                            icon={{ uri: "https://cdn-icons-png.flaticon.com/512/5654/5654592.png" }}
+                            color={colors.primary}
+                            mode={"contained"}
+                            size={30}
+                            onPress={useLocationHandler}
+                        />
+                    </View>
                 </View>
 
                 {/* Rating */}
@@ -248,7 +278,7 @@ export default function ManageTripScreen() {
                     onPress={submitHandler}
                 />
 
-                {isPending ? <ActivityIndicator size={"large"}/> : ""}
+                {isPending ? <ActivityIndicator size={"large"} /> : ""}
             </ScrollView>
         </KeyboardAvoidingView>
     );
@@ -357,5 +387,10 @@ const styles = StyleSheet.create({
         fontSize: 12,
         textAlign: "center",
         color: colors.backgroundDarck
+    },
+    setLocationCtr: {
+        flexDirection: "row",
+        justifyContent: "flex-end",
+        alignItems: "center"
     }
 });
