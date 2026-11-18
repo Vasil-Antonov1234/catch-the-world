@@ -1,5 +1,5 @@
 import { Alert } from "react-native";
-import { api } from "./api.js";
+import { api, storage } from "./api.js";
 import { getErrorMessage } from "../utils/error.util.js";
 
 export async function create(values) {
@@ -17,4 +17,18 @@ export async function create(values) {
     } catch (error) {
         Alert.alert(getErrorMessage(error));
     };
+};
+
+export async function uploadImage(file, fileName) {
+    const bytes = await file.arrayBuffer();
+
+    const result = await storage.post(`/trips/${fileName}`, bytes, {
+        headers: {
+            "Content-Type": "image/jpeg"
+        }
+    })
+
+    const publicUrl = `${storage.defaults.baseURL}/public/trips/${fileName}`;
+
+    return publicUrl;
 }

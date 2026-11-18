@@ -20,5 +20,5 @@ export const auth = axios.create({
 
 export const storage = axios.create({
     ...base.defaults,
-    baseURL: `${base.defaults.baseURL}/storage/v1`
+    baseURL: `${base.defaults.baseURL}/storage/v1/object`
 });

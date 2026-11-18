@@ -1,5 +1,4 @@
-// import React from 'react';
-import { View, Text, StyleSheet, ScrollView, TextInput, Image, Pressable, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TextInput, Image, Pressable, KeyboardAvoidingView, Platform, Alert, ActivityIndicator } from 'react-native';
 import ButtonCustom from '../components/buttons/ButtonCustom.jsx';
 import colors from '../theme/colors.js';
 import { useState } from 'react';
@@ -8,12 +7,15 @@ import RatingSlider from '../components/rating-slider/RatingSlider.jsx';
 import { tripsApi } from '../api/index.js';
 import TripDatePicker from '../components/trip-date-picker/TripDatePicker.jsx';
 import PickDurationModal from '../components/pick-duration-modal/PickDurationModal.jsx';
+import * as ImagePicker from "expo-image-picker";
+import ImagePreview from '../components/image-preview/ImagePreview.jsx';
+import { File } from 'expo-file-system';
 
 const posterPlaceholder = 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?q=80&w=1200&auto=format&fit=crop';
 
 const initialValues = {
     name: "",
-    poster: "",
+    poster: null,
     location: "",
     rating: 0,
     description: "",
@@ -27,6 +29,7 @@ export default function ManageTripScreen() {
     const [selectedDate, setSelectedDate] = useState(null);
     const [isShowModal, setIsShowModal] = useState(false);
     const [isShowDurationModal, setIsShowDurationModal] = useState(false);
+    const [isPending, setIsPending] = useState(false);
 
     function changeHandler(name, value) {
         setValues(state => ({
@@ -47,24 +50,83 @@ export default function ManageTripScreen() {
         setIsShowDurationModal(false);
     };
 
-    async function submitHandler() {
-
-        await tripsApi.create(values);
-        setValues(initialValues);
-
-    };
-
     function confirmDateHandler({ days, startDate, endDate }) {
-        // console.log(`Trip from ${startDate} to ${endDate} and duration of ${days} days`);
 
-        setValues((state) => ({
-            ...state,
-            startdate: startDate,
-            enddate: endDate
-        }));
+        changeHandler("startdate", startDate);
+        changeHandler("enddate", endDate);
 
         setIsShowDurationModal(false);
         setSelectedDate(null);
+    };
+
+    async function pickFromGalleryHandler() {
+        const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+        if (permissionResult.granted === false) {
+            Alert.alert("Permission to access gallery is required!");
+            return;
+        };
+
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ['images'],
+            allowsEditing: true,
+            aspect: [4, 3],
+            quality: 1,
+        });
+
+        if (result.canceled) {
+            return;
+        };
+
+        changeHandler("poster", result.assets[0].uri);
+
+    };
+
+    async function pickFromCameraHandler() {
+        const permissionResult = await ImagePicker.requestCameraPermissionsAsync();
+
+        if (!permissionResult.granted) {
+            Alert.alert('Permission to access the camera is required!');
+            return;
+        }
+
+        let result = await ImagePicker.launchCameraAsync({
+            allowsEditing: true,
+            aspect: [4, 3],
+            quality: 1,
+        });
+
+        if (result.canceled) {
+            return;
+        };
+
+        changeHandler("poster", result.assets[0].uri);
+    };
+
+    function cancelImageHandler() {
+
+        changeHandler("poster", null);
+    }
+
+    async function submitHandler() {
+        setIsPending(true);
+
+        let imageUrl = values.poster;
+
+        if (imageUrl) {
+            const file = new File(imageUrl);
+            const fileName = `${values.name}-${values.startdate}-${Date.now()}.jpg`;
+
+            imageUrl = await tripsApi.uploadImage(file, fileName);
+        }
+
+        await tripsApi.create({
+            ...values,
+            poster: imageUrl
+        });
+        setValues(initialValues);
+
+        setIsPending(false);
     };
 
     return (
@@ -83,13 +145,15 @@ export default function ManageTripScreen() {
                         placeholderTextColor="#9CA3AF"
                     />
                 </View>
-
                 <View style={styles.field}>
                     <Text style={styles.label}>Poster</Text>
                     <View style={styles.posterCard}>
-                        {/* Image Preview */}
+
+                        {/* Image */}
                         <View style={styles.posterCtr}>
-                            {values.poster ? <Image source={{ uri: values.poster }} style={styles.posterImage} /> : <Icon source="image" size={240} color={colors.backgroundDarck} />}
+                            {values.poster ?
+                                <ImagePreview imageUri={values.poster} onCancel={cancelImageHandler} /> :
+                                <Icon source="image" size={240} color={colors.backgroundDarck} />}
                         </View>
                         <View style={styles.posterButtonsCtr}>
                             <ButtonCustom
@@ -99,6 +163,7 @@ export default function ManageTripScreen() {
                                 icon="camera"
                                 iconSize={20}
                                 iconColor={colors.primary}
+                                onPress={pickFromCameraHandler}
                             />
                             <ButtonCustom
                                 text="Gallery"
@@ -107,6 +172,7 @@ export default function ManageTripScreen() {
                                 icon="image"
                                 iconSize={20}
                                 iconColor={colors.primary}
+                                onPress={pickFromGalleryHandler}
                             />
                         </View>
                         <View>
@@ -124,6 +190,7 @@ export default function ManageTripScreen() {
                     </View>
                 </View>
 
+                {/* Location */}
                 <View style={styles.field}>
                     <Text style={styles.label}>Location</Text>
                     <TextInput
@@ -135,10 +202,12 @@ export default function ManageTripScreen() {
                     />
                 </View>
 
+                {/* Rating */}
                 <View style={styles.field}>
                     <RatingSlider value={values.rating} onChange={(text) => changeHandler("rating", text)} />
                 </View>
 
+                {/* Description */}
                 <View style={styles.field}>
                     <Text style={styles.label}>Description</Text>
                     <TextInput
@@ -152,6 +221,7 @@ export default function ManageTripScreen() {
                     />
                 </View>
 
+                {/* Date */}
                 <View style={styles.field}>
                     <Text style={styles.label}>Date</Text>
                     <View style={styles.dateButtonsCtr}>
@@ -177,6 +247,8 @@ export default function ManageTripScreen() {
                     textColor={styles.createButtonText}
                     onPress={submitHandler}
                 />
+
+                {isPending ? <ActivityIndicator size={"large"}/> : ""}
             </ScrollView>
         </KeyboardAvoidingView>
     );
