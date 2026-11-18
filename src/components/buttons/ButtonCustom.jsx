@@ -1,14 +1,14 @@
 import { Pressable, Text, StyleSheet, View } from "react-native";
 import { Icon } from "react-native-paper";
 
-export default function ButtonCustom({ text, textColor, background, onPress, icon = null, iconSize = null }) {
+export default function ButtonCustom({ text, textColor, background, onPress, icon = null, iconSize = null, iconColor = null }) {
     return (
         <Pressable
             style={({ pressed }) => [styles.container, background, pressed && styles.pressed]}
             onPress={onPress}
         >
             <View style={styles.buttonContentCtr}>
-                {icon ? <Icon source={icon} size={iconSize} /> : ""}
+                {icon ? <Icon source={icon} size={iconSize} color={iconColor}/> : ""}
                 <Text style={textColor}>{text}</Text>
             </View>
         </Pressable>

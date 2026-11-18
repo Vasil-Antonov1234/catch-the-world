@@ -5,19 +5,28 @@ import colors from '../theme/colors.js';
 import { useState } from 'react';
 import { Icon } from 'react-native-paper';
 import RatingSlider from '../components/rating-slider/RatingSlider.jsx';
+import { tripsApi } from '../api/index.js';
+import TripDatePicker from '../components/trip-date-picker/TripDatePicker.jsx';
+import PickDurationModal from '../components/pick-duration-modal/PickDurationModal.jsx';
 
 const posterPlaceholder = 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?q=80&w=1200&auto=format&fit=crop';
 
+const initialValues = {
+    name: "",
+    poster: "",
+    location: "",
+    rating: 0,
+    description: "",
+    startdate: null,
+    enddate: null
+};
+
 export default function ManageTripScreen() {
-    const initialValues = {
-        name: "",
-        poster: "",
-        location: "",
-        rating: 0,
-        description: ""
-    };
 
     const [values, setValues] = useState(initialValues);
+    const [selectedDate, setSelectedDate] = useState(null);
+    const [isShowModal, setIsShowModal] = useState(false);
+    const [isShowDurationModal, setIsShowDurationModal] = useState(false);
 
     function changeHandler(name, value) {
         setValues(state => ({
@@ -26,10 +35,37 @@ export default function ManageTripScreen() {
         }));
     };
 
-    function submitHandler() {
-        console.log(values);
+    function setDateHandler(selectedDate) {
+        setIsShowModal(false);
+        setSelectedDate(selectedDate);
+
+        setIsShowDurationModal(true);
+    };
+
+    function cancelPlanning() {
+        setSelectedDate(null);
+        setIsShowDurationModal(false);
+    };
+
+    async function submitHandler() {
+
+        await tripsApi.create(values);
         setValues(initialValues);
-    }
+
+    };
+
+    function confirmDateHandler({ days, startDate, endDate }) {
+        // console.log(`Trip from ${startDate} to ${endDate} and duration of ${days} days`);
+
+        setValues((state) => ({
+            ...state,
+            startdate: startDate,
+            enddate: endDate
+        }));
+
+        setIsShowDurationModal(false);
+        setSelectedDate(null);
+    };
 
     return (
         <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "padding"} style={{ flex: 1 }}>
@@ -53,7 +89,7 @@ export default function ManageTripScreen() {
                     <View style={styles.posterCard}>
                         {/* Image Preview */}
                         <View style={styles.posterCtr}>
-                            {values.poster ? <Image source={{ uri: posterPlaceholder }} style={styles.posterImage} /> : <Icon source="image" size={240} color={colors.backgroundDarck} />}
+                            {values.poster ? <Image source={{ uri: values.poster }} style={styles.posterImage} /> : <Icon source="image" size={240} color={colors.backgroundDarck} />}
                         </View>
                         <View style={styles.posterButtonsCtr}>
                             <ButtonCustom
@@ -62,6 +98,7 @@ export default function ManageTripScreen() {
                                 textColor={styles.posterButtonText}
                                 icon="camera"
                                 iconSize={20}
+                                iconColor={colors.primary}
                             />
                             <ButtonCustom
                                 text="Gallery"
@@ -69,6 +106,19 @@ export default function ManageTripScreen() {
                                 textColor={styles.posterButtonText}
                                 icon="image"
                                 iconSize={20}
+                                iconColor={colors.primary}
+                            />
+                        </View>
+                        <View>
+                            <Text style={styles.text}>or</Text>
+                        </View>
+                        <View>
+                            <TextInput
+                                style={styles.input}
+                                value={values.poster}
+                                onChangeText={(text) => changeHandler("poster", text)}
+                                placeholder="Image URL"
+                                placeholderTextColor="#9CA3AF"
                             />
                         </View>
                     </View>
@@ -100,6 +150,25 @@ export default function ManageTripScreen() {
                         placeholder="Enter trip description"
                         placeholderTextColor="#9CA3AF"
                     />
+                </View>
+
+                <View style={styles.field}>
+                    <Text style={styles.label}>Date</Text>
+                    <View style={styles.dateButtonsCtr}>
+                        {/* <Icon source={"calendar"} size={40} color={colors.backgroundDarck}/> */}
+                        <ButtonCustom
+                            text="Set date"
+                            background={styles.posterButton}
+                            textColor={styles.posterButtonText}
+                            onPress={() => setIsShowModal(true)}
+                            icon="calendar"
+                            iconSize={20}
+                            iconColor={colors.primary}
+                        />
+                    </View>
+                    {isShowModal ? <TripDatePicker onCancel={() => setIsShowModal(false)} onConfirm={setDateHandler} /> : ""}
+
+                    {isShowDurationModal ? <PickDurationModal startDate={selectedDate} onCancel={cancelPlanning} onConfirm={confirmDateHandler} /> : ""}
                 </View>
 
                 <ButtonCustom
@@ -206,5 +275,15 @@ const styles = StyleSheet.create({
         color: colors.textOnPrimary,
         fontSize: 15,
         fontWeight: '700'
+    },
+    dateButtonsCtr: {
+        flexDirection: "row",
+        justifyContent: "flex-end",
+        alignItems: "center"
+    },
+    text: {
+        fontSize: 12,
+        textAlign: "center",
+        color: colors.backgroundDarck
     }
 });

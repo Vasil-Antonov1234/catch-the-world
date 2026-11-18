@@ -47,7 +47,7 @@ export default function PickDurationModal({ startDate, onConfirm, onCancel }) {
                         <Pressable style={styles.cancelButton} onPress={onCancel}>
                             <Text style={styles.cancelText}>Cancel</Text>
                         </Pressable>
-                        <Pressable style={styles.confirmButton} onPress={() => onConfirm({days, startDate: formatDate(startDate), endDate: formatDate(endDate)})}>
+                        <Pressable style={styles.confirmButton} onPress={() => onConfirm({days, startDate: startDate, endDate: endDate})}>
                             <Text style={styles.confirmText}>Plan trip</Text>
                         </Pressable>
                     </View>
