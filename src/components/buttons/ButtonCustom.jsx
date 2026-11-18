@@ -1,12 +1,16 @@
-import { Pressable, Text, StyleSheet } from "react-native";
+import { Pressable, Text, StyleSheet, View } from "react-native";
+import { Icon } from "react-native-paper";
 
-export default function ButtonCustom({ text, textColor, background, onPress }) {
+export default function ButtonCustom({ text, textColor, background, onPress, icon = null, iconSize = null }) {
     return (
         <Pressable
             style={({ pressed }) => [styles.container, background, pressed && styles.pressed]}
             onPress={onPress}
         >
-            <Text style={textColor}>{text}</Text>
+            <View style={styles.buttonContentCtr}>
+                {icon ? <Icon source={icon} size={iconSize} /> : ""}
+                <Text style={textColor}>{text}</Text>
+            </View>
         </Pressable>
     );
 }
@@ -18,5 +22,11 @@ const styles = StyleSheet.create({
     },
     pressed: {
         opacity: 0.7,
+    },
+    buttonContentCtr: {
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center",
+        gap: 10
     }
 })

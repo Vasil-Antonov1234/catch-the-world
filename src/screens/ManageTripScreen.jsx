@@ -1,172 +1,210 @@
 // import React from 'react';
-import { View, Text, StyleSheet, ScrollView, TextInput, Image, Pressable } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TextInput, Image, Pressable, KeyboardAvoidingView, Platform } from 'react-native';
+import ButtonCustom from '../components/buttons/ButtonCustom.jsx';
+import colors from '../theme/colors.js';
+import { useState } from 'react';
+import { Icon } from 'react-native-paper';
+import RatingSlider from '../components/rating-slider/RatingSlider.jsx';
 
 const posterPlaceholder = 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?q=80&w=1200&auto=format&fit=crop';
 
 export default function ManageTripScreen() {
+    const initialValues = {
+        name: "",
+        poster: "",
+        location: "",
+        rating: 0,
+        description: ""
+    };
+
+    const [values, setValues] = useState(initialValues);
+
+    function changeHandler(name, value) {
+        setValues(state => ({
+            ...state,
+            [name]: value
+        }));
+    };
+
+    function submitHandler() {
+        console.log(values);
+        setValues(initialValues);
+    }
+
     return (
-        <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
-            <Text style={styles.title}>Create a Trip</Text>
-            <Text style={styles.subtitle}>Add the main details for your next destination.</Text>
+        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "padding"} style={{ flex: 1 }}>
+            <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
+                <Text style={styles.title}>Create a Trip</Text>
+                <Text style={styles.subtitle}>Add the main details for your next destination.</Text>
 
-            <View style={styles.field}>
-                <Text style={styles.label}>Trip name</Text>
-                <TextInput
-                    style={styles.input}
-                    value="Summer in Lisbon"
-                    editable={false}
-                    placeholder="Enter trip name"
-                    placeholderTextColor="#9CA3AF"
-                />
-            </View>
-
-            <View style={styles.field}>
-                <Text style={styles.label}>Poster</Text>
-                <View style={styles.posterCard}>
-                    <Image source={{ uri: posterPlaceholder }} style={styles.posterImage} />
-                    <Pressable style={styles.posterButton}>
-                        <Text style={styles.posterButtonText}>Choose poster</Text>
-                    </Pressable>
+                <View style={styles.field}>
+                    <Text style={styles.label}>Place name</Text>
+                    <TextInput
+                        style={styles.input}
+                        value={values.name}
+                        onChangeText={(text) => changeHandler("name", text)}
+                        placeholder="Enter trip name"
+                        placeholderTextColor="#9CA3AF"
+                    />
                 </View>
-            </View>
 
-            <View style={styles.field}>
-                <Text style={styles.label}>Location</Text>
-                <TextInput
-                    style={styles.input}
-                    value="Lisbon, Portugal"
-                    editable={false}
-                    placeholder="Enter location"
-                    placeholderTextColor="#9CA3AF"
-                />
-            </View>
-
-            <View style={styles.field}>
-                <Text style={styles.label}>Rating</Text>
-                <View style={styles.ratingRow}>
-                    <Text style={styles.ratingStars}>★★★★☆</Text>
-                    <Text style={styles.ratingValue}>4.0 / 5</Text>
+                <View style={styles.field}>
+                    <Text style={styles.label}>Poster</Text>
+                    <View style={styles.posterCard}>
+                        {/* Image Preview */}
+                        <View style={styles.posterCtr}>
+                            {values.poster ? <Image source={{ uri: posterPlaceholder }} style={styles.posterImage} /> : <Icon source="image" size={240} color={colors.backgroundDarck} />}
+                        </View>
+                        <View style={styles.posterButtonsCtr}>
+                            <ButtonCustom
+                                text="Camera"
+                                background={styles.posterButton}
+                                textColor={styles.posterButtonText}
+                                icon="camera"
+                                iconSize={20}
+                            />
+                            <ButtonCustom
+                                text="Gallery"
+                                background={styles.posterButton}
+                                textColor={styles.posterButtonText}
+                                icon="image"
+                                iconSize={20}
+                            />
+                        </View>
+                    </View>
                 </View>
-            </View>
 
-            <View style={styles.field}>
-                <Text style={styles.label}>Description</Text>
-                <TextInput
-                    style={[styles.input, styles.textArea]}
-                    value="A sunny city break with historic neighborhoods, ocean views, and amazing food."
-                    editable={false}
-                    multiline
-                    textAlignVertical="top"
-                    placeholder="Enter trip description"
-                    placeholderTextColor="#9CA3AF"
+                <View style={styles.field}>
+                    <Text style={styles.label}>Location</Text>
+                    <TextInput
+                        style={styles.input}
+                        value={values.location}
+                        onChangeText={(text) => changeHandler("location", text)}
+                        placeholder="Enter location"
+                        placeholderTextColor="#9CA3AF"
+                    />
+                </View>
+
+                <View style={styles.field}>
+                    <RatingSlider value={values.rating} onChange={(text) => changeHandler("rating", text)} />
+                </View>
+
+                <View style={styles.field}>
+                    <Text style={styles.label}>Description</Text>
+                    <TextInput
+                        style={[styles.input, styles.textArea]}
+                        value={values.description}
+                        onChangeText={(text) => changeHandler("description", text)}
+                        multiline
+                        textAlignVertical="top"
+                        placeholder="Enter trip description"
+                        placeholderTextColor="#9CA3AF"
+                    />
+                </View>
+
+                <ButtonCustom
+                    background={styles.createButton}
+                    text="Create trip"
+                    textColor={styles.createButtonText}
+                    onPress={submitHandler}
                 />
-            </View>
-
-            <Pressable style={styles.createButton}>
-                <Text style={styles.createButtonText}>Create trip</Text>
-            </Pressable>
-        </ScrollView>
+            </ScrollView>
+        </KeyboardAvoidingView>
     );
 }
 
 const styles = StyleSheet.create({
     screen: {
         flex: 1,
-        backgroundColor: '#F8FAFC',
+        backgroundColor: colors.background
     },
     content: {
         padding: 20,
-        paddingBottom: 32,
+        paddingBottom: 32
     },
     title: {
         fontSize: 28,
         fontWeight: '700',
-        color: '#0F172A',
+        color: colors.textPrimary
     },
     subtitle: {
         marginTop: 6,
         marginBottom: 18,
-        fontSize: 14,
-        color: '#64748B',
+        fontSize: 12,
+        color: colors.textSecondary
     },
     field: {
-        marginBottom: 16,
+        marginBottom: 16
     },
     label: {
         marginBottom: 8,
         fontSize: 14,
         fontWeight: '600',
-        color: '#1E293B',
+        color: colors.textPrimary
     },
     input: {
-        backgroundColor: '#FFFFFF',
+        backgroundColor: colors.surface,
         borderWidth: 1,
-        borderColor: '#E2E8F0',
+        borderColor: colors.LightBlue,
         borderRadius: 12,
         paddingHorizontal: 14,
         paddingVertical: 12,
         fontSize: 15,
-        color: '#0F172A',
+        color: colors.textPrimary
     },
     textArea: {
-        minHeight: 120,
+        minHeight: 120
     },
     posterCard: {
-        backgroundColor: '#FFFFFF',
+        backgroundColor: colors.surface,
         borderWidth: 1,
-        borderColor: '#E2E8F0',
+        borderColor: colors.LightBlue,
         borderRadius: 12,
-        padding: 10,
+        padding: 10
+    },
+    posterCtr: {
+        position: "relative",
+        width: "100%",
+        height: 240,
+        overflow: "hidden",
+        justifyContent: "center",
+        alignItems: "center"
     },
     posterImage: {
-        width: '100%',
-        height: 170,
+        minWidth: '100%',
+        minHeight: "100%",
         borderRadius: 10,
-        backgroundColor: '#E2E8F0',
+        backgroundColor: colors.background,
+        position: "absolute"
+    },
+    posterButtonsCtr: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center"
     },
     posterButton: {
         marginTop: 10,
         paddingVertical: 10,
         borderRadius: 10,
-        backgroundColor: '#EEF2FF',
+        backgroundColor: colors.LightBlue,
         alignItems: 'center',
+        paddingHorizontal: 20
     },
     posterButtonText: {
-        color: '#3730A3',
+        color: colors.primary,
         fontWeight: '600',
-        fontSize: 14,
-    },
-    ratingRow: {
-        backgroundColor: '#FFFFFF',
-        borderWidth: 1,
-        borderColor: '#E2E8F0',
-        borderRadius: 12,
-        paddingHorizontal: 14,
-        paddingVertical: 12,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-    },
-    ratingStars: {
-        fontSize: 18,
-        letterSpacing: 1,
-        color: '#F59E0B',
-    },
-    ratingValue: {
-        fontSize: 14,
-        fontWeight: '600',
-        color: '#334155',
+        fontSize: 12
     },
     createButton: {
         marginTop: 6,
-        backgroundColor: '#0F172A',
+        backgroundColor: colors.primary,
         borderRadius: 12,
         paddingVertical: 14,
-        alignItems: 'center',
+        alignItems: 'center'
     },
     createButtonText: {
-        color: '#FFFFFF',
+        color: colors.textOnPrimary,
         fontSize: 15,
-        fontWeight: '700',
-    },
+        fontWeight: '700'
+    }
 });

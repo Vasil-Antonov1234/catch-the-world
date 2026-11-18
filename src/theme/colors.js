@@ -9,6 +9,7 @@ const colors = {
     backgroundDarck: "#6b7a8681",
     LightBlue: "#d7e5eb",
     shadowColor: '#000000',
+    golden: "#F59E0B",
 
     // Text
     textPrimary: '#1F2A33',
