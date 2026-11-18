@@ -9,6 +9,7 @@ import ProfileScreen from "../screens/ProfileScreen.jsx";
 import { useContext } from "react";
 import AppContext from "../contexts/AppContext.js";
 import WishListNavigator from "./WishListNavigator.jsx";
+import ProfileNavigator from "./ProfileNavigator.jsx";
 
 const Tabs = createBottomTabNavigator();
 
@@ -57,12 +58,13 @@ export default function RootNavigator() {
 
             <Tabs.Screen
                 name="ProfileTab"
-                component={ProfileScreen}
+                component={ProfileNavigator}
                 options={{
                     tabBarIcon: ({ color, size }) => <Ionicons name="person" color={color} size={size} />,
                     title: "Profile",
                     borderBottomLeftRadius: 20,
-                    borderBottomRightRadius: 20
+                    borderBottomRightRadius: 20,
+                    headerShown: false
                 }}
             />
         </Tabs.Navigator>

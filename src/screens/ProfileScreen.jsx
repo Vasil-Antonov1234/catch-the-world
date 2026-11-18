@@ -7,7 +7,7 @@ import colors from "../theme/colors.js";
 import StatCard from "../components/stat-card/StatCard.jsx";
 import ButtonCustom from "../components/buttons/ButtonCustom.jsx";
 
-export default function ProfileScreen() {
+export default function ProfileScreen({ navigation }) {
     const { onLogout } = useContext(AuthContext);
 
     const loading = false;
@@ -42,6 +42,9 @@ export default function ProfileScreen() {
             </View>
 
             <View style={styles.actions}>
+                <Pressable onPress={() => navigation.navigate("MyTrips")}>
+                    <Text style={styles.link}>Go to my trips</Text>
+                </Pressable>
 
                 <ButtonCustom
                     text="Edit profile"
@@ -60,6 +63,10 @@ export default function ProfileScreen() {
         </View>
     );
 }
+
+{/* <Pressable onPress={() => navigation.navigate("Register")}>
+    <Text style={styles.link}>Don't have an account? Go to register</Text>
+</Pressable> */}
 
 const styles = StyleSheet.create({
     container: {
@@ -139,5 +146,10 @@ const styles = StyleSheet.create({
         color: colors.primary,
         fontSize: 16,
         fontWeight: 'bold',
+    },
+    link: {
+        textAlign: "center",
+        color: "blue",
+        fontSize: 10
     }
 })
