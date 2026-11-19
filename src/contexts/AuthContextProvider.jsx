@@ -10,7 +10,7 @@ import useSecureState from "../hooks/useSecureState.js";
 export default function AuthContextProvider({ children }) {
     const [auth, setAuth] = useSecureState("auth", null);
     const [isPending, setIsPending] = useState(false);
-    const { clearWishlist } = useContext(AppContext);
+    const { clearWishlist, resetTheme } = useContext(AppContext);
 
     useEffect(() => {
 
@@ -51,11 +51,13 @@ export default function AuthContextProvider({ children }) {
 
     async function onLogout() {
         setAuth(null);
-        clearWishlist();
+        clearWishlist()
+        resetTheme()
 
         try {
             await AsyncStorage.removeItem("auth");
             await AsyncStorage.removeItem("wishList");
+            await AsyncStorage.removeItem("isDarkTheme");
         } catch (error) {
             Alert.alert(getErrorMessage(error));
         };

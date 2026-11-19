@@ -1,14 +1,16 @@
-import { View, Text, Image, Pressable, ActivityIndicator, Alert, StyleSheet } from "react-native";
+import { View, Text, Image, Pressable, ActivityIndicator, Alert, StyleSheet, Switch } from "react-native";
 import ButtonSecondaty from "../components/buttons/ButtonSecondary.jsx";
 import ButtonPrimary from "../components/buttons/ButtonPrimary.jsx";
 import { useContext } from "react";
 import AuthContext from "../contexts/AuthContext.js";
+import AppContext from "../contexts/AppContext.js";
 import colors from "../theme/colors.js";
 import StatCard from "../components/stat-card/StatCard.jsx";
 import ButtonCustom from "../components/buttons/ButtonCustom.jsx";
 
 export default function ProfileScreen({ navigation }) {
     const { onLogout } = useContext(AuthContext);
+    const { isDarkTheme, toggleTheme, theme } = useContext(AppContext);
 
     const loading = false;
     const stats = { trips: 0, visitedCountries: 0, visitedContinents: 0 };
@@ -18,7 +20,7 @@ export default function ProfileScreen({ navigation }) {
     }
 
     return (
-        <View style={styles.container}>
+        <View style={[{backgroundColor: theme.colors.background}, styles.container]}>
             <View style={styles.header}>
                 <View style={[styles.avatar, styles.avatarPlaceholder]}>
                     <Text style={styles.avatarInitials}>PI</Text>
@@ -59,19 +61,19 @@ export default function ProfileScreen({ navigation }) {
                     textColor={styles.outlineButtonText}
                     onPress={onLogout}
                 />
+
+                <Switch
+                    value={isDarkTheme}
+                    onValueChange={toggleTheme}
+                />
             </View>
         </View>
     );
 }
 
-{/* <Pressable onPress={() => navigation.navigate("Register")}>
-    <Text style={styles.link}>Don't have an account? Go to register</Text>
-</Pressable> */}
-
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        backgroundColor: colors.background,
+        flex: 1
     },
     header: {
         backgroundColor: colors.primary,

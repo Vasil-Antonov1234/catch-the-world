@@ -4,7 +4,11 @@ const AppContext = createContext({
    wishList: [],
    addToWishlist() {},
    removeFromWishlist() {},
-   clearWishlist() {}
+   clearWishlist() {},
+   isDarkTheme: false,
+   resetTheme() {},
+   toggleTheme() {},
+   theme: {}
 });
 
 export default AppContext;
