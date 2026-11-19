@@ -1,34 +1,18 @@
 import AppContext from "./AppContext.js";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import usePersistedState from "../hooks/usePersistedState.js";
 import { Platform } from "react-native";
 import { DefaultTheme, DarkTheme } from '@react-navigation/native';
+import { useColorScheme } from "react-native";
+import { setBackgroundColorAsync } from "expo-system-ui";
 
 
 export default function AppContextProvider({ children }) {
 
     const [wishList, setWishList] = usePersistedState("wishList", []);
-    const [isDarkTheme, setIsDarkTheme] = usePersistedState("isDarkTheme", false);
-
-    function addToWishlist(item) {
-        setWishList((state) => [...state, item]);
-    };
-
-    function removeFromWishlist(index) {
-        setWishList((state) => state.filter((x, i) => i !== index));
-    };
-
-    function clearWishlist() {
-        setWishList([]);
-    };
-
-    function resetTheme() {
-        setIsDarkTheme(false);
-    };
-
-    function toggleTheme() {
-        setIsDarkTheme((state) => !state);
-    };
+    const [manualDarkTheme, setManualDarkTheme] = usePersistedState("manualDarkTheme", null);
+    const colorScheme = useColorScheme();
+    const isDarkTheme = manualDarkTheme ?? colorScheme === 'dark';
 
     const lightTheme = useMemo(() => ({
         ...DefaultTheme,
@@ -123,6 +107,30 @@ export default function AppContextProvider({ children }) {
             },
         })
     }), []);
+
+    useEffect(() => {
+        setBackgroundColorAsync(isDarkTheme ? darckTheme.colors.background : lightTheme.colors.background);
+    }, [isDarkTheme]);
+
+    function addToWishlist(item) {
+        setWishList((state) => [...state, item]);
+    };
+
+    function removeFromWishlist(index) {
+        setWishList((state) => state.filter((x, i) => i !== index));
+    };
+
+    function clearWishlist() {
+        setWishList([]);
+    };
+
+    function resetTheme() {
+        setManualDarkTheme(null);
+    };
+
+    function toggleTheme() {
+        setManualDarkTheme((state) => !state);
+    };
 
     const AppContextValues = {
         wishList,

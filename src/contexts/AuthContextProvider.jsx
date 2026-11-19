@@ -57,7 +57,7 @@ export default function AuthContextProvider({ children }) {
         try {
             await AsyncStorage.removeItem("auth");
             await AsyncStorage.removeItem("wishList");
-            await AsyncStorage.removeItem("isDarkTheme");
+            await AsyncStorage.removeItem("manualDarkTheme");
         } catch (error) {
             Alert.alert(getErrorMessage(error));
         };
