@@ -20,13 +20,13 @@ export default function ProfileScreen({ navigation }) {
     }
 
     return (
-        <View style={[{backgroundColor: theme.colors.background}, styles.container]}>
-            <View style={styles.header}>
-                <View style={[styles.avatar, styles.avatarPlaceholder]}>
-                    <Text style={styles.avatarInitials}>PI</Text>
+        <View style={[styles.container, {backgroundColor: theme.colors.background}]}>
+            <View style={[styles.header, {backgroundColor: theme.colors.primary}]}>
+                <View style={[styles.avatar, styles.avatarPlaceholder, {borderColor: theme.colors.surface}]}>
+                    <Text style={[styles.avatarInitials, {color: theme.colors.textOnPrimary}]}>PI</Text>
                 </View>
-                <Text style={styles.name}>Pesho Ivanov</Text>
-                <Text style={styles.email}>Pesho@abv.bg</Text>
+                <Text style={[styles.name, {color: theme.colors.textPrimary}]}>Pesho Ivanov</Text>
+                <Text style={[styles.email, {color: theme.colors.textOnPrimary}]}>Pesho@abv.bg</Text>
             </View>
 
             <View style={styles.statsRow}>
@@ -76,7 +76,6 @@ const styles = StyleSheet.create({
         flex: 1
     },
     header: {
-        backgroundColor: colors.primary,
         alignItems: 'center',
         paddingTop: 96,
         paddingBottom: 48,
@@ -87,7 +86,6 @@ const styles = StyleSheet.create({
         height: 96,
         borderRadius: 48,
         borderWidth: 3,
-        borderColor: colors.surface,
     },
     avatarPlaceholder: {
         backgroundColor: colors.accent,
@@ -97,18 +95,15 @@ const styles = StyleSheet.create({
     avatarInitials: {
         fontSize: 32,
         fontWeight: 'bold',
-        color: colors.textOnPrimary,
     },
     name: {
         marginTop: 12,
         fontSize: 22,
         fontWeight: 'bold',
-        color: colors.textOnPrimary,
     },
     email: {
         marginTop: 4,
         fontSize: 14,
-        color: colors.textOnPrimary,
         opacity: 0.8,
     },
     statsRow: {

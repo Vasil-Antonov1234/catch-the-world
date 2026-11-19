@@ -2,6 +2,8 @@ import AppContext from "./AppContext.js";
 import { useState, useMemo } from "react";
 import usePersistedState from "../hooks/usePersistedState.js";
 import { Platform } from "react-native";
+import { DefaultTheme, DarkTheme } from '@react-navigation/native';
+
 
 export default function AppContextProvider({ children }) {
 
@@ -29,7 +31,10 @@ export default function AppContextProvider({ children }) {
     };
 
     const lightTheme = useMemo(() => ({
+        ...DefaultTheme,
+        dark: false,
         colors: {
+            ...DefaultTheme.colors,
             // Brand
             primary: '#0B4F6C',
             accent: '#E85D3F',
@@ -74,7 +79,10 @@ export default function AppContextProvider({ children }) {
     }), []);
 
     const darckTheme = useMemo(() => ({
+        ...DarkTheme,
+        dark: true,
         colors: {
+            ...DarkTheme.colors,
             // Brand
             primary: '#0B4F6C',
             accent: '#E85D3F',
@@ -83,7 +91,7 @@ export default function AppContextProvider({ children }) {
             background: '#1F2A33',
             surface: '#2C3E50',
             backgroundDarck: "#6b7a8681",
-            LightBlue: "#d7e5eb",
+            LightBlue: "#205f7a",
             shadowColor: '#000000',
             golden: "#F59E0B",
 
