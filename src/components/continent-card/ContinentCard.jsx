@@ -1,11 +1,14 @@
 import { View, Text, ScrollView, Pressable, StyleSheet, Image } from "react-native";
-import colors from "../../theme/colors.js"
+import colors from "../../theme/colors.js";
+import { useContext } from "react";
+import AppContext from "../../contexts/AppContext.js";
 
 export default function ContinentCard({ name, image, onPress }) {
+    const { theme } = useContext(AppContext);
     
     return (
-        <Pressable style={({ pressed }) => [{ elevation: pressed ? 0 : 3, opacity: pressed ? 0.7 : 1 }, styles.container]} onPress={onPress}>
-            <Text style={styles.title}>{name}</Text>
+        <Pressable style={({ pressed }) => [{ elevation: pressed ? 0 : 3, opacity: pressed ? 0.7 : 1 }, styles.container, { backgroundColor: theme.colors.surface }]} onPress={onPress}>
+            <Text style={[styles.title, {color: theme.colors.textSecondary}]}>{name}</Text>
             <Image source={{uri: image}} style={styles.image} resizeMode="cover" />
         </Pressable>
     );
@@ -16,7 +19,6 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: colors.surface,
         borderRadius: 20,
         shadowColor: "#000",
         shadowOffset: { width: 0, height: 2 },
@@ -27,7 +29,6 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 20,
         fontWeight: 900,
-        color: colors.textSecondary,
         padding: 10,
         flex: 1,
         textAlign: "center"
