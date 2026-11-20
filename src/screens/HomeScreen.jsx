@@ -5,13 +5,13 @@ import TopDestinationCard from "../components/top-destination-card/TopDestinatio
 import { useEffect, useState } from "react";
 import { continentApi, destinationsApi } from "../api/index.js";
 import { useContext } from "react";
-import AuthContext from "../contexts/AuthContext.js";
+import AppContext from "../contexts/AppContext.js";
 
 export default function HomeScreen({ navigation }) {
     const [continents, setContinents] = useState([]);
     const [refreshing, setRefreshing] = useState(false);
     const [topDestinations, setTopDestinations] = useState([]);
-    const { theme } = useContext(AppContext);
+    const { theme, isDarkTheme } = useContext(AppContext);
 
     useEffect(() => {
 
@@ -69,7 +69,7 @@ export default function HomeScreen({ navigation }) {
                 {continents.map((c) => <ContinentCard
                     key={c.id}
                     name={c.name}
-                    image={c.image}
+                    image={isDarkTheme ? c.image_black : c.image}
                     onPress={() => navigation.navigate("CitiesCatalog", { continentName: c.name, continentId: c.id })}
                 />)}
             </View>

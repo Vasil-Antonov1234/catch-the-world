@@ -1,6 +1,5 @@
 import { View, Text, Image, StyleSheet, Pressable } from "react-native";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
-// import colors from "../../theme/colors.js";
 import { useNavigation } from "@react-navigation/native";
 import { useContext } from "react";
 import AppContext from "../../contexts/AppContext.js";
@@ -27,11 +26,11 @@ export default function TopDestinationCard({
                 <Ionicons name={"heart-outline"} size={18} color="#FFFFFF" />
             </Pressable>
 
-            <View style={styles.detailsCard}>
+            <View style={[styles.detailsCard, {backgroundColor: theme.colors.backgroundDarck}]}>
 
                 <View style={styles.locationRow}>
-                    <Ionicons name="location-sharp" size={16} color={theme.colors.textSecondary} />
-                    <Text style={[styles.title, { color: theme.colors.textPrimary }]} numberOfLines={1}>{name}</Text>
+                    <Ionicons name="location-sharp" size={16} color={theme.colors.textOnPrimary} />
+                    <Text style={[styles.title, { color: theme.colors.textOnPrimary }]} numberOfLines={1}>{name}</Text>
                 </View>
             </View>
         </Pressable>
@@ -74,7 +73,6 @@ const styles = StyleSheet.create({
         left: 10,
         right: 10,
         bottom: 10,
-        backgroundColor: "rgba(255,255,255,0.9)",
         borderRadius: 16,
         paddingHorizontal: 7,
         paddingVertical: 6

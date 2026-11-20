@@ -22,11 +22,12 @@ export default function AppContextProvider({ children }) {
             // Brand
             primary: '#0B4F6C',
             accent: '#E85D3F',
+            logo: '#E85D3F',
 
             // Surfaces
             background: '#FAF5EC',
             surface: '#FFFFFF',
-            backgroundDarck: "#6b7a8681",
+            backgroundDarck: "#6b7a86c5",
             LightBlue: "#d7e5eb",
             shadowColor: '#000000',
             golden: "#F59E0B",
@@ -34,6 +35,7 @@ export default function AppContextProvider({ children }) {
             // Text
             textPrimary: '#1F2A33',
             textSecondary: '#6B7A86',
+            textOnSecondary: '#bfcad3',
             textOnPrimary: '#FFFFFF',
             link: '#0000EE',
 
@@ -70,11 +72,12 @@ export default function AppContextProvider({ children }) {
             // Brand
             primary: '#b7c8cf',
             accent: '#f1cab4',
+            logo: '#E85D3F',
 
             // Surfaces
             background: '#1F2A33',
             surface: '#2C3E50',
-            backgroundDarck: "#6b7a8681",
+            backgroundDarck: "#b0c9ddb9",
             LightBlue: "#205f7a",
             shadowColor: '#000000',
             golden: "#F59E0B",
@@ -82,6 +85,7 @@ export default function AppContextProvider({ children }) {
             // Text
             textPrimary: '#FFFFFF',
             textSecondary: '#B0B0B0',
+            textOnSecondary: '#5d5f61',
             textOnPrimary: '#000000',
             link: '#b8b8eb',
 

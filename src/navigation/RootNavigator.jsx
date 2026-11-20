@@ -24,8 +24,8 @@ export default function RootNavigator() {
                 borderBottomRightRadius: 20
             },
             headerTitle: () =>
-                <View style={styles.logoCtr}>
-                    <Text style={styles.logoL}>Catch <Text style={styles.logoM}>the </Text><Text style={styles.loroR}>World</Text></Text>
+                <View style={[styles.logoCtr, {backgroundColor: theme.colors.primary}]}>
+                    <Text style={[styles.logoL, {color: theme.colors.textOnPrimary}]}>Catch <Text style={[styles.logoM, {color: theme.colors.textOnPrimary}]}>the </Text><Text style={[styles.loroR, {color: theme.colors.accent}]}>World</Text></Text>
                 </View>,
             headerTitleAlign: "center",
             // headerTitleContainerStyle: {left: 0, right: 0},
@@ -78,26 +78,20 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         width: "100%",
         height: 40,
-        backgroundColor: colors.primary,
         paddingHorizontal: 14,
-        // borderEndEndRadius: 70,
-        // borderEndStartRadius: 70,
         borderRadius: 40,
         alignSelf: "center"
     },
     logoL: {
         fontSize: 20,
-        fontWeight: '900',
-        color: colors.textOnPrimary,
+        fontWeight: '900'
     },
     loroR: {
         fontSize: 20,
-        fontWeight: '900',
-        color: colors.accent
+        fontWeight: '900'
     },
     logoM: {
         fontSize: 16,
-        color: colors.textOnPrimary,
         fontWeight: "300"
     }
 });

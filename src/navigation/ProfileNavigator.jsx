@@ -4,10 +4,14 @@ import MyTripsScreen from "../screens/MyTripsScreen.jsx";
 import ManageTripScreen from "../screens/ManageTripScreen.jsx";
 import colors from "../theme/colors.js";
 import { View, Text, StyleSheet } from "react-native";
+import { useContext } from "react";
+import AppContext from "../contexts/AppContext.js";
 
 const Stack = createStackNavigator();
 
 export default function ProfileNavigator() {
+    const { theme } = useContext(AppContext);
+
     return (
         <Stack.Navigator>
             <Stack.Screen
@@ -15,12 +19,12 @@ export default function ProfileNavigator() {
                 component={ProfileScreen}
                 options={{
                     headerTitle: () =>
-                        <View style={styles.logoCtr}>
-                            <Text style={styles.logoL}>Catch <Text style={styles.logoM}>the </Text><Text style={styles.loroR}>World</Text></Text>
+                        <View style={[styles.logoCtr, { backgroundColor: theme.colors.primary }]}>
+                            <Text style={[styles.logoL, { color: theme.colors.textOnPrimary }]}>Catch <Text style={[styles.logoM, { color: theme.colors.textOnPrimary }]}>the </Text><Text style={[styles.loroR, { color: theme.colors.logo }]}>World</Text></Text>
                         </View>,
                     headerTitleAlign: "center",
                     headerStyle: {
-                        backgroundColor: colors.LightBlue,
+                        backgroundColor: theme.colors.LightBlue,
                         borderBottomLeftRadius: 20,
                         borderBottomRightRadius: 20
                     }

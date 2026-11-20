@@ -7,7 +7,7 @@ export default function ContinentCard({ name, image, onPress }) {
     const { theme } = useContext(AppContext);
     
     return (
-        <Pressable style={({ pressed }) => [{ elevation: pressed ? 0 : 3, opacity: pressed ? 0.7 : 1 }, styles.container, { backgroundColor: theme.colors.surface }]} onPress={onPress}>
+        <Pressable style={({ pressed }) => [{ elevation: pressed ? 0 : 3, opacity: pressed ? 0.7 : 1 }, styles.container, { backgroundColor: theme.colors.textOnPrimary }]} onPress={onPress}>
             <Text style={[styles.title, {color: theme.colors.textSecondary}]}>{name}</Text>
             <Image source={{uri: image}} style={styles.image} resizeMode="cover" />
         </Pressable>

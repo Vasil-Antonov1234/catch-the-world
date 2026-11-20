@@ -26,7 +26,7 @@ export default function ProfileScreen({ navigation }) {
                     <Text style={[styles.avatarInitials, {color: theme.colors.textOnPrimary}]}>PI</Text>
                 </View>
                 <Text style={[styles.name, {color: theme.colors.textPrimary}]}>Pesho Ivanov</Text>
-                <Text style={[styles.email, {color: theme.colors.textSecondary}]}>Pesho@abv.bg</Text>
+                <Text style={[styles.email, {color: theme.colors.textOnSecondary}]}>Pesho@abv.bg</Text>
             </View>
 
             <View style={styles.statsRow}>

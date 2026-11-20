@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet } from "react-native";
 import colors from "../../theme/colors.js";
 import { useContext } from "react";
-import AuthContext from "../../contexts/AuthContext.js";
+import AppContext from "../../contexts/AppContext.js";
 
 export default function StatCard({ value, label1, label2 }) {
     const { theme } = useContext(AppContext);

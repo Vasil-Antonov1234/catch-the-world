@@ -9,11 +9,11 @@ import AppContext from './contexts/AppContext.js';
 
 export default function App() {
     const { isAuthenticated } = useContext(AuthContext);
-    const { theme } = useContext(AppContext);
+    const { theme, isDarkTheme } = useContext(AppContext);
 
     return (
         <SafeAreaProvider>
-            <StatusBar style="dark" animated />
+            <StatusBar style={isDarkTheme ? "light" : "dark"} animated />
             <NavigationContainer theme={theme}>
                 {isAuthenticated ?
                     <RootNavigator /> : <AuthNavigator />
