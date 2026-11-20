@@ -4,11 +4,14 @@ import colors from "../theme/colors.js";
 import TopDestinationCard from "../components/top-destination-card/TopDestinationCard.jsx";
 import { useEffect, useState } from "react";
 import { continentApi, destinationsApi } from "../api/index.js";
+import { useContext } from "react";
+import AuthContext from "../contexts/AuthContext.js";
 
 export default function HomeScreen({ navigation }) {
     const [continents, setContinents] = useState([]);
     const [refreshing, setRefreshing] = useState(false);
     const [topDestinations, setTopDestinations] = useState([]);
+    const { theme } = useContext(AppContext);
 
     useEffect(() => {
 
@@ -45,12 +48,12 @@ export default function HomeScreen({ navigation }) {
 
     return (
         <ScrollView
-            style={styles.container}
+            style={[styles.container, {backgroundColor: theme.colors.background}]}
             refreshControl={<RefreshControl refreshing={refreshing} onRefresh={refreshHandler} />}
         >
             {topDestinations.length ?
                 <>
-                    <Text style={styles.title}>Top Destinations</Text>
+                    <Text style={[styles.title, {color: theme.colors.primary}]}>Top Destinations</Text>
                     <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.topDestinationsContainer}>
                         {topDestinations.map((x) => (
                             <TopDestinationCard
@@ -61,7 +64,7 @@ export default function HomeScreen({ navigation }) {
                     </ScrollView>
                 </> : ""
             }
-            <Text style={styles.title}>Area</Text>
+            <Text style={[styles.title, {color: theme.colors.primary}]}>Area</Text>
             <View style={styles.continentContainer} >
                 {continents.map((c) => <ContinentCard
                     key={c.id}
@@ -76,7 +79,6 @@ export default function HomeScreen({ navigation }) {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: colors.background,
         padding: 10,
         height: "100%"
     },
@@ -91,7 +93,6 @@ const styles = StyleSheet.create({
     title: {
         width: "100%",
         textAlign: "center",
-        color: colors.primary,
         fontSize: 12,
         fontWeight: 900,
         marginBottom: 10
