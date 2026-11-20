@@ -1,12 +1,15 @@
 import { createStackNavigator } from "@react-navigation/stack";
 import WishlistScreen from "../screens/WishlistScreen.jsx";
 import { View, Text, StyleSheet } from "react-native";
+import { useContext } from "react";
+import AppContext from "../contexts/AppContext.js";
 import colors from "../theme/colors.js";
 import AddingDatesScreen from "../screens/AddingDatesScreen.jsx";
 
 const Stack = createStackNavigator();
 
 export default function WishListNavigator() {
+    const { theme } = useContext(AppContext);
 
     return (
         <Stack.Navigator>
@@ -15,12 +18,12 @@ export default function WishListNavigator() {
                 component={WishlistScreen}
                 options={{
                     headerTitle: () =>
-                        <View style={styles.logoCtr}>
-                            <Text style={styles.logoL}>Catch <Text style={styles.logoM}>the </Text><Text style={styles.loroR}>World</Text></Text>
+                        <View style={[styles.logoCtr, { backgroundColor: theme.colors.primary }]}>
+                            <Text style={[styles.logoL, { color: theme.colors.textOnPrimary }]}>Catch <Text style={[styles.logoM, { color: theme.colors.textOnPrimary }]}>the </Text><Text style={[styles.loroR, { color: theme.colors.logo }]}>World</Text></Text>
                         </View>,
                     headerTitleAlign: "center",
                     headerStyle: {
-                        backgroundColor: colors.LightBlue,
+                        backgroundColor: theme.colors.LightBlue,
                         borderBottomLeftRadius: 20,
                         borderBottomRightRadius: 20
                     }
@@ -36,7 +39,7 @@ export default function WishListNavigator() {
                         fontSize: 15
                     },
                     headerStyle: {
-                        backgroundColor: colors.LightBlue,
+                        backgroundColor: theme.colors.LightBlue,
                         borderBottomLeftRadius: 20,
                         borderBottomRightRadius: 20
                     },
@@ -52,7 +55,6 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         width: "100%",
         height: 40,
-        backgroundColor: colors.primary,
         paddingHorizontal: 14,
         borderRadius: 40,
         alignSelf: "center"
@@ -60,16 +62,13 @@ const styles = StyleSheet.create({
     logoL: {
         fontSize: 20,
         fontWeight: '900',
-        color: colors.textOnPrimary,
     },
     loroR: {
         fontSize: 20,
         fontWeight: '900',
-        color: colors.accent
     },
     logoM: {
         fontSize: 16,
-        color: colors.textOnPrimary,
         fontWeight: "300"
     }
 });

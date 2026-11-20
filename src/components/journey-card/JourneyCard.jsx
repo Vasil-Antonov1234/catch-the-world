@@ -1,4 +1,6 @@
 import { View, Text, StyleSheet, Image, Pressable } from "react-native";
+import { useContext } from "react";
+import AppContext from "../../contexts/AppContext.js";
 import colors from "../../theme/colors.js";
 import ButtonSecondaty from "../buttons/ButtonSecondary.jsx";
 import ButtonIcon from "../buttons/ButtonIcon.jsx";
@@ -12,13 +14,14 @@ export default function JourneyCard({ place: {
     description,
     wantToVisit
 }, press: pressHandler }) {
+    const { theme } = useContext(AppContext);
 
     function wantToVisitHandler() {
         alert(`I want to visit ${name}`);
     };
 
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, { backgroundColor: theme.colors.surface, shadowColor: colors.shadowColor }]}>
             <View style={styles.posterCtr}>
                 <Image
                     source={{ uri: poster }}
@@ -27,11 +30,11 @@ export default function JourneyCard({ place: {
             </View>
             <View style={styles.containerSecondary}>
                 <View style={styles.containerSecondaryHeader}>
-                    <Text style={styles.title}>{name}</Text>
-                    <Text style={styles.textBold}>⭐ {rating}/5</Text>
+                    <Text style={[styles.title, {color: theme.colors.textPrimary}]}>{name}</Text>
+                    <Text style={[styles.textBold, {color: theme.colors.textSecondary}]}>⭐ {rating}/5</Text>
                 </View>
                 <View>
-                    <Text style={styles.text}>🧭 <Text style={styles.textBold}>{location}</Text></Text>
+                    <Text style={{color: theme.colors.textSecondary}}>🧭 <Text style={[styles.textBold, {color: theme.colors.textSecondary}]}>{location}</Text></Text>
                 </View>
                 <View style={styles.containerSecondaryHeader}>
                     <ButtonIcon
@@ -45,7 +48,7 @@ export default function JourneyCard({ place: {
                     <ButtonSecondaty
                         toScreen="TopDestinationDetails"
                         text="Details"
-                        background={colors.primary}
+                        background={theme.colors.primary}
                         params={{ placeId: id }}
                     />
                 </View>
@@ -56,14 +59,12 @@ export default function JourneyCard({ place: {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: colors.surface,
         flexDirection: "row",
         padding: 5,
         borderRadius: 15,
         marginTop: 20,
         height: 110,
         gap: 10,
-        shadowColor: colors.shadowColor,
         shadowOffset: { width: 0, height: 6 },
         shadowOpacity: 0.12,
         shadowRadius: 8,
@@ -83,7 +84,6 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 10,
         fontWeight: 'bold',
-        color: colors.textPrimary,
         flexShrink: 1
     },
     containerSecondary: {
@@ -100,12 +100,8 @@ const styles = StyleSheet.create({
     right: {
         alignSelf: "flex-end"
     },
-    text: {
-        color: colors.textSecondary
-    },
     textBold: {
         fontWeight: 700,
-        color: colors.textSecondary,
         fontSize: 10
     }
 })

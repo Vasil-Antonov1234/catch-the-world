@@ -13,7 +13,7 @@ export default function CityDetailsScreen({ navigation, route }) {
     const [currentPlace, setCurrentPlace] = useState({});
     const placeId = route.params.placeId;
 
-    const { wishList, addToWishlist } = useContext(AppContext);
+    const { wishList, addToWishlist, theme } = useContext(AppContext);
 
     useEffect(() => {
 
@@ -41,9 +41,9 @@ export default function CityDetailsScreen({ navigation, route }) {
     //     Alert.alert("Edit");
     // };
 
-    function deleteHandler() {
-        Alert.alert("Delete");
-    };
+    // function deleteHandler() {
+    //     Alert.alert("Delete");
+    // };
 
     return (
         <ScrollView contentContainerStyle={styles.content}>
@@ -53,34 +53,34 @@ export default function CityDetailsScreen({ navigation, route }) {
 
 
             <View style={styles.titleRow}>
-                <Text style={styles.name}>{currentPlace.name}</Text>
-                <View style={styles.ratingBadge}>
-                    <Text style={styles.ratingText}>★ {currentPlace.rating}</Text>
+                <Text style={[styles.name, {color: theme.colors.textPrimary}]}>{currentPlace.name}</Text>
+                <View style={[styles.ratingBadge, {backgroundColor: theme.colors.accent}]}>
+                    <Text style={[styles.ratingText, {color: theme.colors.textOnPrimary}]}>★ {currentPlace.rating}</Text>
                 </View>
             </View>
 
-            <Text style={styles.location}>{currentPlace.location}</Text>
+            <Text style={[styles.location, {color: theme.colors.textSecondary}]}>{currentPlace.location}</Text>
 
-            <Text style={styles.sectionTitle}>About this place</Text>
-            <Text style={styles.description}>
+            <Text style={[styles.sectionTitle, {color: theme.colors.primary}]}>About this place</Text>
+            <Text style={[styles.description, {color: theme.colors.textPrimary}]}>
                 {currentPlace.description || 'No description yet.'}
             </Text>
 
             <ScrollView contentContainerStyle={styles.gallery} horizontal>
                 <Pressable onPress={() => setShowImageModal("https://cdn.getyourguide.com/image/format=avif%2Cfit=cover%2Cgravity=auto%2Cquality=60/dam/iStock-1855850613-2-Header%20Mobile.jpg")}>
-                    <Image style={styles.image} source={{ uri: "https://cdn.getyourguide.com/image/format=avif%2Cfit=cover%2Cgravity=auto%2Cquality=60/dam/iStock-1855850613-2-Header%20Mobile.jpg" }} />
+                    <Image style={[styles.image, {borderColor: theme.colors.textOnPrimary}]} source={{ uri: "https://cdn.getyourguide.com/image/format=avif%2Cfit=cover%2Cgravity=auto%2Cquality=60/dam/iStock-1855850613-2-Header%20Mobile.jpg" }} />
                 </Pressable>
                 <Pressable onPress={() => setShowImageModal("https://visitasevilla.es/en/wp-content/uploads/sites/2/2026/03/royal-alcazar-of-seville.jpg")}>
-                    <Image style={styles.image} source={{ uri: "https://visitasevilla.es/en/wp-content/uploads/sites/2/2026/03/royal-alcazar-of-seville.jpg" }} />
+                    <Image style={[styles.image, {borderColor: theme.colors.textOnPrimary}]} source={{ uri: "https://visitasevilla.es/en/wp-content/uploads/sites/2/2026/03/royal-alcazar-of-seville.jpg" }} />
                 </Pressable>
                 <Pressable onPress={() => setShowImageModal("https://cdn.getyourguide.com/image/format=auto%2Cfit=crop%2Cgravity=auto%2Cquality=60%2Cwidth=375%2Cheight=375%2Cdpr=2/tour_img/2aa009310af5c647b65b19c4359626cdeea853694cf3f10a8b9139522264d33c.jpg")}>
-                    <Image style={styles.image} source={{ uri: "https://cdn.getyourguide.com/image/format=auto%2Cfit=crop%2Cgravity=auto%2Cquality=60%2Cwidth=375%2Cheight=375%2Cdpr=2/tour_img/2aa009310af5c647b65b19c4359626cdeea853694cf3f10a8b9139522264d33c.jpg" }} />
+                    <Image style={[styles.image, {borderColor: theme.colors.textOnPrimary}]} source={{ uri: "https://cdn.getyourguide.com/image/format=auto%2Cfit=crop%2Cgravity=auto%2Cquality=60%2Cwidth=375%2Cheight=375%2Cdpr=2/tour_img/2aa009310af5c647b65b19c4359626cdeea853694cf3f10a8b9139522264d33c.jpg" }} />
                 </Pressable>
                 <Pressable onPress={() => setShowImageModal("https://www.r1hotels.com/data/fotos/1459356203_1127092828.jpg")}>
-                    <Image style={styles.image} source={{ uri: "https://www.r1hotels.com/data/fotos/1459356203_1127092828.jpg" }} />
+                    <Image style={[styles.image, {borderColor: theme.colors.textOnPrimary}]} source={{ uri: "https://www.r1hotels.com/data/fotos/1459356203_1127092828.jpg" }} />
                 </Pressable>
                 <Pressable onPress={() => setShowImageModal("https://media.istockphoto.com/id/537383379/photo/plaza-del-triunfo-in-seville-spain.jpg?s=612x612&w=0&k=20&c=caBGrjo_4uBveh-3-dvNqXWWjsTbqXB-JLJdUiTC1Kw=")}>
-                    <Image style={styles.image} source={{ uri: "https://media.istockphoto.com/id/537383379/photo/plaza-del-triunfo-in-seville-spain.jpg?s=612x612&w=0&k=20&c=caBGrjo_4uBveh-3-dvNqXWWjsTbqXB-JLJdUiTC1Kw=" }} />
+                    <Image style={[styles.image, {borderColor: theme.colors.textOnPrimary}]} source={{ uri: "https://media.istockphoto.com/id/537383379/photo/plaza-del-triunfo-in-seville-spain.jpg?s=612x612&w=0&k=20&c=caBGrjo_4uBveh-3-dvNqXWWjsTbqXB-JLJdUiTC1Kw=" }} />
                 </Pressable>
             </ScrollView>
             <View style={styles.buttonsCtr}>
@@ -99,11 +99,11 @@ export default function CityDetailsScreen({ navigation, route }) {
                 /> */}
 
                 {isInWishList ?
-                    <Text style={styles.addedText}>Added to the wishlist</Text> :
+                    <Text style={[styles.addedText, {color: theme.colors.textPrimary}]}>Added to the wishlist</Text> :
                     <ButtonCustom
                         text="Add to Wishlist"
-                        background={styles.button}
-                        textColor={styles.buttonText}
+                        background={[styles.button, {backgroundColor: theme.colors.primary}]}
+                        textColor={[styles.buttonText, {color: theme.colors.textOnPrimary}]}
                         onPress={() => addToWishlist(currentPlace)}
                     />
 
@@ -117,7 +117,7 @@ export default function CityDetailsScreen({ navigation, route }) {
                 animationType='slide'
                 backdropColor={colors.transperant}
             >
-                {showImageModal && <Image style={styles.modalImage} source={{ uri: showImageModal }} />}
+                {showImageModal && <Image style={[styles.modalImage, {borderColor: theme.colors.textOnPrimary}]} source={{ uri: showImageModal }} />}
                 <View style={styles.buttonsCtr}>
                     <ButtonIcon
                         icon="close"
@@ -152,36 +152,30 @@ const styles = StyleSheet.create({
     name: {
         fontSize: 26,
         fontWeight: 'bold',
-        color: colors.textPrimary,
         marginRight: 12,
     },
     ratingBadge: {
-        backgroundColor: colors.accent,
         paddingHorizontal: 12,
         paddingVertical: 6,
         borderRadius: 16
     },
     ratingText: {
-        color: colors.textOnPrimary,
         fontWeight: 'bold',
         fontSize: 16,
     },
     location: {
         marginTop: 6,
-        fontSize: 16,
-        color: colors.textSecondary,
+        fontSize: 16
     },
     sectionTitle: {
         marginTop: 24,
         marginBottom: 8,
         fontSize: 18,
-        fontWeight: '600',
-        color: colors.primary,
+        fontWeight: '600'
     },
     description: {
-        fontSize: 16,
-        lineHeight: 24,
-        color: colors.textPrimary,
+        fontSize: 12,
+        lineHeight: 24
     },
     gallery: {
         height: 100,
@@ -195,7 +189,6 @@ const styles = StyleSheet.create({
         height: 80,
         borderRadius: 15,
         borderStyle: "solid",
-        borderColor: colors.textOnPrimary,
         borderWidth: 1,
         boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.29)"
     },
@@ -208,8 +201,7 @@ const styles = StyleSheet.create({
         height: 540,
         marginTop: 100,
         borderRadius: 15,
-        borderWidth: 3,
-        borderColor: colors.textOnPrimary
+        borderWidth: 3
     },
     buttonsCtr: {
         flexDirection: "row",
@@ -217,16 +209,13 @@ const styles = StyleSheet.create({
         marginTop: 10
     },
     button: {
-        backgroundColor: colors.primary,
         paddingHorizontal: 20,
         paddingVertical: 14
     },
     buttonText: {
-        color: colors.textOnPrimary,
         fontWeight: 700
     },
     addedText: {
-        color: colors.primary,
         textTransform: "uppercase",
         fontSize: 10
     }

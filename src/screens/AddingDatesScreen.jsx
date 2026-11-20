@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { destinationsApi } from "../api/index.js";
 import { View, Text, Image, ScrollView, StyleSheet, Pressable, Alert, Modal } from "react-native";
 import colors from "../theme/colors.js";
 import ButtonCustom from "../components/buttons/ButtonCustom.jsx";
 import TripDatePicker from "../components/trip-date-picker/TripDatePicker.jsx";
 import PickDurationModal from "../components/pick-duration-modal/PickDurationModal.jsx";
+import AppContext from "../contexts/AppContext.js";
 
 export default function AddingDatesScreen({ navigation, route }) {
 
@@ -12,6 +13,7 @@ export default function AddingDatesScreen({ navigation, route }) {
     const [selectedDate, setSelectedDate] = useState(null);
     const [isShowModal, setIsShowModal] = useState(false);
     const [isShowDurationModal, setIsShowDurationModal] = useState(false);
+    const { theme } = useContext(AppContext);
 
     const placeId = route.params.placeId;
 
@@ -58,19 +60,19 @@ export default function AddingDatesScreen({ navigation, route }) {
 
 
                 <View style={styles.titleRow}>
-                    <Text style={styles.name}>{currentPlace.name}</Text>
-                    <View style={styles.ratingBadge}>
-                        <Text style={styles.ratingText}>★ {currentPlace.rating}</Text>
+                    <Text style={[styles.name, {color: theme.colors.textPrimary}]}>{currentPlace.name}</Text>
+                    <View style={[styles.ratingBadge, {backgroundColor: theme.colors.accent}]}>
+                        <Text style={[styles.ratingText, {color: theme.colors.textOnPrimary}]}>★ {currentPlace.rating}</Text>
                     </View>
                 </View>
 
-                <Text style={styles.location}>{currentPlace.location}</Text>
+                <Text style={[styles.location, {color: theme.colors.textSecondary}]}>{currentPlace.location}</Text>
             </View>
 
             <ButtonCustom
                 text="Start date"
-                background={styles.button}
-                textColor={styles.buttonText}
+                background={[styles.button, {backgroundColor: theme.colors.primary}]}
+                textColor={[styles.buttonText, {color: theme.colors.textOnPrimary}]}
                 onPress={() => setIsShowModal(true)}
             />
             {isShowModal ? <TripDatePicker onCancel={() => setIsShowModal(false)} onConfirm={setDateHandler} /> : ""}
@@ -104,36 +106,30 @@ const styles = StyleSheet.create({
     name: {
         fontSize: 26,
         fontWeight: 'bold',
-        color: colors.textPrimary,
         marginRight: 12,
     },
     ratingBadge: {
-        backgroundColor: colors.accent,
         paddingHorizontal: 12,
         paddingVertical: 6,
         borderRadius: 16
     },
     ratingText: {
-        color: colors.textOnPrimary,
         fontWeight: 'bold',
         fontSize: 16,
     },
     location: {
         marginTop: 6,
-        fontSize: 16,
-        color: colors.textSecondary,
+        fontSize: 16
     },
     buttonsCtr: {
         flexDirection: "row",
         justifyContent: "space-between"
     },
     button: {
-        backgroundColor: colors.primary,
         paddingHorizontal: 20,
         paddingVertical: 14
     },
     buttonText: {
-        color: colors.textOnPrimary,
         fontWeight: 700
     },
     modal: {

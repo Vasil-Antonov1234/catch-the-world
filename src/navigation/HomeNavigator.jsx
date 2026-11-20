@@ -48,7 +48,7 @@ export default function HomeNavigator() {
                         fontSize: 15
                     },
                     headerStyle: {
-                        backgroundColor: colors.LightBlue,
+                        backgroundColor: theme.colors.LightBlue,
                         borderBottomLeftRadius: 20,
                         borderBottomRightRadius: 20
                     }
@@ -61,7 +61,7 @@ export default function HomeNavigator() {
                 options={{
                     headerSearchBarOptions: {
                         headerIconColor: "black",
-                        barTintColor: colors.surface,
+                        barTintColor: theme.colors.surface,
                         placeholder: "Search...",
                         onChangeText: (event) => event.nativeEvent.text === "" ? cancelHandler() : "",
                         onSubmitEditing: (event) => searchHandler(event.nativeEvent.text),
@@ -69,7 +69,7 @@ export default function HomeNavigator() {
                     },
                     title: "Explore Cities",
                     headerStyle: {
-                        backgroundColor: colors.LightBlue,
+                        backgroundColor: theme.colors.LightBlue,
                         borderBottomLeftRadius: 20,
                         borderBottomRightRadius: 20
                     }
