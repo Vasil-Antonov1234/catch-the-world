@@ -1,12 +1,16 @@
 import { View, Text, StyleSheet } from "react-native";
 import colors from "../../theme/colors.js";
+import { useContext } from "react";
+import AuthContext from "../../contexts/AuthContext.js";
 
 export default function StatCard({ value, label1, label2 }) {
+    const { theme } = useContext(AppContext);
+    
     return (
-        <View style={styles.statCard}>
-            <Text style={styles.statLabel}>{label1}</Text>
-            <Text style={styles.statValue}>{value}</Text>
-            <Text style={styles.statLabel}>{label2}</Text>
+        <View style={[styles.statCard, {backgroundColor: theme.colors.surface}]}>
+            <Text style={[styles.statLabel, {color: theme.colors.textSecondary}]}>{label1}</Text>
+            <Text style={[styles.statValue, {color: theme.colors.primary}]}>{value}</Text>
+            <Text style={[styles.statLabel, {color: theme.colors.textSecondary}]}>{label2}</Text>
         </View>
     );
 }
@@ -17,7 +21,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         paddingVertical: 14,
-        backgroundColor: colors.surface,
         borderRadius: 12,
         elevation: 4,
         shadowColor: colors.shadowColor,
@@ -27,12 +30,10 @@ const styles = StyleSheet.create({
     },
     statValue: {
         fontSize: 24,
-        fontWeight: 900,
-        color: colors.primary,
+        fontWeight: 900
     },
     statLabel: {
         fontSize: 10,
-        color: colors.textSecondary,
         textAlign: 'center'
     }
 })
