@@ -1,7 +1,9 @@
 import { View, Text, Image, StyleSheet, Pressable } from "react-native";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
-import colors from "../../theme/colors.js";
+// import colors from "../../theme/colors.js";
 import { useNavigation } from "@react-navigation/native";
+import { useContext } from "react";
+import AppContext from "../../contexts/AppContext.js";
 
 export default function TopDestinationCard({
     destination: {
@@ -11,13 +13,14 @@ export default function TopDestinationCard({
     },
 }) {
     const navigation = useNavigation();
+    const { theme } = useContext(AppContext);
 
     function pressHandler(id) {
         navigation.navigate("TopDestinationDetails", { placeId: id })
     }
 
     return (
-        <Pressable style={({pressed}) => [{ elevation: pressed ? 0 : 5, opacity: pressed ? 0.7 : 1 }, styles.container]} onPress={() => pressHandler(id)}>
+        <Pressable style={({pressed}) => [{ elevation: pressed ? 0 : 5, opacity: pressed ? 0.7 : 1 }, styles.container, {backgroundColor: theme.colors.surface, shadowColor: theme.colors.shadow}]} onPress={() => pressHandler(id)}>
             <Image source={{ uri: poster }} style={styles.image} resizeMode="cover" />
 
             <Pressable style={styles.favoriteButton} onPress={() => {}}>
@@ -27,8 +30,8 @@ export default function TopDestinationCard({
             <View style={styles.detailsCard}>
 
                 <View style={styles.locationRow}>
-                    <Ionicons name="location-sharp" size={16} color={colors.textSecondary} />
-                    <Text style={styles.title} numberOfLines={1}>{name}</Text>
+                    <Ionicons name="location-sharp" size={16} color={theme.colors.textSecondary} />
+                    <Text style={[styles.title, { color: theme.colors.textPrimary }]} numberOfLines={1}>{name}</Text>
                 </View>
             </View>
         </Pressable>
@@ -37,11 +40,9 @@ export default function TopDestinationCard({
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: colors.surface,
         width: 150,
         aspectRatio: 3.5 / 4,
         borderRadius: 20,
-        shadowColor: colors.shadow,
         shadowOffset: { width: 0, height: 6 },
         shadowOpacity: 0.12,
         shadowRadius: 8,
@@ -80,43 +81,12 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: 8,
-        fontWeight: 700,
-        color: colors.textPrimary
+        fontWeight: 700
     },
     locationRow: {
         flexDirection: "row",
         alignItems: "center",
         gap: 4,
         marginTop: 4
-    },
-    locationText: {
-        color: colors.textSecondary,
-        fontSize: 10,
-        fontWeight: 500
-    },
-    footerRow: {
-        marginTop: 8,
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "space-between"
-    },
-    distanceText: {
-        color: colors.textSecondary,
-        fontSize: 8,
-        fontWeight: 300
-    },
-    routeButton: {
-        backgroundColor: "#52A1FF",
-        borderRadius: 12,
-        paddingVertical: 8,
-        paddingHorizontal: 16,
-        flexDirection: "row",
-        alignItems: "center",
-        gap: 6
-    },
-    routeButtonText: {
-        color: colors.textOnPrimary,
-        fontWeight: 600,
-        fontSize: 8
     }
 })
