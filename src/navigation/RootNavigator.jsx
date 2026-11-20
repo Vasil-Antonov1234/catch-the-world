@@ -14,12 +14,12 @@ import ProfileNavigator from "./ProfileNavigator.jsx";
 const Tabs = createBottomTabNavigator();
 
 export default function RootNavigator() {
-    const { wishList } = useContext(AppContext);
+    const { wishList, theme } = useContext(AppContext);
 
     return (
         <Tabs.Navigator screenOptions={{
             headerStyle: {
-                backgroundColor: colors.LightBlue,
+                backgroundColor: theme.colors.LightBlue,
                 borderBottomLeftRadius: 20,
                 borderBottomRightRadius: 20
             },
@@ -30,7 +30,7 @@ export default function RootNavigator() {
             headerTitleAlign: "center",
             // headerTitleContainerStyle: {left: 0, right: 0},
             tabBarStyle: {
-                backgroundColor: colors.LightBlue
+                backgroundColor: theme.colors.LightBlue
             },
             tabBarShowLabel: false
         }}>
@@ -51,7 +51,7 @@ export default function RootNavigator() {
                     tabBarIcon: ({ color, size }) => <Ionicons name="compass" color={color} size={size} />,
                     title: "Wishlist",
                     tabBarBadge: wishList.length > 0 ? wishList.length : undefined,
-                    tabBarBadgeStyle: { backgroundColor: colors.error, fontSize: 7, fontWeight: 700 },
+                    tabBarBadgeStyle: { backgroundColor: theme.colors.error, fontSize: 7, fontWeight: 700 },
                     headerShown: false
                 }}
             />
@@ -61,6 +61,7 @@ export default function RootNavigator() {
                 component={ProfileNavigator}
                 options={{
                     tabBarIcon: ({ color, size }) => <Ionicons name="person" color={color} size={size} />,
+                    tabBarBackground: () => <View style={{ backgroundColor: theme.colors.LightBlue, flex: 1 }} />,
                     title: "Profile",
                     borderBottomLeftRadius: 20,
                     borderBottomRightRadius: 20,

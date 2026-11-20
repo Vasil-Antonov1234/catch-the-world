@@ -68,8 +68,8 @@ export default function AppContextProvider({ children }) {
         colors: {
             ...DarkTheme.colors,
             // Brand
-            primary: '#0B4F6C',
-            accent: '#E85D3F',
+            primary: '#b7c8cf',
+            accent: '#f1cab4',
 
             // Surfaces
             background: '#1F2A33',
@@ -82,7 +82,8 @@ export default function AppContextProvider({ children }) {
             // Text
             textPrimary: '#FFFFFF',
             textSecondary: '#B0B0B0',
-            textOnPrimary: '#FFFFFF',
+            textOnPrimary: '#000000',
+            link: '#b8b8eb',
 
             // Feedback
             success: '#3E8E6B',
