@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, ScrollView, TextInput, Image, Pressable, KeyboardAvoidingView, Platform, Alert, ActivityIndicator } from 'react-native';
 import ButtonCustom from '../components/buttons/ButtonCustom.jsx';
 import colors from '../theme/colors.js';
-import { useContext, useState } from 'react';
+import { useContext, useState, useRef } from 'react';
 import { Icon } from 'react-native-paper';
 import RatingSlider from '../components/rating-slider/RatingSlider.jsx';
 import { tripsApi } from '../api/index.js';
@@ -13,6 +13,7 @@ import { File } from 'expo-file-system';
 import ButtonIcon from '../components/buttons/ButtonIcon.jsx';
 import * as Location from 'expo-location';
 import AppContext from '../contexts/AppContext.js';
+import { useHeaderHeight } from '@react-navigation/elements';
 
 const posterPlaceholder = 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?q=80&w=1200&auto=format&fit=crop';
 
@@ -33,7 +34,17 @@ export default function ManageTripScreen() {
     const [isShowModal, setIsShowModal] = useState(false);
     const [isShowDurationModal, setIsShowDurationModal] = useState(false);
     const [isPending, setIsPending] = useState(false);
+    const headerHeight = useHeaderHeight();
     const { theme } = useContext(AppContext);
+    const scrollRef = useRef(null);
+
+    function descriptionScrollHandler() {
+        setTimeout(() => {
+            scrollRef.current?.scrollToEnd({ animated: true });
+        }, 80);
+    }
+
+    const keyboardVerticalOffset = Platform.OS === 'ios' ? headerHeight : 0;
 
     function changeHandler(name, value) {
         setValues(state => ({
@@ -152,8 +163,19 @@ export default function ManageTripScreen() {
     };
 
     return (
-        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "padding"} style={{ flex: 1 }}>
-            <ScrollView style={[styles.screen, {backgroundColor: theme.colors.background}]} contentContainerStyle={styles.content}>
+        <KeyboardAvoidingView
+            // behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+            // keyboardVerticalOffset={keyboardVerticalOffset}
+            style={{ flex: 1 }}
+        >
+            <ScrollView
+                ref={scrollRef}
+                style={[styles.screen, {backgroundColor: theme.colors.background}]}
+                contentContainerStyle={styles.content}
+                keyboardShouldPersistTaps="handled"
+                automaticallyAdjustKeyboardInsets
+                keyboardDismissMode='interactive'
+            >
                 <Text style={[styles.title, {color: theme.colors.textPrimary}]}>Create a Trip</Text>
                 <Text style={[styles.subtitle, {color: theme.colors.textSecondary}]}>Add the main details for your next destination.</Text>
 
@@ -250,6 +272,7 @@ export default function ManageTripScreen() {
                         textAlignVertical="top"
                         placeholder="Enter trip description"
                         placeholderTextColor="#9CA3AF"
+                        onFocus={descriptionScrollHandler}
                     />
                 </View>
 
