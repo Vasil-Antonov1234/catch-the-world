@@ -23,7 +23,7 @@ export default function WishListCard({ place: {
     const navigation = useNavigation();
 
     function navigateToDetails() {
-        navigation.navigate("WishListDetails", { placeId: id });
+        navigation.navigate("WishListDetails", { placeId: id, index });
     }
 
     function wantToVisitHandler() {

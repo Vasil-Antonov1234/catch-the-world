@@ -1,11 +1,12 @@
 import { useContext, useEffect, useState } from "react";
-import { destinationsApi } from "../api/index.js";
+import { destinationsApi, tripsApi } from "../api/index.js";
 import { View, Text, Image, ScrollView, StyleSheet, Pressable, Alert, Modal } from "react-native";
 import colors from "../theme/colors.js";
 import ButtonCustom from "../components/buttons/ButtonCustom.jsx";
 import TripDatePicker from "../components/trip-date-picker/TripDatePicker.jsx";
 import PickDurationModal from "../components/pick-duration-modal/PickDurationModal.jsx";
 import AppContext from "../contexts/AppContext.js";
+import { getErrorMessage } from "../utils/error.util.js";
 
 export default function AddingDatesScreen({ navigation, route }) {
 
@@ -13,10 +14,10 @@ export default function AddingDatesScreen({ navigation, route }) {
     const [selectedDate, setSelectedDate] = useState(null);
     const [isShowModal, setIsShowModal] = useState(false);
     const [isShowDurationModal, setIsShowDurationModal] = useState(false);
-    const { theme } = useContext(AppContext);
+    const { theme, removeFromWishlist } = useContext(AppContext);
 
     const placeId = route.params.placeId;
-
+    const index = route.params.index;
 
     useEffect(() => {
 
@@ -37,7 +38,7 @@ export default function AddingDatesScreen({ navigation, route }) {
     function setDateHandler(selectedDate) {
         setIsShowModal(false);
         setSelectedDate(selectedDate);
-        
+
         setIsShowDurationModal(true);
     };
 
@@ -46,10 +47,28 @@ export default function AddingDatesScreen({ navigation, route }) {
         setIsShowDurationModal(false);
     };
 
-    function confirmDateHandler({days, startDate, endDate}) {
-        console.log(`Trip from ${startDate} to ${endDate} and duration of ${days}`);
-        setIsShowDurationModal(false);
-    }
+    async function confirmDateHandler({ days, startDate, endDate }) {
+
+        try {
+            await tripsApi.create({
+                name: currentPlace.name,
+                poster: currentPlace.poster,
+                location: currentPlace.location,
+                description: currentPlace.description,
+                rating: currentPlace.rating,
+                startdate: startDate,
+                enddate: endDate
+            });
+
+            console.log(`Trip from ${startDate} to ${endDate} and duration of ${days} days`);
+            setIsShowDurationModal(false);
+            removeFromWishlist(index);
+            navigation.navigate("WishList");
+
+        } catch (error) {
+            Alert.alert(getErrorMessage(error));
+        };
+    };
 
     return (
         <ScrollView contentContainerStyle={styles.content}>
@@ -60,24 +79,24 @@ export default function AddingDatesScreen({ navigation, route }) {
 
 
                 <View style={styles.titleRow}>
-                    <Text style={[styles.name, {color: theme.colors.textPrimary}]}>{currentPlace.name}</Text>
-                    <View style={[styles.ratingBadge, {backgroundColor: theme.colors.accent}]}>
-                        <Text style={[styles.ratingText, {color: theme.colors.textOnPrimary}]}>★ {currentPlace.rating}</Text>
+                    <Text style={[styles.name, { color: theme.colors.textPrimary }]}>{currentPlace.name}</Text>
+                    <View style={[styles.ratingBadge, { backgroundColor: theme.colors.accent }]}>
+                        <Text style={[styles.ratingText, { color: theme.colors.textOnPrimary }]}>★ {currentPlace.rating}</Text>
                     </View>
                 </View>
 
-                <Text style={[styles.location, {color: theme.colors.textSecondary}]}>{currentPlace.location}</Text>
+                <Text style={[styles.location, { color: theme.colors.textSecondary }]}>{currentPlace.location}</Text>
             </View>
 
             <ButtonCustom
                 text="Start date"
-                background={[styles.button, {backgroundColor: theme.colors.primary}]}
-                textColor={[styles.buttonText, {color: theme.colors.textOnPrimary}]}
+                background={[styles.button, { backgroundColor: theme.colors.primary }]}
+                textColor={[styles.buttonText, { color: theme.colors.textOnPrimary }]}
                 onPress={() => setIsShowModal(true)}
             />
             {isShowModal ? <TripDatePicker onCancel={() => setIsShowModal(false)} onConfirm={setDateHandler} /> : ""}
 
-            {isShowDurationModal ? <PickDurationModal startDate={selectedDate} onCancel={cancelPlanning} onConfirm={confirmDateHandler}/> : ""}
+            {isShowDurationModal ? <PickDurationModal startDate={selectedDate} onCancel={cancelPlanning} onConfirm={confirmDateHandler} /> : ""}
 
         </ScrollView>
     );
