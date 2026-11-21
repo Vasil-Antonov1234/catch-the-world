@@ -6,6 +6,7 @@ import { useContext } from 'react';
 import AuthContext from './contexts/AuthContext.js';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import AppContext from './contexts/AppContext.js';
+import Banner from './components/banner/Banner.jsx';
 
 export default function App() {
     const { isAuthenticated } = useContext(AuthContext);
@@ -14,7 +15,8 @@ export default function App() {
     return (
         <SafeAreaProvider>
             <StatusBar style={isDarkTheme ? "light" : "dark"} animated />
-            <NavigationContainer theme={theme}>
+            <NavigationContainer theme={theme} >
+                <Banner text="DISCONNECTED" icon="connection"/>
                 {isAuthenticated ?
                     <RootNavigator /> : <AuthNavigator />
                 }
