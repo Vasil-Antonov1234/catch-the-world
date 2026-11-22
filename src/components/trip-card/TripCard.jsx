@@ -4,29 +4,44 @@ import { useNavigation } from "@react-navigation/native";
 import { useContext } from "react";
 import AppContext from "../../contexts/AppContext.js";
 
-export default function TopDestinationCard({
+export default function TripCard({
     destination: {
         name,
         poster,
-        id
+        id,
+        location,
+        rating
     },
+    icon = undefined,
 }) {
     const navigation = useNavigation();
-    const { theme } = useContext(AppContext);
+    const { theme, wishList, addToWishlist } = useContext(AppContext);
 
     function pressHandler(id) {
         navigation.navigate("TopDestinationDetails", { placeId: id })
     }
 
+    const isInWishList = !!(wishList.find((x) => id === x.id));
+
+    function addtoWishlistHandler() {
+        if (isInWishList) {
+            return;
+        }
+        addToWishlist({ id, name, poster, location, rating });
+    }
+
     return (
-        <Pressable style={({pressed}) => [{ elevation: pressed ? 0 : 5, opacity: pressed ? 0.7 : 1 }, styles.container, {backgroundColor: theme.colors.surface, shadowColor: theme.colors.shadow}]} onPress={() => pressHandler(id)}>
+        <Pressable style={({ pressed }) => [{ elevation: pressed ? 0 : 5, opacity: pressed ? 0.7 : 1 }, styles.container, { backgroundColor: theme.colors.surface, shadowColor: theme.colors.shadow, borderBlockColor: theme.colors.textPrimary }]} onPress={() => pressHandler(id)}>
             <Image source={{ uri: poster }} style={styles.image} resizeMode="cover" />
 
-            <Pressable style={styles.favoriteButton} onPress={() => {}}>
-                <Ionicons name={"heart-outline"} size={18} color="#FFFFFF" />
-            </Pressable>
+            {icon ?
+                <Pressable style={[styles.favoriteButton, isInWishList && { backgroundColor: "rgba(255,0,0,0.7)" }]} onPress={addtoWishlistHandler}>
+                    <Ionicons name={isInWishList ? icon : `${icon}-outline`} size={18} color="#FFFFFF" />
+                </Pressable> : null
+            }
 
-            <View style={[styles.detailsCard, {backgroundColor: theme.colors.backgroundDarck}]}>
+
+            <View style={[styles.detailsCard, { backgroundColor: theme.colors.backgroundDarck }]}>
 
                 <View style={styles.locationRow}>
                     <Ionicons name="location-sharp" size={16} color={theme.colors.textOnPrimary} />
@@ -49,8 +64,7 @@ const styles = StyleSheet.create({
         position: "relative",
         overflow: "hidden",
         marginRight: 12,
-        borderBlockColor: "black",
-        borderWidth: 0.3
+        borderWidth: 0.5,
     },
     image: {
         ...StyleSheet.absoluteFillObject,

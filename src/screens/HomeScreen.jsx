@@ -1,11 +1,10 @@
 import { View, Text, ScrollView, Pressable, StyleSheet, Alert, RefreshControl } from "react-native";
 import ContinentCard from "../components/continent-card/ContinentCard.jsx";
-import colors from "../theme/colors.js";
-import TopDestinationCard from "../components/top-destination-card/TopDestinationCard.jsx";
 import { useEffect, useState } from "react";
 import { continentApi, destinationsApi } from "../api/index.js";
 import { useContext } from "react";
 import AppContext from "../contexts/AppContext.js";
+import TripCard from "../components/trip-card/TripCard.jsx";
 
 export default function HomeScreen({ navigation }) {
     const [continents, setContinents] = useState([]);
@@ -56,9 +55,10 @@ export default function HomeScreen({ navigation }) {
                     <Text style={[styles.title, {color: theme.colors.primary}]}>Top Destinations</Text>
                     <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.topDestinationsContainer}>
                         {topDestinations.map((x) => (
-                            <TopDestinationCard
+                            <TripCard
                                 key={x.id}
                                 destination={x}
+                                icon="heart"
                             />
                         ))}
                     </ScrollView>
