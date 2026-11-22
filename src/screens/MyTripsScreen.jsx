@@ -9,6 +9,7 @@ import ButtonIcon from "../components/buttons/ButtonIcon.jsx";
 export default function MyTripsScreen({ navigation }) {
     const [trips, setTrips] = useState([]);
     const { theme } = useContext(AppContext);
+    const [refreshing, setRefreshing] = useState(false);
 
     useEffect(() => {
 
@@ -25,6 +26,20 @@ export default function MyTripsScreen({ navigation }) {
 
     }, []);
 
+    async function refreshHandler() {
+        setRefreshing(true);
+
+        try {
+            const tripsData = await tripsApi.getAll();
+            
+            setTrips(tripsData);
+        } catch (error) {
+            Alert.alert(getErrorMessage(error));
+        } finally {
+            setRefreshing(false);
+        };
+    };
+
     return (
         <>
             <FlatList
@@ -35,6 +50,8 @@ export default function MyTripsScreen({ navigation }) {
                 columnWrapperStyle={styles.row}
                 style={[styles.list, { backgroundColor: theme.colors.background }]}
                 contentContainerStyle={styles.container}
+                refreshing={refreshing}
+                onRefresh={refreshHandler}
             />
             <View style={styles.buttonWrapper}>
                 <ButtonIcon
