@@ -1,33 +1,69 @@
-import { StyleSheet, View } from "react-native";
-import colors from "../theme/colors.js";
-import ButtonCustom from "../components/buttons/ButtonCustom.jsx";
+import { Alert, FlatList, StyleSheet, View } from "react-native";
+import { useContext, useEffect, useState } from "react";
+import { tripsApi } from "../api/index.js";
+import { getErrorMessage } from "../utils/error.util.js";
+import TripCard from "../components/trip-card/TripCard.jsx";
+import AppContext from "../contexts/AppContext.js";
+import ButtonIcon from "../components/buttons/ButtonIcon.jsx";
 
 export default function MyTripsScreen({ navigation }) {
+    const [trips, setTrips] = useState([]);
+    const { theme } = useContext(AppContext);
+
+    useEffect(() => {
+
+        (async () => {
+
+            try {
+                const tripsData = await tripsApi.getAll();
+
+                setTrips(tripsData);
+            } catch (error) {
+                Alert.alert(getErrorMessage(error));
+            };
+        })()
+
+    }, []);
+
     return (
-        <View style={styles.container}>
-            <ButtonCustom
-                text="+"
-                background={styles.addButton}
-                textColor={styles.addButtonText}
-                onPress={() => navigation.navigate("ManageTrip")}
+        <>
+            <FlatList
+                data={trips}
+                renderItem={({ item }) => <TripCard destination={item} />}
+                keyExtractor={(item) => String(item.id)}
+                numColumns={2}
+                columnWrapperStyle={styles.row}
+                style={[styles.list, { backgroundColor: theme.colors.background }]}
+                contentContainerStyle={styles.container}
             />
-        </View>
+            <View style={styles.buttonWrapper}>
+                <ButtonIcon
+                    icon="plus"
+                    size={70}
+                    color={theme.colors.backgroundDarck}
+                    mode="contained"
+                    onPress={() => navigation.navigate("ManageTrip")}
+                />
+            </View>
+        </>
     );
 }
 
 const styles = StyleSheet.create({
+    list: {
+        flex: 1
+    },
     container: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center"
+        padding: 24,
+        gap: 20
     },
-    addButton: {
-        width: 30,
-        height: 30,
-        backgroundColor: colors.backgroundDarck
+    row: {
+        justifyContent: "space-between",
+        gap: 20
     },
-
-    addButtonText: {
-        color: colors.primary
+    buttonWrapper: {
+        position: "absolute",
+        right: 24,
+        bottom: 24
     }
 })

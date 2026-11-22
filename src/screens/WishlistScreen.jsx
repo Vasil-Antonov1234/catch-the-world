@@ -17,6 +17,7 @@ export default function WishlistScreen() {
                 <FlatList
                     data={wishList}
                     renderItem={({ item, index }) => <WishListCard place={item} index={index} press={() => { }} />}
+                    showsVerticalScrollIndicator={false}
                 />
             }
         </View>

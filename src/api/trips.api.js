@@ -20,15 +20,30 @@ export async function create(values) {
 };
 
 export async function uploadImage(file, fileName) {
-    const bytes = await file.arrayBuffer();
 
-    const result = await storage.post(`/trips/${fileName}`, bytes, {
-        headers: {
-            "Content-Type": "image/jpeg"
-        }
-    })
+    try {
+        const bytes = await file.arrayBuffer();
 
-    const publicUrl = `${storage.defaults.baseURL}/public/trips/${fileName}`;
+        const result = await storage.post(`/trips/${fileName}`, bytes, {
+            headers: {
+                "Content-Type": "image/jpeg"
+            }
+        })
 
-    return publicUrl;
+        const publicUrl = `${storage.defaults.baseURL}/public/trips/${fileName}`;
+
+        return publicUrl;
+    } catch (error) {
+        Alert.alert(getErrorMessage(error));
+    };
+};
+
+export async function getAll() {
+    try {
+        const result = await api.get("/trips");
+
+        return result.data;
+    } catch (error) {
+        Alert.alert(getErrorMessage(error));
+    };
 }

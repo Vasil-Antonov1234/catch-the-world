@@ -13,12 +13,18 @@ export default function TripCard({
         rating
     },
     icon = undefined,
+    goTo = undefined
 }) {
     const navigation = useNavigation();
     const { theme, wishList, addToWishlist } = useContext(AppContext);
 
     function pressHandler(id) {
-        navigation.navigate("TopDestinationDetails", { placeId: id })
+
+        if (!goTo) {
+            return;
+        };
+
+        navigation.navigate(goTo, { placeId: id })
     }
 
     const isInWishList = !!(wishList.find((x) => id === x.id));
@@ -44,8 +50,11 @@ export default function TripCard({
             <View style={[styles.detailsCard, { backgroundColor: theme.colors.backgroundDarck }]}>
 
                 <View style={styles.locationRow}>
-                    <Ionicons name="location-sharp" size={16} color={theme.colors.textOnPrimary} />
-                    <Text style={[styles.title, { color: theme.colors.textOnPrimary }]} numberOfLines={1}>{name}</Text>
+                    <Ionicons name="location-sharp" size={20} color={theme.colors.textOnPrimary} />
+                    <View>
+                        <Text style={[styles.location, { color: theme.colors.textOnPrimary }]} numberOfLines={1}>{location}</Text>
+                        <Text style={[styles.title, { color: theme.colors.textOnPrimary }]} numberOfLines={1}>{name}</Text>
+                    </View>
                 </View>
             </View>
         </Pressable>
@@ -63,7 +72,6 @@ const styles = StyleSheet.create({
         elevation: 5,
         position: "relative",
         overflow: "hidden",
-        marginRight: 12,
         borderWidth: 0.5,
     },
     image: {
@@ -94,6 +102,10 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 8,
         fontWeight: 700
+    },
+    location: {
+        fontSize: 6,
+        textTransform: "uppercase"
     },
     locationRow: {
         flexDirection: "row",

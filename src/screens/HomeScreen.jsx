@@ -59,6 +59,7 @@ export default function HomeScreen({ navigation }) {
                                 key={x.id}
                                 destination={x}
                                 icon="heart"
+                                goTo="TopDestinationDetails"
                             />
                         ))}
                     </ScrollView>
@@ -84,7 +85,8 @@ const styles = StyleSheet.create({
     },
     topDestinationsContainer: {
         paddingRight: 4,
-        marginBottom: 20
+        marginBottom: 20,
+        gap: 20
     },
     continentContainer: {
         gap: 10,
