@@ -1,19 +1,19 @@
 import { GestureDetector, usePanGesture } from "react-native-gesture-handler";
 import JourneyCard from "../journey-card/JourneyCard.jsx";
-import { useAnimatedStyle, useSharedValue } from "react-native-reanimated";
+import { useAnimatedStyle, useSharedValue, withSpring } from "react-native-reanimated";
 
 export default function SwipeablePlaceCard(props) {
     const translateX = useSharedValue(0);
 
     const pan = usePanGesture({
         onBegin() {
-            console.log("begin")
+            
         },
         onUpdate({ translationX }) {
-            translateX.value = translationX;
+            translateX.value = Math.min(translationX, 0);
         },
         onFinalize() {
-            console.log("final")
+            translateX.value = withSpring(0);
         }
     });
 

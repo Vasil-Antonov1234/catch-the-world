@@ -13,20 +13,7 @@ export default function HomeScreen({ navigation }) {
     const { theme, isDarkTheme } = useContext(AppContext);
 
     useEffect(() => {
-
-        (async () => {
-            try {
-                const continentsData = await continentApi.getAll();
-                setContinents(continentsData);
-
-                const topDestinationsData = await destinationsApi.getTopDestinations();
-                setTopDestinations(topDestinationsData);
-            } catch (error) {
-                Alert.alert("Error", error.message);
-            };
-
-        })()
-
+        refreshHandler();
     }, []);
 
     async function refreshHandler() {
