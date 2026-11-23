@@ -6,6 +6,7 @@ import CityDetailsScreen from "./CityDetailsScreen.jsx";
 import ButtonIcon from "../components/buttons/ButtonIcon.jsx";
 import CreatePlace from "../components/create-place/CreatePlace.jsx";
 import { destinationsApi } from "../api/index.js";
+import SwipeablePlaceCard from "../components/SwipablePlace/SwipeablePlaceCard.jsx";
 
 export default function CitiesCatalogScreen({ route, navigation }) {
     const [showModal, setShowModal] = useState(false);
@@ -36,7 +37,7 @@ export default function CitiesCatalogScreen({ route, navigation }) {
         <>
             <FlatList
                 data={cities}
-                renderItem={({ item }) => <JourneyCard place={item} press={() => { }} />}
+                renderItem={({ item }) => <SwipeablePlaceCard place={item} press={() => { }} />}
                 keyExtractor={item => item.id}
                 contentContainerStyle={styles.containerSecondary}
             />
