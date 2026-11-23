@@ -6,14 +6,30 @@ import colors from "../../theme/colors.js";
 export default function TripDatePicker({ onConfirm, onCancel }) {
     const [date, setDate] = useState(new Date());
 
+    function onAndroidChange(event, selectedDate) {
+        if (event?.type === 'dismissed') {
+            onCancel();
+            return;
+        }
+
+        if (selectedDate) {
+            onConfirm(selectedDate);
+        }
+    }
+
+    function onIOSChange(_event, selectedDate) {
+        if (selectedDate) {
+            setDate(selectedDate);
+        }
+    }
+
     if (Platform.OS === 'android') {
         return (
             <DateTimePicker
                 value={date}
                 mode="date"
                 minimumDate={new Date()}
-                onValueChange={(event, selectedDate) => onConfirm(selectedDate)}
-                onDismiss={onCancel}
+                onValueChange={onAndroidChange}
             />
         );
     }
@@ -28,7 +44,7 @@ export default function TripDatePicker({ onConfirm, onCancel }) {
                         display="spinner"
                         themeVariant="light"
                         minimumDate={new Date()}
-                        onValueChange={(event, selectedDate) => setDate(selectedDate)}
+                        onValueChange={onIOSChange}
                     />
                     <View style={styles.buttons}>
                         <Pressable style={styles.cancelButton} onPress={onCancel}>

@@ -5,34 +5,22 @@ import { getErrorMessage } from "../utils/error.util.js";
 import TripCard from "../components/trip-card/TripCard.jsx";
 import AppContext from "../contexts/AppContext.js";
 import ButtonIcon from "../components/buttons/ButtonIcon.jsx";
+import useReduceState from "../hooks/useReduceState.js";
 
 export default function MyTripsScreen({ navigation }) {
-    const [trips, setTrips] = useState([]);
-    const { theme } = useContext(AppContext);
+    const { theme, data, dispatch } = useContext(AppContext);
     const [refreshing, setRefreshing] = useState(false);
-
-    useEffect(() => {
-
-        (async () => {
-
-            try {
-                const tripsData = await tripsApi.getAll();
-
-                setTrips(tripsData);
-            } catch (error) {
-                Alert.alert(getErrorMessage(error));
-            };
-        })()
-
-    }, []);
 
     async function refreshHandler() {
         setRefreshing(true);
 
         try {
             const tripsData = await tripsApi.getAll();
-            
-            setTrips(tripsData);
+
+            dispatch({
+                type: "GET_ALL",
+                payload: tripsData
+            });
         } catch (error) {
             Alert.alert(getErrorMessage(error));
         } finally {
@@ -43,7 +31,7 @@ export default function MyTripsScreen({ navigation }) {
     return (
         <>
             <FlatList
-                data={trips}
+                data={data}
                 renderItem={({ item }) => <TripCard destination={item} />}
                 keyExtractor={(item) => String(item.id)}
                 numColumns={2}

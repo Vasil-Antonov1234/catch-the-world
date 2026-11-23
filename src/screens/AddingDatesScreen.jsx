@@ -7,6 +7,7 @@ import TripDatePicker from "../components/trip-date-picker/TripDatePicker.jsx";
 import PickDurationModal from "../components/pick-duration-modal/PickDurationModal.jsx";
 import AppContext from "../contexts/AppContext.js";
 import { getErrorMessage } from "../utils/error.util.js";
+import useReduceState from "../hooks/useReduceState.js";
 
 export default function AddingDatesScreen({ navigation, route }) {
 
@@ -14,7 +15,7 @@ export default function AddingDatesScreen({ navigation, route }) {
     const [selectedDate, setSelectedDate] = useState(null);
     const [isShowModal, setIsShowModal] = useState(false);
     const [isShowDurationModal, setIsShowDurationModal] = useState(false);
-    const { theme, removeFromWishlist } = useContext(AppContext);
+    const { theme, removeFromWishlist, dispatch } = useContext(AppContext);
 
     const placeId = route.params.placeId;
     const index = route.params.index;
@@ -60,10 +61,23 @@ export default function AddingDatesScreen({ navigation, route }) {
                 enddate: endDate
             });
 
-            console.log(`Trip from ${startDate} to ${endDate} and duration of ${days} days`);
+            dispatch({
+                type: "ADD",
+                payload: [{
+                    name: currentPlace.name,
+                    poster: currentPlace.poster,
+                    location: currentPlace.location,
+                    description: currentPlace.description,
+                    rating: currentPlace.rating,
+                    startdate: startDate,
+                    enddate: endDate
+                }]
+            });
+
             setIsShowDurationModal(false);
             removeFromWishlist(index);
-            navigation.navigate("WishList");
+            // navigation.navigate("WishList");
+            navigation.goBack();
 
         } catch (error) {
             Alert.alert(getErrorMessage(error));

@@ -5,6 +5,7 @@ import { Platform } from "react-native";
 import { DefaultTheme, DarkTheme } from '@react-navigation/native';
 import { useColorScheme } from "react-native";
 import { setBackgroundColorAsync } from "expo-system-ui";
+import useReduceState from "../hooks/useReduceState.js";
 
 
 export default function AppContextProvider({ children }) {
@@ -13,6 +14,8 @@ export default function AppContextProvider({ children }) {
     const [manualDarkTheme, setManualDarkTheme] = usePersistedState("manualDarkTheme", null);
     const colorScheme = useColorScheme();
     const isDarkTheme = manualDarkTheme ?? colorScheme === 'dark';
+
+    const { data, dispatch} = useReduceState();
 
     const lightTheme = useMemo(() => ({
         ...DefaultTheme,
@@ -137,6 +140,7 @@ export default function AppContextProvider({ children }) {
         setManualDarkTheme((state) => !state);
     };
 
+
     const AppContextValues = {
         wishList,
         addToWishlist,
@@ -145,7 +149,9 @@ export default function AppContextProvider({ children }) {
         isDarkTheme,
         resetTheme,
         toggleTheme,
-        theme: isDarkTheme ? darckTheme : lightTheme
+        theme: isDarkTheme ? darckTheme : lightTheme,
+        data,
+        dispatch
     };
 
     return (

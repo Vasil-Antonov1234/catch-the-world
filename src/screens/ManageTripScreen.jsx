@@ -14,6 +14,8 @@ import ButtonIcon from '../components/buttons/ButtonIcon.jsx';
 import * as Location from 'expo-location';
 import AppContext from '../contexts/AppContext.js';
 import { useHeaderHeight } from '@react-navigation/elements';
+import { getErrorMessage } from '../utils/error.util.js';
+import useReduceState from '../hooks/useReduceState.js';
 
 const posterPlaceholder = 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?q=80&w=1200&auto=format&fit=crop';
 
@@ -27,7 +29,7 @@ const initialValues = {
     enddate: null
 };
 
-export default function ManageTripScreen() {
+export default function ManageTripScreen({ navigation }) {
 
     const [values, setValues] = useState(initialValues);
     const [selectedDate, setSelectedDate] = useState(null);
@@ -35,7 +37,7 @@ export default function ManageTripScreen() {
     const [isShowDurationModal, setIsShowDurationModal] = useState(false);
     const [isPending, setIsPending] = useState(false);
     const headerHeight = useHeaderHeight();
-    const { theme } = useContext(AppContext);
+    const { theme, dispatch } = useContext(AppContext);
     const scrollRef = useRef(null);
 
     function descriptionScrollHandler() {
@@ -144,22 +146,36 @@ export default function ManageTripScreen() {
     async function submitHandler() {
         setIsPending(true);
 
-        let imageUrl = values.poster;
+        try {
+            let imageUrl = values.poster;
 
-        if (imageUrl) {
-            const file = new File(imageUrl);
-            const fileName = `${values.name}-${values.startdate}-${Date.now()}.jpg`;
+            if (imageUrl) {
+                const file = new File(imageUrl);
+                const fileName = `${values.name}-${values.startdate}-${Date.now()}.jpg`;
 
-            imageUrl = await tripsApi.uploadImage(file, fileName);
-        }
+                imageUrl = await tripsApi.uploadImage(file, fileName);
+            };
 
-        await tripsApi.create({
-            ...values,
-            poster: imageUrl
-        });
-        setValues(initialValues);
+            await tripsApi.create({
+                ...values,
+                poster: imageUrl
+            });
 
-        setIsPending(false);
+            dispatch({
+                type: "ADD",
+                payload: [{
+                    ...values,
+                    poster: imageUrl
+                }]
+            });
+
+            setValues(initialValues);
+            navigation.goBack();
+        } catch (error) {
+            Alert.alert(getErrorMessage(error));
+        } finally {
+            setIsPending(false);
+        };
     };
 
     return (
@@ -170,19 +186,19 @@ export default function ManageTripScreen() {
         >
             <ScrollView
                 ref={scrollRef}
-                style={[styles.screen, {backgroundColor: theme.colors.background}]}
+                style={[styles.screen, { backgroundColor: theme.colors.background }]}
                 contentContainerStyle={styles.content}
                 keyboardShouldPersistTaps="handled"
                 automaticallyAdjustKeyboardInsets
                 keyboardDismissMode='interactive'
             >
-                <Text style={[styles.title, {color: theme.colors.textPrimary}]}>Create a Trip</Text>
-                <Text style={[styles.subtitle, {color: theme.colors.textSecondary}]}>Add the main details for your next destination.</Text>
+                <Text style={[styles.title, { color: theme.colors.textPrimary }]}>Create a Trip</Text>
+                <Text style={[styles.subtitle, { color: theme.colors.textSecondary }]}>Add the main details for your next destination.</Text>
 
                 <View style={styles.field}>
-                    <Text style={[styles.label, {color: theme.colors.textPrimary}]}>Place name</Text>
+                    <Text style={[styles.label, { color: theme.colors.textPrimary }]}>Place name</Text>
                     <TextInput
-                        style={[styles.input, {backgroundColor: theme.colors.surface, borderColor: theme.colors.LightBlue, color: theme.colors.textPrimary}]}
+                        style={[styles.input, { backgroundColor: theme.colors.surface, borderColor: theme.colors.LightBlue, color: theme.colors.textPrimary }]}
                         value={values.name}
                         onChangeText={(text) => changeHandler("name", text)}
                         placeholder="Enter trip name"
@@ -190,8 +206,8 @@ export default function ManageTripScreen() {
                     />
                 </View>
                 <View style={styles.field}>
-                    <Text style={[styles.label, {color: theme.colors.textPrimary}]}>Poster</Text>
-                    <View style={[styles.posterCard, {backgroundColor: theme.colors.surface, borderColor: theme.colors.LightBlue}]}>
+                    <Text style={[styles.label, { color: theme.colors.textPrimary }]}>Poster</Text>
+                    <View style={[styles.posterCard, { backgroundColor: theme.colors.surface, borderColor: theme.colors.LightBlue }]}>
 
                         {/* Image */}
                         <View style={styles.posterCtr}>
@@ -202,8 +218,8 @@ export default function ManageTripScreen() {
                         <View style={styles.posterButtonsCtr}>
                             <ButtonCustom
                                 text="Camera"
-                                background={[styles.posterButton, {backgroundColor: theme.colors.LightBlue}]}
-                                textColor={[styles.posterButtonText, {color: theme.colors.primary}]}
+                                background={[styles.posterButton, { backgroundColor: theme.colors.LightBlue }]}
+                                textColor={[styles.posterButtonText, { color: theme.colors.primary }]}
                                 icon="camera"
                                 iconSize={20}
                                 iconColor={colors.primary}
@@ -211,8 +227,8 @@ export default function ManageTripScreen() {
                             />
                             <ButtonCustom
                                 text="Gallery"
-                                background={[styles.posterButton, {backgroundColor: theme.colors.LightBlue}]}
-                                textColor={[styles.posterButtonText, {color: theme.colors.primary}]}
+                                background={[styles.posterButton, { backgroundColor: theme.colors.LightBlue }]}
+                                textColor={[styles.posterButtonText, { color: theme.colors.primary }]}
                                 icon="image"
                                 iconSize={20}
                                 iconColor={colors.primary}
@@ -220,11 +236,11 @@ export default function ManageTripScreen() {
                             />
                         </View>
                         <View>
-                            <Text style={[styles.text, {color: theme.colors.backgroundDarck}]}>or</Text>
+                            <Text style={[styles.text, { color: theme.colors.backgroundDarck }]}>or</Text>
                         </View>
                         <View>
                             <TextInput
-                                style={[styles.input, {backgroundColor: theme.colors.surface, borderColor: theme.colors.LightBlue, color: theme.colors.textPrimary}]}
+                                style={[styles.input, { backgroundColor: theme.colors.surface, borderColor: theme.colors.LightBlue, color: theme.colors.textPrimary }]}
                                 value={values.poster}
                                 onChangeText={(text) => changeHandler("poster", text)}
                                 placeholder="Image URL"
@@ -236,16 +252,16 @@ export default function ManageTripScreen() {
 
                 {/* Location */}
                 <View style={styles.field}>
-                    <Text style={[styles.label, {color: theme.colors.textPrimary}]}>Location</Text>
+                    <Text style={[styles.label, { color: theme.colors.textPrimary }]}>Location</Text>
                     <TextInput
-                        style={[styles.input, {backgroundColor: theme.colors.surface, borderColor: theme.colors.LightBlue, color: theme.colors.textPrimary}]}
+                        style={[styles.input, { backgroundColor: theme.colors.surface, borderColor: theme.colors.LightBlue, color: theme.colors.textPrimary }]}
                         value={values.location}
                         onChangeText={(text) => changeHandler("location", text)}
                         placeholder="Enter location"
                         placeholderTextColor="#9CA3AF"
                     />
                     <View style={styles.setLocationCtr}>
-                        <Text style={[styles.text, {color: theme.colors.backgroundDarck}]}>or use my current location</Text>
+                        <Text style={[styles.text, { color: theme.colors.backgroundDarck }]}>or use my current location</Text>
                         <ButtonIcon
                             icon={{ uri: "https://cdn-icons-png.flaticon.com/512/5654/5654592.png" }}
                             color={theme.colors.primary}
@@ -263,9 +279,9 @@ export default function ManageTripScreen() {
 
                 {/* Description */}
                 <View style={styles.field}>
-                    <Text style={[styles.label, {color: theme.colors.textPrimary}]}>Description</Text>
+                    <Text style={[styles.label, { color: theme.colors.textPrimary }]}>Description</Text>
                     <TextInput
-                        style={[styles.input, styles.textArea, {backgroundColor: theme.colors.surface, borderColor: theme.colors.LightBlue, color: theme.colors.textPrimary}]}
+                        style={[styles.input, styles.textArea, { backgroundColor: theme.colors.surface, borderColor: theme.colors.LightBlue, color: theme.colors.textPrimary }]}
                         value={values.description}
                         onChangeText={(text) => changeHandler("description", text)}
                         multiline
@@ -278,13 +294,13 @@ export default function ManageTripScreen() {
 
                 {/* Date */}
                 <View style={styles.field}>
-                    <Text style={[styles.label, {color: theme.colors.textPrimary}]}>Date</Text>
+                    <Text style={[styles.label, { color: theme.colors.textPrimary }]}>Date</Text>
                     <View style={styles.dateButtonsCtr}>
                         {/* <Icon source={"calendar"} size={40} color={colors.backgroundDarck}/> */}
                         <ButtonCustom
                             text="Set date"
-                            background={[styles.posterButton, {backgroundColor: theme.colors.LightBlue}]}
-                            textColor={[styles.posterButtonText, {color: theme.colors.primary}]}
+                            background={[styles.posterButton, { backgroundColor: theme.colors.LightBlue }]}
+                            textColor={[styles.posterButtonText, { color: theme.colors.primary }]}
                             onPress={() => setIsShowModal(true)}
                             icon="calendar"
                             iconSize={20}
@@ -297,9 +313,9 @@ export default function ManageTripScreen() {
                 </View>
 
                 <ButtonCustom
-                    background={[styles.createButton, {backgroundColor: theme.colors.primary}]}
+                    background={[styles.createButton, { backgroundColor: theme.colors.primary }]}
                     text="Create trip"
-                    textColor={[styles.createButtonText, {color: theme.colors.textOnPrimary}]}
+                    textColor={[styles.createButtonText, { color: theme.colors.textOnPrimary }]}
                     onPress={submitHandler}
                 />
 
