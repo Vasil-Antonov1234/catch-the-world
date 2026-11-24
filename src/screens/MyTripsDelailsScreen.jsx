@@ -1,4 +1,4 @@
-import { Dimensions, Image, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Alert, Dimensions, Image, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { useContext, useEffect, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
@@ -40,16 +40,15 @@ export default function MyTripsDelailsScreen({ navigation, route }) {
 
     }, [placeId]);
 
-    // console.log(currentPlace)
+    async function deleteTrip() {
 
-    const place = HARDcoded_PLACE;
-    const region = "TYROLEAN ALPS";
-    const price = "$100";
-    const duration = "3 days";
-    const { id, name, poster, location, rating, description } = place;
-
-    const openDetails = () => {
-        navigation.goBack();
+        Alert.alert("Delete Trip", "Are you sure you want to delete this trip?", [
+            { text: "Cancel", style: "cancel" },
+            { text: "OK", onPress: async () => {
+                await tripsApi.deleteById(placeId);
+                navigation.goBack();
+            }}
+        ]);
     };
 
     return (
@@ -107,7 +106,7 @@ export default function MyTripsDelailsScreen({ navigation, route }) {
                         mode="contained"
                         color={theme.colors.error}
                         size={24}
-                        onPress={() => console.log("delete")}
+                        onPress={deleteTrip}
                     />
                 </View>
             </ScrollView>

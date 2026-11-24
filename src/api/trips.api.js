@@ -59,3 +59,13 @@ export async function getById(id) {
         Alert.alert(getErrorMessage(error));
     };
 };
+
+export async function deleteById(id) {
+    try {
+        await api.delete('/trips', {
+            params: {id: `eq.${id}`}
+        });
+    } catch (error) {
+        Alert.alert(getErrorMessage(error));
+    };
+}
