@@ -7,6 +7,7 @@ import CreatePlace from '../components/create-place/CreatePlace.jsx';
 import { destinationsApi } from '../api/index.js';
 import ButtonCustom from '../components/buttons/ButtonCustom.jsx';
 import AppContext from '../contexts/AppContext.js';
+import { getErrorMessage } from '../utils/error.util.js';
 
 export default function CityDetailsScreen({ navigation, route }) {
     const [showImageModal, setShowImageModal] = useState("");
@@ -24,7 +25,7 @@ export default function CityDetailsScreen({ navigation, route }) {
 
                 setCurrentPlace(currentPlaceData);
             } catch (error) {
-                Alert.alert(error.message);
+                Alert.alert(getErrorMessage(error));
             };
 
         })();

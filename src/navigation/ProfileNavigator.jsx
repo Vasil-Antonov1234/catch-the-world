@@ -6,6 +6,7 @@ import colors from "../theme/colors.js";
 import { View, Text, StyleSheet } from "react-native";
 import { useContext } from "react";
 import AppContext from "../contexts/AppContext.js";
+import MyTripsDelailsScreen from "../screens/MyTripsDelailsScreen.jsx";
 
 const Stack = createStackNavigator();
 
@@ -42,6 +43,14 @@ export default function ProfileNavigator() {
             <Stack.Screen
                 name="ManageTrip"
                 component={ManageTripScreen}
+            />
+
+            <Stack.Screen 
+                name="MyTripsDetails"
+                component={MyTripsDelailsScreen}
+                options={{
+                    headerShown: false
+                }}
             />
         </Stack.Navigator>
     );

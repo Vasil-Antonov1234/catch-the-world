@@ -46,4 +46,16 @@ export async function getAll() {
     } catch (error) {
         Alert.alert(getErrorMessage(error));
     };
-}
+};
+
+export async function getById(id) {
+    try {
+        const result = await api.get(`/trips`, {
+            params: {id: `eq.${id}`}
+        });
+
+        return result.data[0] ?? null;
+    } catch (error) {
+        Alert.alert(getErrorMessage(error));
+    };
+};

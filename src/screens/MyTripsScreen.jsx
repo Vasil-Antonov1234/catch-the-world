@@ -32,7 +32,7 @@ export default function MyTripsScreen({ navigation }) {
         <>
             <FlatList
                 data={data}
-                renderItem={({ item }) => <TripCard destination={item} />}
+                renderItem={({ item }) => <TripCard destination={item} goTo="MyTripsDetails"/>}
                 keyExtractor={(item) => String(item.id)}
                 numColumns={2}
                 columnWrapperStyle={styles.row}
@@ -45,7 +45,7 @@ export default function MyTripsScreen({ navigation }) {
                 <ButtonIcon
                     icon="plus"
                     size={70}
-                    color={theme.colors.backgroundDarck}
+                    color={theme.colors.accentTransperant}
                     mode="contained"
                     onPress={() => navigation.navigate("ManageTrip")}
                 />

@@ -13,12 +13,10 @@ export default function SwipeablePlaceCard(props) {
             translateX.value = Math.min(translationX, 0);
             // console.log(translationX);
         },
-        onFinalize({x, absoluteX }) {
+        onFinalize() {
             if (translateX.value > -85) {
-                console.log("test")
                 translateX.value = withSpring(0)
             } else {
-                console.log("test1")
                 translateX.value = withSpring(-85)
             }
             
