@@ -9,8 +9,8 @@ const AppContext = createContext({
    resetTheme() { },
    toggleTheme() { },
    theme: {},
-   data: [],
-   dispatch() {}
+   // data: [],
+   // dispatch() {}
 });
 
 export default AppContext;

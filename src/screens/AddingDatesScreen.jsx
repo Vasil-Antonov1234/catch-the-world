@@ -15,7 +15,7 @@ export default function AddingDatesScreen({ navigation, route }) {
     const [selectedDate, setSelectedDate] = useState(null);
     const [isShowModal, setIsShowModal] = useState(false);
     const [isShowDurationModal, setIsShowDurationModal] = useState(false);
-    const { theme, removeFromWishlist, dispatch } = useContext(AppContext);
+    const { theme, removeFromWishlist } = useContext(AppContext);
 
     const placeId = route.params.placeId;
     const index = route.params.index;
@@ -59,19 +59,6 @@ export default function AddingDatesScreen({ navigation, route }) {
                 rating: currentPlace.rating,
                 startdate: startDate,
                 enddate: endDate
-            });
-
-            dispatch({
-                type: "ADD",
-                payload: [{
-                    name: currentPlace.name,
-                    poster: currentPlace.poster,
-                    location: currentPlace.location,
-                    description: currentPlace.description,
-                    rating: currentPlace.rating,
-                    startdate: startDate,
-                    enddate: endDate
-                }]
             });
 
             setIsShowDurationModal(false);

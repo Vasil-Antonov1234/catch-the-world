@@ -1,5 +1,6 @@
 import { Alert, Dimensions, Image, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
-import { useContext, useEffect, useState } from "react";
+import { useFocusEffect } from "@react-navigation/native";
+import { useContext, useEffect, useState, useCallback } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -9,15 +10,6 @@ import { getErrorMessage } from "../utils/error.util.js";
 import ButtonIcon from "../components/buttons/ButtonIcon.jsx";
 
 const { width } = Dimensions.get("window");
-
-const HARDcoded_PLACE = {
-    id: 1,
-    name: "Tutrakan",
-    poster: "https://thumbs.dreamstime.com/b/idyllic-summer-landscape-clear-mountain-lake-alps-45054687.jpg",
-    location: "Bulgaria",
-    rating: "4",
-    description: "Bla bla bla opa"
-};
 
 export default function MyTripsDelailsScreen({ navigation, route }) {
     const { theme } = useContext(AppContext);
@@ -39,6 +31,19 @@ export default function MyTripsDelailsScreen({ navigation, route }) {
         })();
 
     }, [placeId]);
+    
+    useFocusEffect(
+        useCallback(() => {
+            (async () => {
+                try {
+                    const currentPlaceData = await tripsApi.getById(placeId);
+                    setCurrentPlace(currentPlaceData);
+                } catch (error) {
+                    Alert.alert(getErrorMessage(error));
+                };
+            })();
+        }, [])
+    );
 
     async function deleteTrip() {
 
@@ -99,7 +104,7 @@ export default function MyTripsDelailsScreen({ navigation, route }) {
                         mode="contained"
                         color={theme.colors.primary}
                         size={24}
-                        onPress={() => console.log("edit")}
+                        onPress={() => navigation.navigate("ManageTrip", { tripId: currentPlace.id })}
                     />
                     <ButtonIcon
                         icon="delete"

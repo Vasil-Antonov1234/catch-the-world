@@ -1,15 +1,27 @@
 import { Alert, FlatList, StyleSheet, View } from "react-native";
-import { useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { tripsApi } from "../api/index.js";
 import { getErrorMessage } from "../utils/error.util.js";
 import TripCard from "../components/trip-card/TripCard.jsx";
 import AppContext from "../contexts/AppContext.js";
 import ButtonIcon from "../components/buttons/ButtonIcon.jsx";
 import useReduceState from "../hooks/useReduceState.js";
+import { useFocusEffect } from "@react-navigation/native";
 
 export default function MyTripsScreen({ navigation }) {
-    const { theme, data, dispatch } = useContext(AppContext);
+    const { theme } = useContext(AppContext);
     const [refreshing, setRefreshing] = useState(false);
+    const [trips, setTrips] = useState([]);
+
+    useEffect(() => {
+        refreshHandler();
+    }, [])
+
+    useFocusEffect(
+        useCallback(() => {
+            refreshHandler();
+        }, [])
+    );
 
     async function refreshHandler() {
         setRefreshing(true);
@@ -17,10 +29,7 @@ export default function MyTripsScreen({ navigation }) {
         try {
             const tripsData = await tripsApi.getAll();
 
-            dispatch({
-                type: "GET_ALL",
-                payload: tripsData
-            });
+            setTrips(tripsData);
         } catch (error) {
             Alert.alert(getErrorMessage(error));
         } finally {
@@ -31,7 +40,7 @@ export default function MyTripsScreen({ navigation }) {
     return (
         <>
             <FlatList
-                data={data}
+                data={trips}
                 renderItem={({ item }) => <TripCard destination={item} goTo="MyTripsDetails"/>}
                 keyExtractor={(item) => String(item.id)}
                 numColumns={2}

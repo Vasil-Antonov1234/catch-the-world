@@ -68,4 +68,18 @@ export async function deleteById(id) {
     } catch (error) {
         Alert.alert(getErrorMessage(error));
     };
-}
+};
+
+export async function updateById(id, values) {
+    try {
+        const result = await api.put('/trips', {
+            ...values
+        }, {
+            params: {id: `eq.${id}`}
+        });
+
+        return result.data;
+    } catch (error) {
+        Alert.alert(getErrorMessage(error));
+    };
+};

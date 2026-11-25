@@ -15,7 +15,7 @@ export default function AppContextProvider({ children }) {
     const colorScheme = useColorScheme();
     const isDarkTheme = manualDarkTheme ?? colorScheme === 'dark';
 
-    const { data, dispatch} = useReduceState();
+    // const { data, dispatch} = useReduceState();
 
     const lightTheme = useMemo(() => ({
         ...DefaultTheme,
@@ -150,8 +150,8 @@ export default function AppContextProvider({ children }) {
         resetTheme,
         toggleTheme,
         theme: isDarkTheme ? darckTheme : lightTheme,
-        data,
-        dispatch
+        // data,
+        // dispatch
     };
 
     return (

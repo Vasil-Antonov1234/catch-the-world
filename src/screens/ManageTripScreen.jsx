@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, ScrollView, TextInput, Image, Pressable, KeyboardAvoidingView, Platform, Alert, ActivityIndicator } from 'react-native';
 import ButtonCustom from '../components/buttons/ButtonCustom.jsx';
 import colors from '../theme/colors.js';
-import { useContext, useState, useRef } from 'react';
+import { useContext, useState, useRef, useEffect } from 'react';
 import { Icon } from 'react-native-paper';
 import RatingSlider from '../components/rating-slider/RatingSlider.jsx';
 import { tripsApi } from '../api/index.js';
@@ -16,6 +16,7 @@ import AppContext from '../contexts/AppContext.js';
 import { useHeaderHeight } from '@react-navigation/elements';
 import { getErrorMessage } from '../utils/error.util.js';
 import useReduceState from '../hooks/useReduceState.js';
+import { convertDate } from '../utils/convertDate.js';
 
 const posterPlaceholder = 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?q=80&w=1200&auto=format&fit=crop';
 
@@ -29,7 +30,7 @@ const initialValues = {
     enddate: null
 };
 
-export default function ManageTripScreen({ navigation }) {
+export default function ManageTripScreen({ navigation, route }) {
 
     const [values, setValues] = useState(initialValues);
     const [selectedDate, setSelectedDate] = useState(null);
@@ -37,8 +38,25 @@ export default function ManageTripScreen({ navigation }) {
     const [isShowDurationModal, setIsShowDurationModal] = useState(false);
     const [isPending, setIsPending] = useState(false);
     const headerHeight = useHeaderHeight();
-    const { theme, dispatch } = useContext(AppContext);
+    const { theme } = useContext(AppContext);
     const scrollRef = useRef(null);
+
+    const tripId = route.params?.tripId;
+
+    const startDate = convertDate(values.startdate);
+
+    useEffect(() => {
+        if (tripId) {
+            (async () => {
+                try {
+                    const tripData = await tripsApi.getById(tripId);
+                    setValues(tripData);
+                } catch (error) {
+                    Alert.alert(getErrorMessage(error));
+                }
+            })();
+        }
+    }, [tripId]);
 
     function descriptionScrollHandler() {
         setTimeout(() => {
@@ -68,7 +86,7 @@ export default function ManageTripScreen({ navigation }) {
     };
 
     function confirmDateHandler({ days, startDate, endDate }) {
-
+        
         changeHandler("startdate", startDate);
         changeHandler("enddate", endDate);
 
@@ -149,25 +167,25 @@ export default function ManageTripScreen({ navigation }) {
         try {
             let imageUrl = values.poster;
 
-            if (imageUrl) {
+            if (imageUrl && imageUrl.startsWith("file://")) {
+
                 const file = new File(imageUrl);
-                const fileName = `${values.name}-${values.startdate}-${Date.now()}.jpg`;
+                const fileName = `${values.startdate}-${values.enddate}-${Date.now()}.jpg`;
 
                 imageUrl = await tripsApi.uploadImage(file, fileName);
             };
 
-            await tripsApi.create({
-                ...values,
-                poster: imageUrl
-            });
-
-            dispatch({
-                type: "ADD",
-                payload: [{
+            if (tripId) {
+                await tripsApi.updateById(tripId, {
                     ...values,
                     poster: imageUrl
-                }]
-            });
+                });                
+            } else {
+                await tripsApi.create({
+                    ...values,
+                    poster: imageUrl
+                });
+            };
 
             setValues(initialValues);
             navigation.goBack();
@@ -180,7 +198,7 @@ export default function ManageTripScreen({ navigation }) {
 
     return (
         <KeyboardAvoidingView
-            // behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+            // behavior={Platform.OS === 'ios' ? 'padding' : "height"}
             // keyboardVerticalOffset={keyboardVerticalOffset}
             style={{ flex: 1 }}
         >
@@ -192,8 +210,8 @@ export default function ManageTripScreen({ navigation }) {
                 automaticallyAdjustKeyboardInsets
                 keyboardDismissMode='interactive'
             >
-                <Text style={[styles.title, { color: theme.colors.textPrimary }]}>Create a Trip</Text>
-                <Text style={[styles.subtitle, { color: theme.colors.textSecondary }]}>Add the main details for your next destination.</Text>
+                <Text style={[styles.title, { color: theme.colors.textPrimary }]}>{tripId ? "Edit Trip" : "Create a Trip"}</Text>
+                <Text style={[styles.subtitle, { color: theme.colors.textSecondary }]}>{tripId ? "Edit the details of your trip." : "Add the main details for your next destination."}</Text>
 
                 <View style={styles.field}>
                     <Text style={[styles.label, { color: theme.colors.textPrimary }]}>Place name</Text>
@@ -294,11 +312,21 @@ export default function ManageTripScreen({ navigation }) {
 
                 {/* Date */}
                 <View style={styles.field}>
-                    <Text style={[styles.label, { color: theme.colors.textPrimary }]}>Date</Text>
+                    <Text style={[styles.label, { color: theme.colors.textPrimary }]}>Dates</Text>
+                    <View style={styles.dateField}>
+                        <View>
+                            <Text style={[styles.dateLabel, { color: theme.colors.textSecondary }]}>Start date</Text>
+                            <Text style={[styles.dateText, {color: theme.colors.accent}]}>{convertDate(values.startdate) || values.startdate}</Text>
+                        </View>
+                        <View>
+                            <Text style={[styles.dateLabel, { color: theme.colors.textSecondary }]}>End date</Text>
+                            <Text style={[styles.dateText, {color: theme.colors.accent}]}>{convertDate(values.enddate) || values.enddate}</Text>
+                        </View>
+                    </View>
                     <View style={styles.dateButtonsCtr}>
                         {/* <Icon source={"calendar"} size={40} color={colors.backgroundDarck}/> */}
                         <ButtonCustom
-                            text="Set date"
+                            text={tripId ? "Edit dates" : "Set dates"}
                             background={[styles.posterButton, { backgroundColor: theme.colors.LightBlue }]}
                             textColor={[styles.posterButtonText, { color: theme.colors.primary }]}
                             onPress={() => setIsShowModal(true)}
@@ -312,12 +340,14 @@ export default function ManageTripScreen({ navigation }) {
                     {isShowDurationModal ? <PickDurationModal startDate={selectedDate} onCancel={cancelPlanning} onConfirm={confirmDateHandler} /> : ""}
                 </View>
 
-                <ButtonCustom
-                    background={[styles.createButton, { backgroundColor: theme.colors.primary }]}
-                    text="Create trip"
-                    textColor={[styles.createButtonText, { color: theme.colors.textOnPrimary }]}
-                    onPress={submitHandler}
-                />
+                <View>
+                    <ButtonCustom
+                        background={[styles.createButton, { backgroundColor: theme.colors.primary }]}
+                        text={tripId ? "Update trip" : "Create trip"}
+                        textColor={[styles.createButtonText, { color: theme.colors.textOnPrimary }]}
+                        onPress={submitHandler}
+                    />
+                </View>
 
                 {isPending ? <ActivityIndicator size={"large"} /> : ""}
             </ScrollView>
@@ -417,6 +447,21 @@ const styles = StyleSheet.create({
     setLocationCtr: {
         flexDirection: "row",
         justifyContent: "flex-end",
+        alignItems: "center"
+    },
+    dateLabel: {
+        fontSize: 8,
+        fontWeight: '300',
+        textTransform: 'uppercase',
+        textAlign: 'center'
+    },
+    dateText: {
+        fontSize: 10,
+        fontWeight: '700'
+    },
+    dateField: {
+        flexDirection: "row",
+        justifyContent: "space-between",
         alignItems: "center"
     }
 });
