@@ -15,10 +15,7 @@ import * as Location from 'expo-location';
 import AppContext from '../contexts/AppContext.js';
 import { useHeaderHeight } from '@react-navigation/elements';
 import { getErrorMessage } from '../utils/error.util.js';
-import useReduceState from '../hooks/useReduceState.js';
 import { convertDate } from '../utils/convertDate.js';
-
-const posterPlaceholder = 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?q=80&w=1200&auto=format&fit=crop';
 
 const initialValues = {
     name: "",
@@ -316,11 +313,11 @@ export default function ManageTripScreen({ navigation, route }) {
                     <View style={styles.dateField}>
                         <View>
                             <Text style={[styles.dateLabel, { color: theme.colors.textSecondary }]}>Start date</Text>
-                            <Text style={[styles.dateText, {color: theme.colors.accent}]}>{convertDate(values.startdate) || values.startdate}</Text>
+                            <Text style={[styles.dateText, {color: theme.colors.accent}]}>{values.startdate}</Text>
                         </View>
                         <View>
                             <Text style={[styles.dateLabel, { color: theme.colors.textSecondary }]}>End date</Text>
-                            <Text style={[styles.dateText, {color: theme.colors.accent}]}>{convertDate(values.enddate) || values.enddate}</Text>
+                            <Text style={[styles.dateText, {color: theme.colors.accent}]}>{values.enddate}</Text>
                         </View>
                     </View>
                     <View style={styles.dateButtonsCtr}>

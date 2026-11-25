@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Modal, View, Text, Pressable, StyleSheet } from 'react-native';
 import colors from '../../theme/colors.js';
+import { convertDate } from '../../utils/convertDate.js';
 
 const MIN_DAYS = 1;
 const MAX_DAYS = 60;
@@ -47,7 +48,7 @@ export default function PickDurationModal({ startDate, onConfirm, onCancel }) {
                         <Pressable style={styles.cancelButton} onPress={onCancel}>
                             <Text style={styles.cancelText}>Cancel</Text>
                         </Pressable>
-                        <Pressable style={styles.confirmButton} onPress={() => onConfirm({days, startDate: startDate, endDate: endDate})}>
+                        <Pressable style={styles.confirmButton} onPress={() => onConfirm({days, startDate: convertDate(startDate), endDate: convertDate(endDate)})}>
                             <Text style={styles.confirmText}>Plan trip</Text>
                         </Pressable>
                     </View>

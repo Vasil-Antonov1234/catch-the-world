@@ -7,7 +7,6 @@ import TripDatePicker from "../components/trip-date-picker/TripDatePicker.jsx";
 import PickDurationModal from "../components/pick-duration-modal/PickDurationModal.jsx";
 import AppContext from "../contexts/AppContext.js";
 import { getErrorMessage } from "../utils/error.util.js";
-import useReduceState from "../hooks/useReduceState.js";
 
 export default function AddingDatesScreen({ navigation, route }) {
 

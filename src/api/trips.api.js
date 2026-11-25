@@ -1,6 +1,7 @@
 import { Alert } from "react-native";
 import { api, storage } from "./api.js";
 import { getErrorMessage } from "../utils/error.util.js";
+import { convertDate } from "../utils/convertDate.js";
 
 export async function create(values) {
     try {
@@ -10,8 +11,8 @@ export async function create(values) {
             location: values.location,
             rating: values.rating,
             description: values.description,
-            startdate: values.startdate,
-            enddate: values.enddate
+            startdate: convertDate(values.startdate, true),
+            enddate: convertDate(values.enddate, true)
         });
         return response.data;
     } catch (error) {
@@ -54,6 +55,9 @@ export async function getById(id) {
             params: {id: `eq.${id}`}
         });
 
+        result.data[0].startdate = convertDate(result.data[0].startdate);
+        result.data[0].enddate = convertDate(result.data[0].enddate);
+
         return result.data[0] ?? null;
     } catch (error) {
         Alert.alert(getErrorMessage(error));
@@ -71,9 +75,12 @@ export async function deleteById(id) {
 };
 
 export async function updateById(id, values) {
+    
     try {
         const result = await api.put('/trips', {
-            ...values
+            ...values,
+            startdate: convertDate(values.startdate, true),
+            enddate: convertDate(values.enddate, true)
         }, {
             params: {id: `eq.${id}`}
         });

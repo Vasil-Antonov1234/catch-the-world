@@ -5,7 +5,6 @@ import { getErrorMessage } from "../utils/error.util.js";
 import TripCard from "../components/trip-card/TripCard.jsx";
 import AppContext from "../contexts/AppContext.js";
 import ButtonIcon from "../components/buttons/ButtonIcon.jsx";
-import useReduceState from "../hooks/useReduceState.js";
 import { useFocusEffect } from "@react-navigation/native";
 
 export default function MyTripsScreen({ navigation }) {
