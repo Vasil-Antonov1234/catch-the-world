@@ -6,6 +6,7 @@ import AppContext from "./AppContext.js";
 import { authApi } from "../api/index.js";
 import { Alert } from "react-native";
 import useSecureState from "../hooks/useSecureState.js";
+import { setAccessToken } from "../api/api.js";
 
 export default function AuthContextProvider({ children }) {
     const [auth, setAuth] = useSecureState("auth", null);
@@ -22,6 +23,7 @@ export default function AuthContextProvider({ children }) {
 
                 if (userData) {
                     setAuth(JSON.parse(userData));
+                    setAccessToken(JSON.parse(userData).access_token);
                 };
 
             } catch (error) {
@@ -42,6 +44,7 @@ export default function AuthContextProvider({ children }) {
             setAuth(result);
 
             await AsyncStorage.setItem("auth", JSON.stringify(result));
+            setAccessToken(result.access_token);
         } catch (error) {
             Alert.alert(getErrorMessage(error));
         } finally {
@@ -51,10 +54,13 @@ export default function AuthContextProvider({ children }) {
 
     async function onLogout() {
         setAuth(null);
-        clearWishlist()
-        resetTheme()
+        clearWishlist();
+        resetTheme();
+        setAccessToken(null)
 
         try {
+            await authApi.logout();
+
             await AsyncStorage.removeItem("auth");
             await AsyncStorage.removeItem("wishList");
             await AsyncStorage.removeItem("manualDarkTheme");

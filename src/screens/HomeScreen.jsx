@@ -37,7 +37,7 @@ export default function HomeScreen({ navigation }) {
             style={[styles.container, {backgroundColor: theme.colors.background}]}
             refreshControl={<RefreshControl refreshing={refreshing} onRefresh={refreshHandler} />}
         >
-            {topDestinations.length ?
+            {topDestinations?.length ?
                 <>
                     <Text style={[styles.title, {color: theme.colors.primary}]}>Top Destinations</Text>
                     <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.topDestinationsContainer}>

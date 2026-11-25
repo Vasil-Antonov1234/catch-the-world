@@ -22,3 +22,19 @@ export const storage = axios.create({
     ...base.defaults,
     baseURL: `${base.defaults.baseURL}/storage/v1/object`
 });
+
+let accessToken = null;
+
+export const setAccessToken = (token) => {
+    accessToken = token;
+};
+
+const addToken = (config) => {
+    if (accessToken) {
+        config.headers.Authorization = `Bearer ${accessToken}`;
+    }
+    return config;
+};
+
+api.interceptors.request.use(addToken);
+storage.interceptors.request.use(addToken);

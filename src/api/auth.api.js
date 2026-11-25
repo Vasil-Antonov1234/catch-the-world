@@ -1,23 +1,41 @@
 import { Alert } from "react-native";
 import { auth } from "./api.js";
+import { getErrorMessage } from "../utils/error.util.js";
 
 export async function register(email, password, fullName) {
 
-    const result = await auth.post("/signup", {
-        email,
-        password,
-        displayName: fullName
-    });
+    try {
+        const result = await auth.post("/signup", {
+            email,
+            password,
+            displayName: fullName
+        });
 
-    return result.data;
+        return result.data;
+    } catch (error) {
+        Alert.alert(getErrorMessage(error));
+    };
 };
 
 export async function login(email, password) {
 
-    const result = await auth.post("/token?grant_type=password", {
-        email,
-        password
-    });
+    try {
+        const result = await auth.post("/token?grant_type=password", {
+            email,
+            password
+        });
 
-    return result.data;
+        return result.data;
+    } catch (error) {
+        Alert.alert(getErrorMessage(error));
+    };
 };
+
+export async function logout() {
+
+    try {
+        await auth.post("/logout", null, { headers: { Authorization: `Bearer ${token}` } });
+    } catch (error) {
+        Alert.alert(getErrorMessage(error));
+    };
+}
