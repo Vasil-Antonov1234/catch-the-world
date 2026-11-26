@@ -81,6 +81,7 @@ export default function AuthContextProvider({ children }) {
             const result = await authApi.register(email, password, fullName);
 
             setSession(result);
+            setAccessToken(result.access_token);
         } catch (error) {
             Alert.alert("Register fail", getErrorMessage(error));
         } finally {

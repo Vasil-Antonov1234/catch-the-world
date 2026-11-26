@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, ScrollView, TextInput, Image, Pressable, KeyboardAvoidingView, Platform, Alert, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TextInput, Image, Pressable, KeyboardAvoidingView, Platform, Alert, ActivityIndicator, Keyboard } from 'react-native';
 import ButtonCustom from '../components/buttons/ButtonCustom.jsx';
 import colors from '../theme/colors.js';
 import { useContext, useState, useRef, useEffect } from 'react';
@@ -83,7 +83,7 @@ export default function ManageTripScreen({ navigation, route }) {
     };
 
     function confirmDateHandler({ days, startDate, endDate }) {
-        
+
         changeHandler("startdate", startDate);
         changeHandler("enddate", endDate);
 
@@ -92,6 +92,8 @@ export default function ManageTripScreen({ navigation, route }) {
     };
 
     async function pickFromGalleryHandler() {
+        Keyboard.dismiss();
+
         const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
         if (permissionResult.granted === false) {
@@ -115,6 +117,8 @@ export default function ManageTripScreen({ navigation, route }) {
     };
 
     async function pickFromCameraHandler() {
+        Keyboard.dismiss();
+
         const permissionResult = await ImagePicker.requestCameraPermissionsAsync();
 
         if (!permissionResult.granted) {
@@ -136,11 +140,14 @@ export default function ManageTripScreen({ navigation, route }) {
     };
 
     function cancelImageHandler() {
+        Keyboard.dismiss();
 
         changeHandler("poster", null);
     };
 
     async function useLocationHandler() {
+        Keyboard.dismiss();
+
         const { status } = await Location.requestForegroundPermissionsAsync();
 
         if (status !== 'granted') {
@@ -156,6 +163,11 @@ export default function ManageTripScreen({ navigation, route }) {
         });
 
         changeHandler("location", `${reversedLocation[0].country}`);
+    };
+
+    function setDatesHandler() {
+        Keyboard.dismiss();
+        setIsShowModal(true);
     };
 
     async function submitHandler() {
@@ -176,7 +188,7 @@ export default function ManageTripScreen({ navigation, route }) {
                 await tripsApi.updateById(tripId, {
                     ...values,
                     poster: imageUrl
-                });                
+                });
             } else {
                 await tripsApi.create({
                     ...values,
@@ -313,29 +325,29 @@ export default function ManageTripScreen({ navigation, route }) {
                     <View style={styles.dateField}>
                         <View>
                             <Text style={[styles.dateLabel, { color: theme.colors.textSecondary }]}>Start date</Text>
-                            <Text style={[styles.dateText, {color: theme.colors.accent}]}>{values.startdate}</Text>
+                            <Text style={[styles.dateText, { color: theme.colors.accent }]}>{values.startdate}</Text>
                         </View>
                         <View>
                             <Text style={[styles.dateLabel, { color: theme.colors.textSecondary }]}>End date</Text>
-                            <Text style={[styles.dateText, {color: theme.colors.accent}]}>{values.enddate}</Text>
+                            <Text style={[styles.dateText, { color: theme.colors.accent }]}>{values.enddate}</Text>
                         </View>
                     </View>
                     <View style={styles.dateButtonsCtr}>
-                        {/* <Icon source={"calendar"} size={40} color={colors.backgroundDarck}/> */}
                         <ButtonCustom
                             text={tripId ? "Edit dates" : "Set dates"}
                             background={[styles.posterButton, { backgroundColor: theme.colors.LightBlue }]}
                             textColor={[styles.posterButtonText, { color: theme.colors.primary }]}
-                            onPress={() => setIsShowModal(true)}
+                            onPress={setDatesHandler}
                             icon="calendar"
                             iconSize={20}
                             iconColor={theme.colors.primary}
                         />
                     </View>
-                    {isShowModal ? <TripDatePicker onCancel={() => setIsShowModal(false)} onConfirm={setDateHandler} /> : ""}
-
-                    {isShowDurationModal ? <PickDurationModal startDate={selectedDate} onCancel={cancelPlanning} onConfirm={confirmDateHandler} /> : ""}
                 </View>
+
+                {isShowModal ? <TripDatePicker onCancel={() => setIsShowModal(false)} onConfirm={setDateHandler} /> : ""}
+
+                {isShowDurationModal ? <PickDurationModal startDate={selectedDate} onCancel={cancelPlanning} onConfirm={confirmDateHandler} /> : ""}
 
                 <View>
                     <ButtonCustom
