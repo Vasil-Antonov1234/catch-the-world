@@ -13,28 +13,6 @@ export default function AuthContextProvider({ children }) {
     const [isPending, setIsPending] = useState(false);
     const { clearWishlist, resetTheme } = useContext(AppContext);
 
-    useEffect(() => {
-
-        (async () => {
-            try {
-                setIsPending(true);
-                const userData = await AsyncStorage.getItem("auth");
-
-
-                if (userData) {
-                    setAuth(JSON.parse(userData));
-                    setAccessToken(JSON.parse(userData).access_token);
-                };
-
-            } catch (error) {
-                Alert.alert(error);
-            } finally {
-                setIsPending(false);
-            }
-        })();
-
-    }, []);
-
     async function onLogin(email, password) {
         setIsPending(true);
 
@@ -43,7 +21,8 @@ export default function AuthContextProvider({ children }) {
 
             setAuth(result);
 
-            await AsyncStorage.setItem("auth", JSON.stringify(result));
+            console.log(result);
+
             setAccessToken(result.access_token);
         } catch (error) {
             Alert.alert(getErrorMessage(error));
@@ -53,15 +32,14 @@ export default function AuthContextProvider({ children }) {
     };
 
     async function onLogout() {
-        setAuth(null);
-        clearWishlist();
-        resetTheme();
-        setAccessToken(null)
-
+        
         try {
-            await authApi.logout();
-
-            await AsyncStorage.removeItem("auth");
+            await authApi.logout(auth.access_token);
+            
+            setAuth(null);
+            clearWishlist();
+            resetTheme();
+            setAccessToken(null)
             await AsyncStorage.removeItem("wishList");
             await AsyncStorage.removeItem("manualDarkTheme");
         } catch (error) {

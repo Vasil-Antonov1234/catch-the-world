@@ -1,6 +1,7 @@
 import * as SecureStore from 'expo-secure-store';
 import { useEffect, useState } from "react";
 import * as Haptics from "expo-haptics";
+import { setAccessToken } from '../api/api.js';
 
 export default function useSecureState(key, initialValues) {
     const [state, setState] = useState(initialValues);
@@ -11,8 +12,10 @@ export default function useSecureState(key, initialValues) {
             try {
               const storedState = await SecureStore.getItemAsync(key);
               
-              if (storedState) {
+              if (storedState !== null) {
                 setState(JSON.parse(storedState));
+                
+                setAccessToken(JSON.parse(storedState).access_token);
               };
 
             } catch (error) {

@@ -31,7 +31,7 @@ export async function login(email, password) {
     };
 };
 
-export async function logout() {
+export async function logout(token) {
 
     try {
         await auth.post("/logout", null, { headers: { Authorization: `Bearer ${token}` } });
