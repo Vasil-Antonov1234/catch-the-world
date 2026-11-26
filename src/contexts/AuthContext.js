@@ -6,7 +6,8 @@ const AuthContext = createContext({
     onLogout() {},
     onRegister(email, password) {},
     isAuthenticated: false,
-    isPending: false
+    isPending: false,
+    user: {}
 });
 
 export default AuthContext;

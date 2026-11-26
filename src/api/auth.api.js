@@ -8,7 +8,9 @@ export async function register(email, password, fullName) {
         const result = await auth.post("/signup", {
             email,
             password,
-            displayName: fullName
+            data: {
+                display_name: fullName
+            }
         });
 
         return result.data;

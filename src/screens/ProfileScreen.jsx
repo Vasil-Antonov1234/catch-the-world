@@ -9,7 +9,7 @@ import StatCard from "../components/stat-card/StatCard.jsx";
 import ButtonCustom from "../components/buttons/ButtonCustom.jsx";
 
 export default function ProfileScreen({ navigation }) {
-    const { onLogout } = useContext(AuthContext);
+    const { onLogout, user } = useContext(AuthContext);
     const { isDarkTheme, toggleTheme, theme } = useContext(AppContext);
 
     const loading = false;
@@ -19,14 +19,22 @@ export default function ProfileScreen({ navigation }) {
         alert("Edit profile")
     }
 
+    function getInitials(fullName) {
+        const fullNameSplited = fullName.split(" ");
+        const firstLetter = fullNameSplited[0].split("")[0].toUpperCase();
+        const secondLetter = fullNameSplited[1].split("")[0].toUpperCase();
+
+        return `${firstLetter}${secondLetter}`
+    }
+
     return (
         <View style={[styles.container, {backgroundColor: theme.colors.background}]}>
             <View style={[styles.header, {backgroundColor: theme.colors.backgroundDarck}]}>
                 <View style={[styles.avatar, styles.avatarPlaceholder, {backgroundColor: theme.colors.accent}, {borderColor: theme.colors.textOnPrimary}]}>
-                    <Text style={[styles.avatarInitials, {color: theme.colors.textOnPrimary}]}>PI</Text>
+                    <Text style={[styles.avatarInitials, {color: theme.colors.textOnPrimary}]}>{getInitials(user.display_name)}</Text>
                 </View>
-                <Text style={[styles.name, {color: theme.colors.textPrimary}]}>Pesho Ivanov</Text>
-                <Text style={[styles.email, {color: theme.colors.textOnSecondary}]}>Pesho@abv.bg</Text>
+                <Text style={[styles.name, {color: theme.colors.textPrimary}]}>{user.display_name}</Text>
+                <Text style={[styles.email, {color: theme.colors.textOnSecondary}]}>{user.email}</Text>
             </View>
 
             <View style={styles.statsRow}>

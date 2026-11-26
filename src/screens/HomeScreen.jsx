@@ -54,7 +54,7 @@ export default function HomeScreen({ navigation }) {
             }
             <Text style={[styles.title, {color: theme.colors.primary}]}>Area</Text>
             <View style={styles.continentContainer} >
-                {continents.map((c) => <ContinentCard
+                {continents?.map((c) => <ContinentCard
                     key={c.id}
                     name={c.name}
                     image={isDarkTheme ? c.image_black : c.image}

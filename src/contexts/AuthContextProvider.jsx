@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react"
+import { useContext, useEffect, useState, useRef } from "react"
 import { getErrorMessage } from "../utils/error.util.js";
 import AuthContext from "./AuthContext.js";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -6,12 +6,39 @@ import AppContext from "./AppContext.js";
 import { authApi } from "../api/index.js";
 import { Alert } from "react-native";
 import useSecureState from "../hooks/useSecureState.js";
-import { setAccessToken } from "../api/api.js";
+import { auth, setAccessToken, setAuthHandlers } from "../api/api.js";
+import { refresh } from "@react-native-community/netinfo";
 
 export default function AuthContextProvider({ children }) {
-    const [auth, setAuth] = useSecureState("auth", null);
+    const [session, setSession] = useSecureState("auth", null);
     const [isPending, setIsPending] = useState(false);
     const { clearWishlist, resetTheme } = useContext(AppContext);
+
+    const sessionRef = useRef(null);
+
+    useEffect(() => {
+        setAuthHandlers({
+            refresh: async () => {
+                const current = sessionRef.current;
+
+                if (!current?.refresh_token) {
+                    throw new Error("No refresh token");
+                };
+
+                console.log("try to sent refresh token")
+                const response = await auth.post("/token?grant_type=refresh_token", {
+                    refresh_token: current.refresh_token,
+                });
+
+                sessionRef.current = response.data;
+                setSession(JSON.stringify(response.data));
+                setAccessToken(response.data.access_token);
+
+                return response.data.access_token;
+            },
+            onExpired: onLogout
+        });
+    }, []);
 
     async function onLogin(email, password) {
         setIsPending(true);
@@ -19,10 +46,7 @@ export default function AuthContextProvider({ children }) {
         try {
             const result = await authApi.login(email, password);
 
-            setAuth(result);
-
-            console.log(result);
-
+            setSession(result);
             setAccessToken(result.access_token);
         } catch (error) {
             Alert.alert(getErrorMessage(error));
@@ -32,18 +56,20 @@ export default function AuthContextProvider({ children }) {
     };
 
     async function onLogout() {
-        
+
         try {
-            await authApi.logout(auth.access_token);
-            
-            setAuth(null);
-            clearWishlist();
-            resetTheme();
-            setAccessToken(null)
+            await authApi.logout(session.access_token);
+
             await AsyncStorage.removeItem("wishList");
             await AsyncStorage.removeItem("manualDarkTheme");
         } catch (error) {
             Alert.alert(getErrorMessage(error));
+        } finally {
+            sessionRef.current = null;
+            setSession(null);
+            clearWishlist();
+            resetTheme();
+            setAccessToken(null);
         };
     };
 
@@ -54,7 +80,7 @@ export default function AuthContextProvider({ children }) {
 
             const result = await authApi.register(email, password, fullName);
 
-            setAuth(result);
+            setSession(result);
         } catch (error) {
             Alert.alert("Register fail", getErrorMessage(error));
         } finally {
@@ -62,15 +88,16 @@ export default function AuthContextProvider({ children }) {
         };
     }
 
-    const isAuthenticated = !!auth?.access_token;
+    const isAuthenticated = !!session?.access_token;
 
     const AuthContextValues = {
         onLogin,
         onLogout,
         onRegister,
         isAuthenticated,
-        auth,
-        isPending
+        auth: session,
+        isPending,
+        user: session?.user?.user_metadata
     };
 
     return (
