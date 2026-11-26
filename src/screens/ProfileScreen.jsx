@@ -1,4 +1,4 @@
-import { View, Text, Image, Pressable, ActivityIndicator, Alert, StyleSheet, Switch } from "react-native";
+import { View, Text, Image, Pressable, ActivityIndicator, Alert, StyleSheet, Switch, ScrollView } from "react-native";
 import ButtonSecondaty from "../components/buttons/ButtonSecondary.jsx";
 import ButtonPrimary from "../components/buttons/ButtonPrimary.jsx";
 import { useContext } from "react";
@@ -7,6 +7,7 @@ import AppContext from "../contexts/AppContext.js";
 // import colors from "../theme/colors.js";
 import StatCard from "../components/stat-card/StatCard.jsx";
 import ButtonCustom from "../components/buttons/ButtonCustom.jsx";
+import { Ionicons } from "@expo/vector-icons";
 
 export default function ProfileScreen({ navigation }) {
     const { onLogout, user } = useContext(AuthContext);
@@ -28,18 +29,18 @@ export default function ProfileScreen({ navigation }) {
     }
 
     return (
-        <View style={[styles.container, {backgroundColor: theme.colors.background}]}>
-            <View style={[styles.header, {backgroundColor: theme.colors.backgroundDarck}]}>
-                <View style={[styles.avatar, styles.avatarPlaceholder, {backgroundColor: theme.colors.accent}, {borderColor: theme.colors.textOnPrimary}]}>
-                    <Text style={[styles.avatarInitials, {color: theme.colors.textOnPrimary}]}>{getInitials(user.display_name)}</Text>
+        <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
+            <View style={[styles.header, { backgroundColor: theme.colors.backgroundDarck }]}>
+                <View style={[styles.avatar, styles.avatarPlaceholder, { backgroundColor: theme.colors.accent }, { borderColor: theme.colors.textOnPrimary }]}>
+                    <Text style={[styles.avatarInitials, { color: theme.colors.textOnPrimary }]}>{getInitials(user.display_name)}</Text>
                 </View>
-                <Text style={[styles.name, {color: theme.colors.textPrimary}]}>{user.display_name}</Text>
-                <Text style={[styles.email, {color: theme.colors.textOnSecondary}]}>{user.email}</Text>
+                <Text style={[styles.name, { color: theme.colors.textPrimary }]}>{user.display_name}</Text>
+                <Text style={[styles.email, { color: theme.colors.textOnSecondary }]}>{user.email}</Text>
             </View>
 
             <View style={styles.statsRow}>
                 {loading ? (
-                    <View style={[styles.statsLoading, {backgroundColor: theme.colors.surface}]}>
+                    <View style={[styles.statsLoading, { backgroundColor: theme.colors.surface }]}>
                         <ActivityIndicator size="small" color={theme.colors.accent} />
                     </View>
                 ) : (
@@ -52,28 +53,48 @@ export default function ProfileScreen({ navigation }) {
             </View>
 
             <View style={styles.actions}>
-                <Pressable onPress={() => navigation.navigate("MyTrips")}>
-                    <Text style={[styles.link, {color: theme.colors.link}]}>Go to my trips</Text>
-                </Pressable>
+                {/* <Pressable onPress={() => navigation.navigate("MyTrips")}>
+                    <Text style={[styles.link, { color: theme.colors.link }]}>Go to my trips</Text>
+                </Pressable> */}
 
                 <ButtonCustom
-                    text="Edit profile"
-                    background={[styles.filledButton, {backgroundColor: theme.colors.accent}]}
-                    textColor={[styles.filledButtonText, {color: theme.colors.textOnPrimary}]}
-                    onPress={onEditProfile}
+                    text="My trips"
+                    background={[styles.filledButton, { backgroundColor: theme.colors.accent }]}
+                    textColor={[styles.filledButtonText, { color: theme.colors.textOnPrimary }]}
+                    onPress={() => navigation.navigate("MyTrips")}
+                    icon="airplane"
+                    iconColor={theme.colors.textOnPrimary}
+                    iconSize={30}
                 />
 
-                <ButtonCustom
-                    text="Log out"
-                    background={[styles.outlineButton, {borderColor: theme.colors.primary}]}
-                    textColor={[styles.outlineButtonText, {color: theme.colors.primary}]}
-                    onPress={onLogout}
-                />
+                <View style={styles.buttonsCtr}>
+                    <ButtonCustom
+                        text="Edit profile"
+                        background={[styles.filledButton, { backgroundColor: theme.colors.primary }]}
+                        textColor={[styles.filledButtonText, { color: theme.colors.textOnPrimary }]}
+                        onPress={onEditProfile}
+                    />
 
-                <Switch
-                    value={isDarkTheme}
-                    onValueChange={toggleTheme}
-                />
+                    <ButtonCustom
+                        text="Log out"
+                        background={[styles.outlineButton, { borderColor: theme.colors.primary }]}
+                        textColor={[styles.outlineButtonText, { color: theme.colors.primary }]}
+                        onPress={onLogout}
+                    />
+                </View>
+
+                <View style={styles.manageThemeWrapper}>
+                    <Text style={[styles.themeLabel, { color: theme.colors.backgroundDarck}]}>Change theme</Text>
+                    <View style={styles.manageThemeCtr}>
+                        <View style={[styles.themeIconCtr, { backgroundColor: theme.colors.textSecondary }]}>
+                            <Ionicons name={isDarkTheme ? "sunny" : "moon"} size={34} color={theme.colors.textOnPrimary} />
+                        </View>
+                        <Switch
+                            value={isDarkTheme}
+                            onValueChange={toggleTheme}
+                        />
+                    </View>
+                </View>
             </View>
         </View>
     );
@@ -87,7 +108,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         paddingTop: 96,
         paddingBottom: 48,
-        marginTop: -48
+        marginTop: -70
     },
     avatar: {
         width: 96,
@@ -132,7 +153,8 @@ const styles = StyleSheet.create({
         gap: 12,
     },
     filledButton: {
-        paddingVertical: 14
+        paddingVertical: 14,
+        paddingHorizontal: 24
     },
     filledButtonText: {
         fontSize: 16,
@@ -140,7 +162,8 @@ const styles = StyleSheet.create({
     },
     outlineButton: {
         borderWidth: 2,
-        paddingVertical: 14
+        paddingVertical: 14,
+        paddingHorizontal: 24
     },
     outlineButtonText: {
         fontSize: 16,
@@ -149,5 +172,31 @@ const styles = StyleSheet.create({
     link: {
         textAlign: "center",
         fontSize: 10
+    },
+    buttonsCtr: {
+        flexDirection: "row",
+        justifyContent: "space-between"
+    },
+    themeIconCtr: {
+        width: 50,
+        height: 50,
+        borderRadius: 50,
+        justifyContent: "center",
+        alignItems: "center"
+    },
+    manageThemeCtr: {
+        flexDirection: "row",
+        justifyContent: "flex-end",
+        padding: 10,
+        gap: 20
+    },
+    themeLabel: {
+        fontSize: 8,
+        textTransform: "uppercase",
+        paddingHorizontal: 10
+    },
+    manageThemeWrapper: {
+        alignItems: "flex-end",
+        marginTop: 10
     }
 })
