@@ -7,6 +7,7 @@ import ButtonIcon from "../buttons/ButtonIcon.jsx";
 import Animated from 'react-native-reanimated';
 // import { Icon } from "react-native-paper";
 import { Ionicons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
 export default function JourneyCard({ place: {
     id,
@@ -21,13 +22,17 @@ export default function JourneyCard({ place: {
     style
 }) {
     const { theme, addToWishlist, wishList } = useContext(AppContext);
+    const navigation = useNavigation();
 
     const isInWishlist = !!(wishList.find((x) => x.id === id));
 
     return (
         <>
             <Animated.View style={style}>
-                <View style={[styles.container, { backgroundColor: theme.colors.surface, shadowColor: colors.shadowColor }]}>
+                <Pressable
+                    style={({ pressed }) => [{ elevation: pressed ? 0 : 3 }, styles.container, { backgroundColor: theme.colors.surface, shadowColor: colors.shadowColor }]}
+                    onPress={() => navigation.navigate("TopDestinationDetails", { placeId: id })}
+                >
                     <View style={styles.posterCtr}>
                         <Image
                             source={{ uri: poster }}
@@ -37,22 +42,22 @@ export default function JourneyCard({ place: {
                     <View style={styles.containerSecondary}>
                         <View style={styles.containerSecondaryHeader}>
                             <Text style={[styles.title, { color: theme.colors.textPrimary }]}>{name}</Text>
-                            <Text style={[styles.textBold, { color: theme.colors.textSecondary }]}>⭐ {rating}/5</Text>
+                            <View style={styles.ratingCtr}>
+                                <Ionicons name="star" color={theme.colors.golden} size={14}/>
+                                <Text style={[styles.textBold, { color: theme.colors.textSecondary }]}>{rating}/5</Text>
+                            </View>
                         </View>
                         <View>
-                            <Text style={{ color: theme.colors.textSecondary }}>🧭 <Text style={[styles.textBold, { color: theme.colors.textSecondary }]}>{location}</Text></Text>
+                            <View style={styles.locationCtr}>
+                                <Ionicons name="location" color={theme.colors.backgroundDarck} size={30} />
+                                <Text style={[styles.textBold, { color: theme.colors.textSecondary }]}>{location}</Text>
+                            </View>
                         </View>
-                        <View style={styles.containerSecondaryHeader}>
-                            <Ionicons name={isInWishlist ? "heart-circle" : "heart-circle-outline"} size={30} color={isInWishlist ? theme.colors.error : theme.colors.backgroundDarck} />
-                            <ButtonSecondaty
-                                toScreen="TopDestinationDetails"
-                                text="Details"
-                                background={theme.colors.primary}
-                                params={{ placeId: id }}
-                            />
+                        <View style={styles.containerSecondaryFavoritre}>
+                            {isInWishlist ? <Ionicons name={"heart-circle"} size={30} color={theme.colors.error} /> : ""}
                         </View>
                     </View>
-                </View>
+                </Pressable>
             </Animated.View>
             <View style={styles.hiddenMenu}>
                 <View style={styles.actionContainer}>
@@ -90,11 +95,10 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 0, height: 6 },
         shadowOpacity: 0.12,
         shadowRadius: 8,
-        elevation: 3,
         alignSelf: "center"
     },
     posterCtr: {
-        width: "40%",
+        width: "60%",
         height: "100%",
     },
     poster: {
@@ -104,7 +108,7 @@ const styles = StyleSheet.create({
         boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)"
     },
     title: {
-        fontSize: 10,
+        fontSize: 14,
         fontWeight: 'bold',
         flexShrink: 1
     },
@@ -112,19 +116,23 @@ const styles = StyleSheet.create({
         flex: 1,
         height: "95%",
         alignSelf: "flex-end",
-        justifyContent: "space-around"
+        justifyContent: "flex-start",
+        gap: 5
     },
     containerSecondaryHeader: {
         width: "100%",
         flexDirection: "row",
-        justifyContent: "space-between",
+        justifyContent: "space-between"
+    },
+    containerSecondaryFavoritre: {
+        paddingTop: 3
     },
     right: {
         alignSelf: "flex-end"
     },
     textBold: {
         fontWeight: 700,
-        fontSize: 10
+        fontSize: 12
     },
     hiddenMenu: {
         height: 109,
@@ -150,5 +158,13 @@ const styles = StyleSheet.create({
         color: "white",
         fontSize: 8,
         marginTop: -3
+    },
+    locationCtr: {
+        flexDirection: "row",
+        alignItems: "flex-end",
+    },
+    ratingCtr: {
+        flexDirection: "row",
+        gap: 3
     }
 })
