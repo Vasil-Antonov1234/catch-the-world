@@ -26,10 +26,6 @@ export default function WishListCard({ place: {
         navigation.navigate("WishListDetails", { placeId: id, index });
     }
 
-    function wantToVisitHandler() {
-        alert(`I want to visit ${name}`);
-    };
-
     return (
         <View style={[styles.container, {backgroundColor: theme.colors.surface, shadowColor: theme.colors.shadowColor}]}>
             <View style={styles.posterCtr}>

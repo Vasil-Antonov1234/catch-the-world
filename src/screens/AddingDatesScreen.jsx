@@ -17,7 +17,7 @@ export default function AddingDatesScreen({ navigation, route }) {
     const { theme, removeFromWishlist } = useContext(AppContext);
 
     const placeId = route.params.placeId;
-    const index = route.params.index;
+    const wishlistId = route.params.wishlistId;
 
     useEffect(() => {
 
@@ -61,8 +61,7 @@ export default function AddingDatesScreen({ navigation, route }) {
             });
 
             setIsShowDurationModal(false);
-            removeFromWishlist(index);
-            // navigation.navigate("WishList");
+            removeFromWishlist(wishlistId);
             navigation.goBack();
 
         } catch (error) {

@@ -63,7 +63,7 @@ export default function TripCard({
 
 const styles = StyleSheet.create({
     container: {
-        width: 150,
+        width: 180,
         aspectRatio: 3.5 / 4,
         borderRadius: 20,
         shadowOffset: { width: 0, height: 6 },

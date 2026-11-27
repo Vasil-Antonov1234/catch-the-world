@@ -11,7 +11,6 @@ export default function SwipeablePlaceCard(props) {
         },
         onUpdate({ translationX }) {
             translateX.value = Math.min(translationX, 0);
-            // console.log(translationX);
         },
         onFinalize() {
             if (translateX.value > -85) {

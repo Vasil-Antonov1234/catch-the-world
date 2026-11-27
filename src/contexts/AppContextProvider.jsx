@@ -5,6 +5,7 @@ import { Platform } from "react-native";
 import { DefaultTheme, DarkTheme } from '@react-navigation/native';
 import { useColorScheme } from "react-native";
 import { setBackgroundColorAsync } from "expo-system-ui";
+import * as Crypto from "expo-crypto";
 
 
 export default function AppContextProvider({ children }) {
@@ -13,6 +14,8 @@ export default function AppContextProvider({ children }) {
     const [manualDarkTheme, setManualDarkTheme] = usePersistedState("manualDarkTheme", null);
     const colorScheme = useColorScheme();
     const isDarkTheme = manualDarkTheme ?? colorScheme === 'dark';
+
+    const [wishlistId, setWishlistId] = useState(1);
 
     const lightTheme = useMemo(() => ({
         ...DefaultTheme,
@@ -118,11 +121,15 @@ export default function AppContextProvider({ children }) {
     }, [isDarkTheme]);
 
     function addToWishlist(item) {
+        item.wishlistId = Crypto.randomUUID();
+
+        setWishlistId((state) => state + 1);
         setWishList((state) => [...state, item]);
     };
 
-    function removeFromWishlist(index) {
-        setWishList((state) => state.filter((x, i) => i !== index));
+    function removeFromWishlist(wishlistId) {
+
+        setWishList((state) => state.filter((x) => x.wishlistId !== wishlistId));
     };
 
     function clearWishlist() {

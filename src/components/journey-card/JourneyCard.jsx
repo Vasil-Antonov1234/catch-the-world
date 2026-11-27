@@ -16,7 +16,7 @@ export default function JourneyCard({ place: {
     location,
     rating,
     description,
-    wantToVisit
+    wishlistId
 },
     press: pressHandler,
     style
@@ -31,7 +31,7 @@ export default function JourneyCard({ place: {
             <Animated.View style={style}>
                 <Pressable
                     style={({ pressed }) => [{ elevation: pressed ? 0 : 3 }, styles.container, { backgroundColor: theme.colors.surface, shadowColor: colors.shadowColor }]}
-                    onPress={() => navigation.navigate("TopDestinationDetails", { placeId: id })}
+                    onPress={() => pressHandler ? pressHandler(id, wishlistId) : navigation.navigate("TopDestinationDetails", { placeId: id })}
                 >
                     <View style={styles.posterCtr}>
                         <Image

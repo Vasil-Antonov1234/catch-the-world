@@ -4,9 +4,15 @@ import colors from "../theme/colors.js";
 import { useContext } from "react";
 import AppContext from "../contexts/AppContext.js";
 import WishListCard from "../components/wishlist-card/WishListCard.jsx";
+import SwipeablePlaceCard from "../components/SwipablePlace/SwipeablePlaceCard.jsx";
 
-export default function WishlistScreen() {
+export default function WishlistScreen({ navigation }) {
     const { wishList } = useContext(AppContext);
+
+    function selectDates(id, wishlistId) {
+                
+        navigation.navigate("WishListDetails", { placeId: id, wishlistId });
+    }
 
     return (
 
@@ -16,7 +22,7 @@ export default function WishlistScreen() {
                 <Text style={styles.text}>Your wishlist is empty</Text> :
                 <FlatList
                     data={wishList}
-                    renderItem={({ item, index }) => <WishListCard place={item} index={index} press={() => { }} />}
+                    renderItem={({ item, index }) => <SwipeablePlaceCard place={item} index={index} press={selectDates} />}
                     showsVerticalScrollIndicator={false}
                 />
             }

@@ -37,7 +37,7 @@ export default function CitiesCatalogScreen({ route, navigation }) {
         <>
             <FlatList
                 data={cities}
-                renderItem={({ item }) => <SwipeablePlaceCard place={item} press={() => { }} />}
+                renderItem={({ item }) => <SwipeablePlaceCard place={item} press={null} />}
                 keyExtractor={item => item.id}
                 contentContainerStyle={styles.containerSecondary}
             />

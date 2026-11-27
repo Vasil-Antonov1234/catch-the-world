@@ -1,14 +1,15 @@
 import { IconButton, MD3Colors } from 'react-native-paper';
 
-export default function ButtonIcon({placeId, onPress, icon, wantToVisit, mode, color, size}) {
+export default function ButtonIcon({placeId, onPress, icon, mode, color, size, style}) {
 
     return (
         <IconButton
             icon={icon}
-            iconColor={color ? color : wantToVisit ? MD3Colors.error70 : MD3Colors.neutral0}
+            iconColor={color}
             size={size}
             onPress={() => onPress(placeId)}
-            mode={wantToVisit ? "contained" : mode}
+            mode={mode}
+            style={style}
         />
     );
 };

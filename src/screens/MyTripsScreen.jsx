@@ -56,6 +56,7 @@ export default function MyTripsScreen({ navigation }) {
                     color={theme.colors.accentTransperant}
                     mode="contained"
                     onPress={() => navigation.navigate("ManageTrip")}
+                    style={{ opacity: 0.7 }}
                 />
             </View>
         </>
@@ -71,7 +72,7 @@ const styles = StyleSheet.create({
         gap: 20
     },
     row: {
-        justifyContent: "space-between",
+        justifyContent: "center",
         gap: 20
     },
     buttonWrapper: {
