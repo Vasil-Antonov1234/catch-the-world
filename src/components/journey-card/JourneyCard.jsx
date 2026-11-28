@@ -18,8 +18,12 @@ export default function JourneyCard({ place: {
     description,
     wishlistId
 },
-    press: pressHandler,
-    style
+    pressHandler = () => {},
+    onHiddenButtonPress = () => {},
+    style = {},
+    icon = "",
+    hiddenMenuStyle = {},
+    iconLabel = "press"
 }) {
     const { theme, addToWishlist, wishList } = useContext(AppContext);
     const navigation = useNavigation();
@@ -31,7 +35,7 @@ export default function JourneyCard({ place: {
             <Animated.View style={style}>
                 <Pressable
                     style={({ pressed }) => [{ elevation: pressed ? 0 : 3 }, styles.container, { backgroundColor: theme.colors.surface, shadowColor: colors.shadowColor }]}
-                    onPress={() => pressHandler ? pressHandler(id, wishlistId) : navigation.navigate("TopDestinationDetails", { placeId: id })}
+                    onPress={() => pressHandler(id, wishlistId)}
                 >
                     <View style={styles.posterCtr}>
                         <Image
@@ -59,23 +63,24 @@ export default function JourneyCard({ place: {
                     </View>
                 </Pressable>
             </Animated.View>
-            <View style={styles.hiddenMenu}>
+            <View style={[styles.hiddenMenu, hiddenMenuStyle ]}>
                 <View style={styles.actionContainer}>
                     <ButtonIcon
                         color="white"
-                        icon="heart-circle"
+                        icon={icon}
                         size={40}
-                        onPress={() => addToWishlist({
+                        onPress={() => onHiddenButtonPress({
                             id,
                             name,
                             poster,
                             location,
                             rating,
                             description,
+                            wishlistId
                         })}
                     />
                     <View style={styles.textWrapper}>
-                        <Text style={styles.menuText}>Add to</Text>
+                        <Text style={styles.menuText}>{iconLabel}</Text>
                         <Text style={styles.menuText}>wishlist</Text>
                     </View>
                 </View>
@@ -137,7 +142,6 @@ const styles = StyleSheet.create({
     hiddenMenu: {
         height: 109,
         width: "99%",
-        backgroundColor: "#0B4F6C",
         borderRadius: 15,
         marginTop: 20,
         position: "absolute",
@@ -152,7 +156,8 @@ const styles = StyleSheet.create({
         alignItems: "center"
     },
     textWrapper: {
-        marginTop: -10
+        marginTop: -10,
+        alignItems: "center"
     },
     menuText: {
         color: "white",

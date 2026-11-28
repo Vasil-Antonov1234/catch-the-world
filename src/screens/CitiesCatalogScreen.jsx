@@ -7,10 +7,12 @@ import ButtonIcon from "../components/buttons/ButtonIcon.jsx";
 import CreatePlace from "../components/create-place/CreatePlace.jsx";
 import { destinationsApi } from "../api/index.js";
 import SwipeablePlaceCard from "../components/SwipablePlace/SwipeablePlaceCard.jsx";
+import AppContext from "../contexts/AppContext.js";
 
 export default function CitiesCatalogScreen({ route, navigation }) {
     const [showModal, setShowModal] = useState(false);
     const [cities, setCities] = useState([]);
+    const { addToWishlist } = useContext(AppContext);
 
     const continentId = route.params.continentId;
 
@@ -23,7 +25,7 @@ export default function CitiesCatalogScreen({ route, navigation }) {
         (async () => {
             try {
                 const citiesData = await destinationsApi.getByContinentId(continentId);
-        
+
                 setCities(citiesData);
             } catch (error) {
                 Alert.alert(error.message);
@@ -32,12 +34,26 @@ export default function CitiesCatalogScreen({ route, navigation }) {
 
     }, [navigation, route.params.continentName, continentId]);
 
+    function navigateToDetailsHandler(id) {
+        navigation.navigate("TopDestinationDetails", { placeId: id });
+    };
+
+    function hiddenPressHandler(item) {
+        addToWishlist(item);
+    };
 
     return (
         <>
             <FlatList
                 data={cities}
-                renderItem={({ item }) => <SwipeablePlaceCard place={item} press={null} />}
+                renderItem={({ item }) => <SwipeablePlaceCard
+                    place={item}
+                    pressHandler={navigateToDetailsHandler}
+                    onHiddenButtonPress={hiddenPressHandler}
+                    icon="heart-circle"
+                    hiddenMenuStyle={{ backgroundColor: "#0B4F6C" }}
+                    iconLabel="Add to"
+                />}
                 keyExtractor={item => item.id}
                 contentContainerStyle={styles.containerSecondary}
             />
